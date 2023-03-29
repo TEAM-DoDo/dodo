@@ -27,6 +27,11 @@ const styles = StyleSheet.create({
         width : '80%',
         alignSelf : 'center',
         overflow : 'hidden',
+        elevation : 8, //only work for android
+        shadowColor : 'black', //only work for ios
+        shadowOffset : {width : 2, height : 2}, //only work for ios
+        shadowOpacity : 0.25, //only work for ios
+        shadowRadius : 6, //only work for ios
     },
     innerContainer : {
         backgroundColor : Colors.button.mainBackgroundColor,
