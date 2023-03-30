@@ -1,11 +1,11 @@
 //Import ---------------------------------------------------
 //  Native
-import { View, StyleSheet, Image } from "react-native";
+import { View, Image } from "react-native";
 
 //Definition Component ---------------------------------------------------
 function LogoIconImage({style})
 {
-    const logoIconPath = require('../assets/favicon.png');
+    const logoIconPath = require('../assets/images/logoIcon.png');
 
     return (
         <View style={style}>

@@ -15,6 +15,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import StartUpScreen from './screens/StartUpScreen';
 import UserVerifyScreen from './screens/UserVerifyScreen';
 import GenerateIDScreen from './screens/GenerateIDScreen';
+import SelectCategoryScreen from './screens/SelectCategoryScreen';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -65,6 +66,7 @@ export default function App() {
           <Stack.Screen name='StartUpScreen' component={StartUpScreen} />
           <Stack.Screen name='UserVerifyScreen' component={UserVerifyScreen} />
           <Stack.Screen name='GenerateIDScreen' component={GenerateIDScreen} />
+          <Stack.Screen name='SelectCategoryScreen' component={SelectCategoryScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

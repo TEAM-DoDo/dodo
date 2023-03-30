@@ -43,8 +43,8 @@ function UserVerifyScreen({navigation})
         <View style={styles.rootScreen}>
             <LogoIconImage style={styles.logoIcon} />
             <View style={styles.textInputContainer}>
-                <InputField placeholder={"전화번호"} maxLength={11} onChangeText={PhoneNumberInputHandler} />
-                <InputField placeholder={"인증번호"} maxLength={4} onChangeText={CheckNumberInputHandler} />
+                <InputField placeholder={"전화번호"} maxLength={11} onChangeText={PhoneNumberInputHandler} keyboardType='number-pad' />
+                <InputField placeholder={"인증번호"} maxLength={4} onChangeText={CheckNumberInputHandler} keyboardType='number-pad' />
             </View>
             <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
         </View>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
     logoIcon : {
         marginTop : '20%',
-        marginBottom : 100,
+        marginBottom : 50,
     },
     textInputContainer : {
         width : '100%',

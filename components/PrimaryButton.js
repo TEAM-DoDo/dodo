@@ -24,7 +24,7 @@ export default PrimaryButton;
 const styles = StyleSheet.create({
     outerContainer : {
         borderRadius : 20,
-        width : '80%',
+        width : '70%',
         alignSelf : 'center',
         overflow : 'hidden',
         elevation : 8, //only work for android

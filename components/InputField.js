@@ -3,11 +3,13 @@
 import { View, TextInput, StyleSheet } from "react-native";
 
 //Definition Component ---------------------------------------------------
-function InputField({placeholder, maxLength, onChangeText})
+function InputField({placeholder, maxLength, onChangeText, keyboardType='default'})
 {
     return(
         <View style={styles.container}>
-            <TextInput style={styles.input} placeholder={placeholder} keyboardType='number-pad' maxLength={maxLength} onChangeText={onChangeText} />
+            <TextInput style={styles.input} placeholder={placeholder} keyboardType={keyboardType} 
+            maxLength={maxLength} onChangeText={onChangeText} 
+            autoCapitalize='none' />
         </View>
     );
 }
@@ -21,6 +23,11 @@ const styles = StyleSheet.create({
         paddingBottom : 6,
         overflow : 'hidden',
         marginBottom : 20,
+        elevation: 2,
+        shadowColor: '#dddddd',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity:  0.4,
+        shadowRadius: 3,
     },
     input : {
         width : '80%',
@@ -32,10 +39,5 @@ const styles = StyleSheet.create({
         borderWidth : 1,
         fontSize : 20,
         fontFamily : 'NanumGothic-Bold',
-        elevation: 2,
-        shadowColor: '#dddddd',
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity:  0.4,
-        shadowRadius: 3,
     },
 });
