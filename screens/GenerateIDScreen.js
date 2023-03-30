@@ -15,11 +15,16 @@ import SmallToggleSwitch from "../components/SmallToggleSwitch";
 //Definition Component ---------------------------------------------------
 function GenerateIDScreen({route, navigation})
 {
-    const [birthdate, setBirthdate] = useState(new Date());
-    const [visible, setVisible] = useState(false); // 모달 노출 여부
-    const [currentSelectedGender, setCurrentSelectedGender] = useState('남');
-    const koreaBirthFormat = dateFormat();
     const phoneNumber = route.params.phoneNumber;
+    
+    const [address, setAddress] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [birthdate, setBirthdate] = useState(new Date());
+    const [currentSelectedGender, setCurrentSelectedGender] = useState('남');
+    
+    const [visible, setVisible] = useState(false); // 모달 노출 여부
+    
+    const koreaBirthFormat = dateFormat();
     
     function onPressDate(){ // 날짜 클릭 시
         setVisible(true); // 모달 open
@@ -35,6 +40,8 @@ function GenerateIDScreen({route, navigation})
             phoneNumber,
             birthdate : koreaBirthFormat,
             gender : currentSelectedGender,
+            address,
+            nickname,
         };
         navigation.navigate('SelectCategoryScreen', {userInfo});
     }
@@ -65,11 +72,21 @@ function GenerateIDScreen({route, navigation})
         }
     }
 
+    function nicknameHandler(enteredText)
+    {
+        setNickname(enteredText);
+    }
+
+    function addressHandler(enteredText)
+    {
+        setAddress(enteredText);
+    }
+
     return (
         <View style={styles.rootScreen}>
             <LogoIconImage style={styles.logoIcon} />
             <View style={styles.textInputContainer}>
-                <InputField placeholder={"닉네임"} maxLength={11} />
+                <InputField placeholder={"닉네임"} maxLength={11} value={nickname} onChangeText={nicknameHandler} />
                 <View style={styles.pickerContainer}>
                     <Pressable onPress={onPressDate} style={styles.datePress}>
                         <TextInput
@@ -88,7 +105,7 @@ function GenerateIDScreen({route, navigation})
                         <SmallToggleSwitch handler={SelectGenderHandler} selectedGender={currentSelectedGender}>여</SmallToggleSwitch>
                     </View>
                 </View>
-                <InputField placeholder={"거주지"} maxLength={4} />
+                <InputField placeholder={"거주지"} maxLength={4} value={address} onChangeText={addressHandler} />
             </View>
             <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
         </View>

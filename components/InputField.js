@@ -3,13 +3,13 @@
 import { View, TextInput, StyleSheet } from "react-native";
 
 //Definition Component ---------------------------------------------------
-function InputField({placeholder, maxLength, onChangeText, keyboardType='default'})
+function InputField({placeholder, maxLength, onChangeText, keyboardType='default', value})
 {
     return(
         <View style={styles.container}>
             <TextInput style={styles.input} placeholder={placeholder} keyboardType={keyboardType} 
             maxLength={maxLength} onChangeText={onChangeText} 
-            autoCapitalize='none' />
+            autoCapitalize='none' value={value} />
         </View>
     );
 }
