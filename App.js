@@ -16,6 +16,9 @@ import StartUpScreen from './screens/StartUpScreen';
 import UserVerifyScreen from './screens/UserVerifyScreen';
 import GenerateIDScreen from './screens/GenerateIDScreen';
 import SelectCategoryScreen from './screens/SelectCategoryScreen';
+import ChatScreen from './screens/ChatScreen';
+import AlarmScreen from './screens/AlarmScreen';
+import { SafeAreaView } from 'react-native';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -67,8 +70,11 @@ export default function App() {
           <Stack.Screen name='UserVerifyScreen' component={UserVerifyScreen} />
           <Stack.Screen name='GenerateIDScreen' component={GenerateIDScreen} />
           <Stack.Screen name='SelectCategoryScreen' component={SelectCategoryScreen} />
+          <Stack.Screen name='ChatScreen' component={ChatScreen}/>
+          <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
+
     </>
   );
 }
