@@ -7,11 +7,11 @@ import Postcode from '@actbase/react-daum-postcode';
 import { View, StyleSheet, Pressable, TextInput, Modal } from "react-native";
 
 //  Components
-import PrimaryButton from "../components/PrimaryButton";
-import LogoIconImage from "../components/LogoIconImage";
-import InputField from "../components/InputField";
-import DatePicker from "../components/DatePicker";
-import SmallToggleSwitch from "../components/SmallToggleSwitch";
+import PrimaryButton from "../components/psc/PrimaryButton";
+import LogoIconImage from "../components/psc/LogoIconImage";
+import InputField from "../components/psc/InputField";
+import DatePicker from "../components/psc/DatePicker";
+import SmallToggleSwitch from "../components/psc/SmallToggleSwitch";
 
 //Definition Component ---------------------------------------------------
 function GenerateIDScreen({route, navigation})

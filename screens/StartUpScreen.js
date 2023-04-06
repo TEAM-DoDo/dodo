@@ -6,9 +6,9 @@ import { View, StyleSheet, Image } from "react-native";
 import { Video } from 'expo-av';
 
 //  Components
-import PrimaryButton from "../components/PrimaryButton";
-import Title from '../components/Title';
-import LogoIconImage from "../components/LogoIconImage";
+import PrimaryButton from "../components/psc/PrimaryButton";
+import Title from '../components/psc/Title';
+import LogoIconImage from "../components/psc/LogoIconImage";
 
 //Definition Component ---------------------------------------------------
 function StartUpScreen({navigation})
