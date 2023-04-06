@@ -6,9 +6,9 @@ import { useState } from "react";
 import { View, StyleSheet } from "react-native";
 
 //  Components
-import PrimaryButton from "../components/PrimaryButton";
-import LogoIconImage from "../components/LogoIconImage";
-import InputField from "../components/InputField";
+import PrimaryButton from "../components/psc/PrimaryButton";
+import LogoIconImage from "../components/psc/LogoIconImage";
+import InputField from "../components/psc/InputField";
 
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({navigation})
