@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-const App = () => {
+const CalendarScreen = () => {
   const [selectedDate, setSelectedDate] = useState('');
 
   const handleDayPress = (day) => {
@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default CalendarScreen;

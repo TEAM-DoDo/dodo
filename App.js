@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 
 //  Native
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-
+import { SafeAreaView } from 'react-native';
 //  Expo
 import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { Ionicons } from '@expo/vector-icons';
 
 //  Components
 import StartUpScreen from './screens/StartUpScreen';
@@ -18,12 +20,46 @@ import GenerateIDScreen from './screens/GenerateIDScreen';
 import SelectCategoryScreen from './screens/SelectCategoryScreen';
 import ChatScreen from './screens/ChatScreen';
 import AlarmScreen from './screens/AlarmScreen';
-import { SafeAreaView } from 'react-native';
+import CalendarScreen from './screens/CalendarScreen';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
+const MainContent  = createNativeStackNavigator();
+const BottomTab = createBottomTabNavigator();
 
 //Definition Component ---------------------------------------------------
+
+function BottomTabNavigator({route, navigation})
+{
+  const userInfo = route.params.userInfo;
+
+  return(
+    <BottomTab.Navigator
+      screenOptions={{
+        headerShown : false,
+        tabBarActiveTintColor : 'blue',
+        tabBarInactiveTintColor : 'black',
+        tabBarShowLabel : false,
+      }}
+    >
+      <BottomTab.Screen name="Home"  component={SelectCategoryScreen} options={
+        {tabBarIcon: ({color, size}) => <Ionicons name='home' color={color} size={size} />
+      }}
+      initialParams={{userInfo}}
+      />
+      <BottomTab.Screen name="MyDo" component={AlarmScreen} options={
+        {tabBarIcon: ({color, size}) => <Ionicons name='list' color={color} size={size} />}} 
+      />
+      <BottomTab.Screen name="Calender" component={CalendarScreen} options={
+        {tabBarIcon: ({color, size}) => <Ionicons name='calendar' color={color} size={size} />}} 
+      />
+      <BottomTab.Screen name="Profile" component={ChatScreen} options={
+        {tabBarIcon: ({color, size}) => <Ionicons name='person-circle' color={color} size={size} />}} 
+      />
+    </BottomTab.Navigator>
+  );
+}
+
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   
@@ -69,9 +105,7 @@ export default function App() {
           <Stack.Screen name='StartUpScreen' component={StartUpScreen} />
           <Stack.Screen name='UserVerifyScreen' component={UserVerifyScreen} />
           <Stack.Screen name='GenerateIDScreen' component={GenerateIDScreen} />
-          <Stack.Screen name='SelectCategoryScreen' component={SelectCategoryScreen} />
-          <Stack.Screen name='ChatScreen' component={ChatScreen}/>
-          <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
+          <Stack.Screen name="SelectCategoryScreen" component={BottomTabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
 
