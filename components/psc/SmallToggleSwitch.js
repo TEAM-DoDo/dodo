@@ -3,7 +3,7 @@
 import { View, StyleSheet, Pressable, TextInput, Text } from "react-native";
 
 //  Colors
-import Colors from "../constants/Colors";
+import Colors from "../../constants/Colors";
 
 //Definition Component ---------------------------------------------------
 function SmallToggleSwitch({children, handler, selectedGender})
