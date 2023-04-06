@@ -3,7 +3,7 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
 
 //  Colors
-import Colors from "../constants/Colors";
+import Colors from "../../constants/Colors";
 
 //Definition Component ---------------------------------------------------
 function PrimaryButton({children, onPress})

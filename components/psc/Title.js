@@ -1,7 +1,7 @@
 //Import ---------------------------------------------------
 //  Native
 import { View, Text, StyleSheet } from "react-native";
-import Colors from "../constants/Colors";
+import Colors from "../../constants/Colors";
 
 //Definition Component ---------------------------------------------------
 function Title({children, style}) //Intro화면의 title을 위해 style을 받음
