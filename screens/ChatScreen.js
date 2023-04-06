@@ -7,6 +7,9 @@ import { Dimensions } from "react-native";
 import { Pressable } from "react-native";
 import { Image } from "react-native";
 import ChatIconButton from "../components/hgp/ChatIconButton";
+import { SimpleLineIcons } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 function ChatScreen ({navigation}){
     const handleClip = () =>{
         //클립 버튼을 눌렀을 때 이벤트
@@ -42,7 +45,7 @@ function ChatScreen ({navigation}){
             <View style={ChatScreenStyle.chat_input_holder}>
                 <View style={ChatScreenStyle.input_holder}>
                     <Pressable style={ChatScreenStyle.button_style} onPress={handleClip}>
-                        <Image style={ChatScreenStyle.icon_style} source={require('../assets/images/icons/clip.png')}/>
+                        <SimpleLineIcons name="paper-clip" size={20} color="black" />
                     </Pressable>
                     <TextInput 
                         placeholder="메세지를 입력하세요" 
@@ -53,10 +56,10 @@ function ChatScreen ({navigation}){
                         fontFamily='NanumGothic-Bold'>
                     </TextInput>
                     <Pressable style={ChatScreenStyle.button_style} onPress={handleEmoji}>
-                        <Image style={ChatScreenStyle.icon_style} source={require('../assets/images/icons/emoji.png')}/>
+                        <FontAwesome5 name="laugh-beam" size={20} color="black" />
                     </Pressable>
                     <Pressable style={ChatScreenStyle.button_style} onPress={handleCamera}>
-                        <Image style={ChatScreenStyle.icon_style} source={require('../assets/images/icons/camera.png')}/>
+                        <AntDesign name="camerao" size={20} color="black" />
                     </Pressable>
                 </View>
                 <Pressable style={ChatScreenStyle.send_button}>
@@ -109,8 +112,10 @@ const ChatScreenStyle = StyleSheet.create({
         height:'50%'
     },
     button_style:{
-        //backgroundColor:'black',
+        backgroundColor:'gray',
+        height:'80%',
         borderRadius:15,
+        aspectRatio:1,
         alignItems:'center',
         justifyContent:'center'
     },
