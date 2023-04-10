@@ -91,20 +91,29 @@ function SelectCategoryScreen({ route, navigation }) {
 
     function moveToSelectTrendCategoryScreen() {
         if (selectedIcons.length >= 2) {
-          navigation.navigate("SelectTrendCategoryScreen", { selectedIcons });
+            navigation.navigate("SelectTrendCategoryScreen", { selectedIcons });
         } else {
-          alert("Please select at least two icons.");
+            alert("Please select at least two icons.");
         }
-      }
+    }
 
     return (
         <View>
-            <Text>This is SelectCategoryScreen</Text>
             <Text>{userInfo.gender}</Text>
             <Text>{userInfo.address}</Text>
             <Text>{userInfo.birthdate}</Text>
         </View>
+        
+        
+       
+
     );
 }
 
 export default SelectCategoryScreen;
+
+//style ---------------------------------------------------
+
+const styles = StyleSheet.create({
+    
+});
