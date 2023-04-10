@@ -86,13 +86,12 @@ const ChatStyle = StyleSheet.create({
     },
     chat_my_box:{
         backgroundColor:'#E3A1A1',
-        alignSelf:'flex-end'
+        alignSelf:'flex-end',
     },
     chat_box_standard:{
         padding:10,
         borderRadius:10,
         marginTop:10,
-        flex:1,
         maxWidth:'70%',
     },
     time_text:{

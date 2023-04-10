@@ -20,7 +20,6 @@ import GenerateIDScreen from './screens/GenerateIDScreen';
 import SelectCategoryScreen from './screens/SelectCategoryScreen';
 import ChatScreen from './screens/ChatScreen';
 import AlarmScreen from './screens/AlarmScreen';
-import { SafeAreaView } from 'react-native';
 import DoInfoScreen from './screens/DoInfoScreen';
 import DoScreen from './screens/DoScreen';
 import CalendarScreen from './screens/CalendarScreen';
@@ -50,7 +49,7 @@ function BottomTabNavigator({route, navigation})
       }}
       initialParams={{userInfo}}
       />
-      <BottomTab.Screen name="MyDo" component={AlarmScreen} options={
+      <BottomTab.Screen name="MyDo" component={DoScreen} options={
         {tabBarIcon: ({color, size}) => <Ionicons name='list' color={color} size={size} />}} 
       />
       <BottomTab.Screen name="Calender" component={CalendarScreen} options={
@@ -99,20 +98,20 @@ export default function App() {
   }
 
   return (
-    <>
+    <SafeAreaView flex={1}>
       <StatusBar style='dark' />
       <NavigationContainer>
         <Stack.Navigator screenOptions={{
           headerShown : false,
         }}>
-          <Stack.Screen name='DoScreen' component={DoScreen}/>
           <Stack.Screen name='StartUpScreen' component={StartUpScreen} />
           <Stack.Screen name='UserVerifyScreen' component={UserVerifyScreen} />
           <Stack.Screen name='GenerateIDScreen' component={GenerateIDScreen} />
           <Stack.Screen name="SelectCategoryScreen" component={BottomTabNavigator} />
+          <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
 
-    </>
+    </SafeAreaView>
   );
 }

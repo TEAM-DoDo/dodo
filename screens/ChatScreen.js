@@ -5,10 +5,10 @@ import CircleUserImage from "../components/hgp/CircleUserImage";
 import { TextInput } from "react-native";
 import { Dimensions } from "react-native";
 import { Pressable } from "react-native";
-import { Image } from "react-native";
-import ChatIconButton from "../components/hgp/ChatIconButton";
+import { Feather } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 function ChatScreen ({navigation}){
     const handleClip = () =>{
@@ -47,13 +47,10 @@ function ChatScreen ({navigation}){
                     <Pressable style={ChatScreenStyle.button_style} onPress={handleClip}>
                         <SimpleLineIcons name="paper-clip" size={20} color="black" />
                     </Pressable>
-                    <TextInput 
-                        placeholder="메세지를 입력하세요" 
+                    <TextInput
+                        style={ChatScreenStyle.chat_text_input_style}
                         placeholderTextColor="#545454"
-                        minHeight={50}
-                        flex={1}
-                        fontSize={16}
-                        fontFamily='NanumGothic-Bold'>
+                        placeholder="메세지를 입력하세요" >
                     </TextInput>
                     <Pressable style={ChatScreenStyle.button_style} onPress={handleEmoji}>
                         <FontAwesome5 name="laugh-beam" size={20} color="black" />
@@ -63,7 +60,7 @@ function ChatScreen ({navigation}){
                     </Pressable>
                 </View>
                 <Pressable style={ChatScreenStyle.send_button}>
-                    <Image style={ChatScreenStyle.send_button_icon} source={require('../assets/images/icons/send.png')} />
+                    <Feather name="send" size={24} color="white" />
                 </Pressable>
             </View>
         </View>
@@ -73,6 +70,7 @@ const ChatScreenStyle = StyleSheet.create({
     container:{
         flexDirection:'column',
         flex:1,
+        backgroundColor:'white'
     },
     participants_holder:{
         margin:10,
@@ -99,6 +97,13 @@ const ChatScreenStyle = StyleSheet.create({
         alignItems:"center",
         borderRadius:15,
     },
+    chat_text_input_style:{
+        flex:1,
+        minHeight:50,
+        fontSize:16,
+        fontFamily:'NanumGothic-Bold',
+    }
+    ,
     send_button:{
         marginStart:10,
         backgroundColor:'#DF5C5C',
@@ -112,7 +117,7 @@ const ChatScreenStyle = StyleSheet.create({
         height:'50%'
     },
     button_style:{
-        backgroundColor:'gray',
+        //backgroundColor:'gray',
         height:'80%',
         borderRadius:15,
         aspectRatio:1,

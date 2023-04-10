@@ -37,10 +37,9 @@ const Style = StyleSheet.create({
     }
     ,
     title:{
-        textAlign: 'center',
+        //backgroundColor:'gray',
+        textAlign:'center',
         verticalAlign:'middle',
-        alignSelf:'stretch',
-        alignItems:'center',
         fontWeight:'bold',
         fontSize:25,
         //backgroundColor:'black',
