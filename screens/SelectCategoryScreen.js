@@ -39,18 +39,18 @@ function SelectCategoryScreen({ route, navigation }) {
     }
 
     const ICONS = [
-        { name: 'airplane', title: 'Travel' },
-        { name: 'basketball', title: 'Sports' },
-        { name: 'book', title: 'Education' },
-        { name: 'camera', title: 'Photography' },
-        { name: 'food', title: 'Food' },
-        { name: 'musical-notes', title: 'Music' },
-        { name: 'paw', title: 'Animals' },
-        { name: 'sunny', title: 'Weather' },
-        { name: 'umbrella', title: 'Rain' },
-        { name: 'water', title: 'Water sports' },
-        { name: 'world', title: 'Global' },
-        { name: 'train', title: 'Transportation' },
+        { name: 'airplane', title: '여행' },
+        { name: 'brush', title: '공예' },
+        { name: 'language', title: '언어' },
+        { name: 'musical-notes', title: '음악/춤' },
+        { name: 'fitness', title: '운동/스포츠' },
+        { name: 'book', title: '스터디' },
+        { name: 'paw', title: '애완동물' },
+        { name: 'globe', title: '문화' },
+        { name: 'fast-food', title: '요리' },
+        { name: 'people-circle', title: '사교' },
+        { name: 'game-controller', title: '게임' },
+        { name: 'ellipsis-horizontal', title: '기타' },
     ];
 
     function renderIcon({ item }) {
@@ -63,7 +63,7 @@ function SelectCategoryScreen({ route, navigation }) {
                 ]}
                 onPress={() => toggleIconSelection(item.name)}
             >
-                <Ionicons name={item.name} size={24} color={isSelected ? '#fff' : '#E30A8B'} />
+                <Ionicons name={item.name} size={24} color={isSelected ? '#008D62' : '#E30A8B'} />
                 <Text style={[styles.buttonTitle, isSelected ? styles.selectedTitle : null]}>
                     {item.title}
                 </Text>
@@ -73,7 +73,7 @@ function SelectCategoryScreen({ route, navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titleText}>{"키워드🔥"}</Text>
+            <Text style={styles.titleText}>{"키워드 ✅"}</Text>
             <FlatList
                 data={ICONS}
                 numColumns={4}
