@@ -1,4 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import axios from 'axios';
 import { ChatDummy, ChatParticipantsDummy } from "../components/hgp/DummyData";
 import ChatBox from "../components/hgp/ChatBox";
 import CircleUserImage from "../components/hgp/CircleUserImage";
@@ -11,6 +13,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 function ChatScreen ({navigation}){
+    const [chatText, setChatText] = useState('');
     const handleClip = () =>{
         //클립 버튼을 눌렀을 때 이벤트
     }
@@ -19,6 +22,12 @@ function ChatScreen ({navigation}){
     }
     const handleCamera = () => {
         //카메라 버튼을 눌렀을 때 이벤트
+    }
+    const handleSendChat = () => {
+        console.log("sending data");
+        axios.post("http://"+"192.168.0.2:8080"+"/chat",null,{ params: {username:"아무게",content: chatText} }).then(function(response){
+
+        })
     }
     return (
         <View style={ChatScreenStyle.container}>
@@ -50,7 +59,8 @@ function ChatScreen ({navigation}){
                     <TextInput
                         style={ChatScreenStyle.chat_text_input_style}
                         placeholderTextColor="#545454"
-                        placeholder="메세지를 입력하세요" >
+                        placeholder="메세지를 입력하세요"
+                        onChangeText={setChatText}>
                     </TextInput>
                     <Pressable style={ChatScreenStyle.button_style} onPress={handleEmoji}>
                         <FontAwesome5 name="laugh-beam" size={20} color="black" />
@@ -59,7 +69,7 @@ function ChatScreen ({navigation}){
                         <AntDesign name="camerao" size={20} color="black" />
                     </Pressable>
                 </View>
-                <Pressable style={ChatScreenStyle.send_button}>
+                <Pressable style={ChatScreenStyle.send_button} onPress={handleSendChat}>
                     <Feather name="send" size={24} color="white" />
                 </Pressable>
             </View>
