@@ -4,7 +4,7 @@ import { useState } from "react";
 
 
 //  Native
-import { TouchableOpacity, View, Text, Button, StyleSheet, Pressable } from "react-native";
+import { TouchableOpacity, View, Text, Button, StyleSheet, Pressable, FlatList } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -38,21 +38,54 @@ function SelectCategoryScreen({ route, navigation }) {
         console.log('Pressed!');
     }
 
+    const ICONS = [
+        { name: 'airplane', title: 'Travel' },
+        { name: 'basketball', title: 'Sports' },
+        { name: 'book', title: 'Education' },
+        { name: 'camera', title: 'Photography' },
+        { name: 'food', title: 'Food' },
+        { name: 'musical-notes', title: 'Music' },
+        { name: 'paw', title: 'Animals' },
+        { name: 'sunny', title: 'Weather' },
+        { name: 'umbrella', title: 'Rain' },
+        { name: 'water', title: 'Water sports' },
+        { name: 'world', title: 'Global' },
+        { name: 'train', title: 'Transportation' },
+    ];
+
+    function renderIcon({ item }) {
+        const isSelected = selectedIcons.includes(item.name);
+        return (
+            <Pressable
+                style={[
+                    styles.button,
+                    isSelected ? styles.selectedButton : null,
+                ]}
+                onPress={() => toggleIconSelection(item.name)}
+            >
+                <Ionicons name={item.name} size={24} color={isSelected ? '#fff' : '#E30A8B'} />
+                <Text style={[styles.buttonTitle, isSelected ? styles.selectedTitle : null]}>
+                    {item.title}
+                </Text>
+            </Pressable>
+        );
+    }
+
     return (
-        <View>
+        <View style={styles.container}>
             <Text style={styles.titleText}>{"키워드🔥"}</Text>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-                <Pressable style={styles.button} onPress={pressHandler}>
-                    <Ionicons name="airplane" size={24} color="white" />
-                    <Text style={styles.buttonTitle}>{"여행"}</Text>
-                </Pressable>
-            </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-                <Pressable style={styles.button} onPress={pressHandler}>
-                    <MaterialIcons name="brush" size={24} color="white" />
-                    <Text style={styles.buttonTitle}>{"공예"}</Text>
-                </Pressable>
-            </View>
+            <FlatList
+                data={ICONS}
+                numColumns={4}
+                renderItem={renderIcon}
+                keyExtractor={(item) => item.name}
+            />
+            <Pressable
+                style={styles.submitButton}
+                onPress={moveToSelectTrendCategoryScreen}
+            >
+                <Text style={styles.submitButtonText}>Next</Text>
+            </Pressable>
         </View>
     );
 }
@@ -63,24 +96,25 @@ export default SelectCategoryScreen;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#72063c',
-        borderRadius: 28,
-        elevation: 2,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-
-    },
-    buttonTitle: {
-        color: 'white',
-        textAlign: 'center'
+        flex: 1,
+        backgroundColor: '#fff',
     },
     titleText: {
-        color: "#E30A8B",
+        color: '#E30A8B',
         fontSize: 30,
         marginHorizontal: 16,
         marginVertical: 8,
         paddingVertical: 16,
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
+    },
+    button: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 4,
+        padding: 8,
+        borderRadius: 8,
+        borderWidth: 1,
     }
 
 });
