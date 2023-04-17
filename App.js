@@ -23,6 +23,7 @@ import AlarmScreen from './screens/AlarmScreen';
 import DoInfoScreen from './screens/DoInfoScreen';
 import DoScreen from './screens/DoScreen';
 import CalendarScreen from './screens/CalendarScreen';
+import SelectTrendCategoryScreen from './screens/SelectTrendCategoryScreen';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -34,6 +35,7 @@ const BottomTab = createBottomTabNavigator();
 function BottomTabNavigator({route, navigation})
 {
   const userInfo = route.params.userInfo;
+  const userCategory = route.params.userCategory;
 
   return(
     <BottomTab.Navigator
@@ -49,6 +51,9 @@ function BottomTabNavigator({route, navigation})
       }}
       initialParams={{userInfo}}
       />
+      <BottomTab.Screen name="Home_2" component={SelectTrendCategoryScreen}
+      initialParams={{userCategory}}
+      /> 
       <BottomTab.Screen name="MyDo" component={DoScreen} options={
         {tabBarIcon: ({color, size}) => <Ionicons name='list' color={color} size={size} />}} 
       />
@@ -107,7 +112,8 @@ export default function App() {
           <Stack.Screen name='StartUpScreen' component={StartUpScreen} />
           <Stack.Screen name='UserVerifyScreen' component={UserVerifyScreen} />
           <Stack.Screen name='GenerateIDScreen' component={GenerateIDScreen} />
-          <Stack.Screen name="SelectCategoryScreen" component={BottomTabNavigator} />
+          <Stack.Screen name="SelectCategoryScreen" component={SelectCategoryScreen} />
+          <Stack.Screen name="SelectTrendCategoryScreen" component={SelectTrendCategoryScreen} />
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
