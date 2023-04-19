@@ -2,7 +2,6 @@
 //  React
 import { useState } from "react";
 import Postcode from '@actbase/react-daum-postcode';
-import axios from "axios";
 
 //  Native
 import { View, StyleSheet, Pressable, TextInput, Modal } from "react-native";
@@ -36,17 +35,15 @@ function GenerateIDScreen({route, navigation})
         setVisible(false); // 모달 close
     };
 
-    async function MoveToNextScreen()
+    function MoveToNextScreen()
     {
         const userInfo = {
-            address,
-            birth : koreaBirthFormat,
             phoneNumber,
+            birthdate : koreaBirthFormat,
             gender : currentSelectedGender,
+            address,
             nickname,
         };
-        console.log("post 호출됨");
-        await axios.post('http://10.0.2.2:8080/api/user', userInfo).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
         navigation.navigate('SelectCategoryScreen', {userInfo});
     }
 
