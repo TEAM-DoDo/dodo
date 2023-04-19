@@ -1,6 +1,7 @@
 //Import ---------------------------------------------------
 //  React
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 //  Native
@@ -17,7 +18,6 @@ function SelectCategoryScreen({ route, navigation }) {
     const userInfo = route.params.userInfo;
     console.log("SelectCategoryScreen에서 출력 : ", userInfo);
     const [selectedIcons, setSelectedIcons] = useState([]);
-
 
     function toggleIconSelection(iconName) {
         setSelectedIcons((prevState) => {
@@ -44,6 +44,15 @@ function SelectCategoryScreen({ route, navigation }) {
     function pressHandler() {
         console.log('Pressed!');
     }
+
+    useEffect(()=>{
+        async function getUser()
+        {
+            console.log("getUser 호출됨");
+            await axios.get("http://10.0.2.2:8080/api/user/1").then((response)=>console.log(response.data)).catch((error)=>console.log(error));
+        }
+        getUser();
+    }, []);
 
     const icons = [
         { name: 'airplane', title: '여행' },
