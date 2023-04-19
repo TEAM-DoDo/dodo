@@ -28,6 +28,7 @@ function isMyIndex(index){
 }
 function ChatBox({time, index, context}) {
     var isOpponent = isMyIndex(index);
+    console.log(index,context)
     if(isOpponent){
         return (
             <View style={ChatStyle.chat}>

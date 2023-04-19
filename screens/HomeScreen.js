@@ -1,0 +1,171 @@
+import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { FontAwesome, MaterialCommunityIcons,Entypo  } from '@expo/vector-icons'; 
+import { ChatDummy, ChatParticipantsDummy, DoInfoDummy } from "../components/hgp/DummyData";
+import ChatBox from "../components/hgp/ChatBox";
+import moment from "moment/moment";
+import CircleUserImage from "../components/hgp/CircleUserImage";
+/***
+ * 화면 : 홈 화면
+ * 제작자 :홍기표
+ * 분리 부분은 나중에 컴포넌트로 만들어 분리할 예정
+ */
+
+//플로팅 버튼 부분
+function FloatingButton({onFloatingButtonPress}){
+    return(
+        <Pressable style={FloatingButtonStyle.conatiner} onPress={onFloatingButtonPress}>
+            <Entypo name="plus" size={40} color="white" />
+        </Pressable>
+    );
+}
+const FloatingButtonStyle = StyleSheet.create({
+    conatiner:{
+        position:'absolute',
+        width:60,
+        height:60,
+        right: 15,
+        bottom: 15,
+        borderRadius:200,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:'#84004E'
+    }
+});
+//리스트 항목 부분
+function DoButton({category="카테고리 정보",date=new Date(),pos="do 위치",onDoButtonPress}){
+    return(
+        <Pressable style={DoButtonStyle.container}>
+            <Image style={DoButtonStyle.do_image}/>
+            <View style={DoButtonStyle.do_info_holder}>
+                <Text style={DoButtonStyle.do_title}>Do 제목 입니다</Text>
+                <Text style={DoButtonStyle.do_small_info}>카테고리 : {category}</Text>
+                <View>
+                    <Text style={DoButtonStyle.do_small_info}>참여자</Text>
+                    <FlatList
+                        horizontal={true}
+                        data={ChatParticipantsDummy}
+                        keyExtractor={(item) => item}
+                        renderItem={({item}) => <CircleUserImage mode='tiny' margin={2} index={item}/>}/>
+                </View>
+
+                <View style={DoButtonStyle.do_pos_date_holder}>
+                    <View flexDirection='row' alignItems='center'>
+                        <FontAwesome name="map-marker" size={18} color="gray"/>
+                        <Text style={[DoButtonStyle.do_small_info,{marginStart:5}]}>{pos}</Text>
+                    </View>
+                    <Text style={DoButtonStyle.do_small_info}>{moment(date).format("YYYY.MM.DD")}</Text>
+                </View>
+            </View>
+        </Pressable>
+    );
+}
+const DoButtonStyle = StyleSheet.create({
+    container:{
+        marginHorizontal:20,
+        marginVertical:10,
+        height:150,
+        borderRadius:30,
+        backgroundColor:"white",
+        flex:1,
+        flexDirection:'row',
+        overflow:'hidden',
+        elevation:2,
+        shadowColor : 'black', //only work for ios
+        shadowOffset : {width : 2, height : 2}, //only work for ios
+        shadowOpacity : 1, //only work for ios
+        shadowRadius : 6, //only work for ios
+    },
+    do_image:{
+        backgroundColor:'gray',
+        width:'40%',
+        height:'100%',
+    },
+    do_info_holder:{
+        backgroundColor:'#fdfdfd',
+        flex:1,
+        padding:10,
+        justifyContent:'space-between'
+    },
+    do_title:{
+        fontFamily:'NanumGothic-ExtraBold',
+        color:'#969696',
+        fontSize:16
+    },
+    do_small_info:{
+        fontFamily:'NanumGothic-Bold',
+        color:'#969696',
+        fontSize:14,
+        paddingVertical:2,
+    },
+    do_pos_date_holder:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between'
+        //backgroundColor:'gray'
+    },
+});
+//홈화면
+function HomeScreen({navigation}){
+    const handleAlarmButton = () => {
+
+    }
+    const handleSearchButton = () => {
+
+    }
+    return(
+        <View style={Style.container}>
+            
+            <View style={Style.top_bar}>
+                <Pressable style={Style.pos_show_button}>
+                    <FontAwesome name="map-marker" size={36} color="black" />
+                    <Text style={Style.post_show_text}>현재 위치</Text>
+                </Pressable>
+                <View style={Style.pos_show_button}>
+                    <Pressable style={Style.icon_button} onPress={handleSearchButton}>
+                        <FontAwesome name="search" size={34} color='black'/>
+                    </Pressable>
+                    <Pressable style={Style.icon_button} onPress={handleAlarmButton}>
+                        <MaterialCommunityIcons name="alarm-light-outline" size={36} color='black'/>
+                    </Pressable>
+                </View>
+            </View>
+            <FlatList
+                data={DoInfoDummy}
+                keyExtractor={(item) => item.index}
+                numColumns={1}
+                renderItem={({item}) => <DoButton/>}
+            />
+            <FloatingButton/>
+        </View>
+    );
+}
+const Style = StyleSheet.create({
+    container:{
+        flex:1,
+        backgroundColor:'white',
+    },
+    top_bar:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        marginHorizontal:10,
+        height:60,
+        backgroundColor:'gray'
+    },
+    pos_show_button:{
+        flexDirection:'row',
+        alignContent:'center',
+        justifyContent:'center',
+        backgroundColor:'white'
+    },
+    post_show_text:{
+        fontFamily:'NanumGothic-ExtraBold',
+        fontSize:28,
+        marginStart:5,
+        color:'#E30A8B',
+    },
+    icon_button:{
+        margin:5
+    }
+});
+export default HomeScreen;
