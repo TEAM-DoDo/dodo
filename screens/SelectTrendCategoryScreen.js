@@ -1,23 +1,24 @@
 //Import ---------------------------------------------------
 //  React
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 
 
 //  Native
 import { TouchableOpacity, View, Text, Button, StyleSheet, Pressable, FlatList } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
-
+import { MaterialIcons } from '@expo/vector-icons';
 
 // Components
 import PrimaryButton from "../components/psc/PrimaryButton";
 
 
 //Definition Component ---------------------------------------------------
-function SelectCategoryScreen({ route, navigation }) {
+function SelectTrendCategoryScreen({ route, navigation }) {
+    const userCategory = route.params.userCategory;
     const userInfo = route.params.userInfo;
-    console.log("SelectCategoryScreen에서 출력 : ", userInfo);
+    console.log("SelectTrendCategoryScreen에서 출력 : ", userInfo, userCategory);
     const [selectedIcons, setSelectedIcons] = useState([]);
+
 
     function toggleIconSelection(iconName) {
         setSelectedIcons((prevState) => {
@@ -29,13 +30,9 @@ function SelectCategoryScreen({ route, navigation }) {
         });
     }
 
-    function moveToSelectTrendCategoryScreen() {
-        const userCategory = {
-            selectedIcons
-        };
-        console.log("SelectCategoryScreen에서 다음 내용을 업데이트 함:", userInfo, userCategory);
+    function moveToHomeScreen() {
         if (selectedIcons.length >= 2) {
-            navigation.navigate('SelectTrendCategoryScreen', {userInfo, userCategory});
+            navigation.navigate("SelectTrendCategoryScreen", { selectedIcons });
         } else {
             alert("Please select at least two icons.");
         }
@@ -45,16 +42,7 @@ function SelectCategoryScreen({ route, navigation }) {
         console.log('Pressed!');
     }
 
-    useEffect(()=>{
-        async function getUser()
-        {
-            console.log("getUser 호출됨");
-            await axios.get("http://10.0.2.2:8080/api/user/1").then((response)=>console.log(response.data)).catch((error)=>console.log(error));
-        }
-        getUser();
-    }, []);
-
-    const icons = [
+    const ICONS = [
         { name: 'airplane', title: '여행' },
         { name: 'brush', title: '공예' },
         { name: 'language', title: '언어' },
@@ -88,20 +76,28 @@ function SelectCategoryScreen({ route, navigation }) {
     }
 
     return (
-        <View style={styles.container}>
+        <View>
+            <Text>This is SelectTrendCategoryScreen</Text>
+            <Text>{userCategory.selectedIcons}</Text>
+            <Text>{userInfo.gender}</Text>
+            <Text>{userInfo.address}</Text>
+            <Text>{userInfo.birthdate}</Text>
+        </View>
+
+        /*<View style={styles.container}>
             <Text style={styles.titleText}>{"키워드 ✅"}</Text>
             <FlatList
-                data={icons}
+                data={ICONS}
                 numColumns={4}
                 renderItem={renderIcon}
                 keyExtractor={(item) => item.name}
             />
           <PrimaryButton onPress={moveToSelectTrendCategoryScreen}>다음으로</PrimaryButton>
-        </View>
+        </View>*/
     );
 }
 
-export default SelectCategoryScreen;
+export default SelectTrendCategoryScreen;
 
 //style ---------------------------------------------------
 
