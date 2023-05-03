@@ -12,6 +12,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { Ionicons } from '@expo/vector-icons';
+import * as Notifications from 'expo-notifications';
 
 //  Components
 import StartUpScreen from './screens/StartUpScreen';
@@ -23,6 +24,7 @@ import AlarmScreen from './screens/AlarmScreen';
 import DoInfoScreen from './screens/DoInfoScreen';
 import DoScreen from './screens/DoScreen';
 import CalendarScreen from './screens/CalendarScreen';
+import HomeScreen from './screens/HomeScreen'
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -44,7 +46,7 @@ function BottomTabNavigator({route, navigation})
         tabBarShowLabel : false,
       }}
     >
-      <BottomTab.Screen name="Home"  component={SelectCategoryScreen} options={
+      <BottomTab.Screen name="Home"  component={HomeScreen} options={
         {tabBarIcon: ({color, size}) => <Ionicons name='home' color={color} size={size} />
       }}
       initialParams={{userInfo}}
@@ -96,7 +98,14 @@ export default function App() {
   {
     SplashOut();
   }
-
+  //노티피케이션 설정
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
+  });
   return (
     <SafeAreaView flex={1}>
       <StatusBar style='dark' />

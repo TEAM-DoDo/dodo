@@ -2,6 +2,8 @@ import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native
 import { FontAwesome, MaterialCommunityIcons,Entypo  } from '@expo/vector-icons'; 
 import { ChatDummy, ChatParticipantsDummy, DoInfoDummy } from "../components/hgp/DummyData";
 import ChatBox from "../components/hgp/ChatBox";
+import * as Notification from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 import moment from "moment/moment";
 import CircleUserImage from "../components/hgp/CircleUserImage";
 /***
@@ -12,8 +14,31 @@ import CircleUserImage from "../components/hgp/CircleUserImage";
 
 //플로팅 버튼 부분
 function FloatingButton({onFloatingButtonPress}){
+    if (Platform.OS === 'android') {
+		Notification.setNotificationChannelAsync('default', {
+			name: 'default',
+			importance: Notification.AndroidImportance.MAX,
+			vibrationPattern: [0, 250, 250, 250],
+			lightColor: '#FF231F7C',
+		});
+	}
+    const test = () =>{
+        console.warn("알림 받았다");
+    };
+    Notification.addNotificationReceivedListener(test);
+    const testEvent = async () => {
+        //푸시알림 테스트용 함수
+        console.log("푸시알림 보내는 중");
+        await Notification.scheduleNotificationAsync({
+            content:{
+                title:"Test",
+                body:"this is test noti.", 
+            },
+            trigger:{seconds : 5},
+        });
+    }
     return(
-        <Pressable style={FloatingButtonStyle.conatiner} onPress={onFloatingButtonPress}>
+        <Pressable style={FloatingButtonStyle.conatiner} onPress={testEvent}>
             <Entypo name="plus" size={40} color="white" />
         </Pressable>
     );
