@@ -4,8 +4,10 @@ import { ChatDummy, ChatParticipantsDummy, DoInfoDummy } from "../components/hgp
 import ChatBox from "../components/hgp/ChatBox";
 import * as Notification from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 import moment from "moment/moment";
 import CircleUserImage from "../components/hgp/CircleUserImage";
+import axios from 'axios';
 /***
  * 화면 : 홈 화면
  * 제작자 :홍기표
@@ -38,7 +40,7 @@ function FloatingButton({onFloatingButtonPress}){
         });
     }
     return(
-        <Pressable style={FloatingButtonStyle.conatiner} onPress={testEvent}>
+        <Pressable style={FloatingButtonStyle.conatiner} onPress={onFloatingButtonPress}>
             <Entypo name="plus" size={40} color="white" />
         </Pressable>
     );
@@ -137,6 +139,29 @@ function HomeScreen({navigation}){
     const handleSearchButton = () => {
 
     }
+    const handleFloatingButton = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+          });
+          console.log(result.assets[0].uri);
+        const localUri = result.assets[0].uri;
+        const filename = localUri.split('/').pop();
+        const fileType = filename.split('.').pop();
+        console.log('file',localUri);
+        console.log('file',filename);
+        console.log('file',fileType);
+        const formData = new FormData();
+        formData.append("file",{
+            localUri,
+            name : filename,
+            type: 'image/'+fileType
+        });
+        axios.post("http://192.168.0.2:8080/api/user/",formData,{headers:{'Content Type' :'multipart/form-data'}}).then(function(response){console.log(response.status);}).catch(function(err){console.log(err)})
+
+    }
     return(
         <View style={Style.container}>
             
@@ -160,7 +185,7 @@ function HomeScreen({navigation}){
                 numColumns={1}
                 renderItem={({item}) => <DoButton/>}
             />
-            <FloatingButton/>
+            <FloatingButton onFloatingButtonPress={handleFloatingButton}/>
         </View>
     );
 }
