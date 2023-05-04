@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import moment from "moment/moment";
 import CircleUserImage from "../components/hgp/CircleUserImage";
 import axios from 'axios';
+import FormData from "form-data";
 /***
  * 화면 : 홈 화면
  * 제작자 :홍기표
@@ -147,20 +148,30 @@ function HomeScreen({navigation}){
             quality: 1,
           });
           console.log(result.assets[0].uri);
-        const localUri = result.assets[0].uri;
-        const filename = localUri.split('/').pop();
-        const fileType = filename.split('.').pop();
-        console.log('file',localUri);
-        console.log('file',filename);
-        console.log('file',fileType);
+        const image = {
+           uri: '',
+           type: 'image/jpeg',
+           name: 'test',
+        };
+        image.uri = result.assets[0].uri;
+        image.name = result.assets[0].fileName;
+        image.type = result.assets[0].type;
+        console.log('file',image.uri);
+        console.log('file',image.name);
+        console.log('file',image.type);
         const formData = new FormData();
-        formData.append("file",{
-            localUri,
-            name : filename,
-            type: 'image/'+fileType
-        });
-        axios.post("http://192.168.0.2:8080/api/user/",formData,{headers:{'Content Type' :'multipart/form-data'}}).then(function(response){console.log(response.status);}).catch(function(err){console.log(err)})
-
+        formData.append("file",image);
+        // fetch(
+        //     "http://192.168.0.2:8080/api/image/",
+        //     {
+        //         method:'POST',
+        //     }
+        // ).then((response)=>{console.log(response.status)});
+        axios.post(
+            "http://192.168.0.2:8080/api/image/",
+            formData,
+            {headers:{"Content-Type": `multipart/form-data`,}}).then((response)=>{console.log(response.status);}).catch((err)=>{console.log(err)})
+        //axios.post("http://192.168.0.2:8080/api/image").then((response) => {console.log(response.status)});
     }
     return(
         <View style={Style.container}>
