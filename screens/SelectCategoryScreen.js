@@ -1,7 +1,7 @@
 //Import ---------------------------------------------------
 //  React
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api/API";
 
 
 //  Native
@@ -49,7 +49,7 @@ function SelectCategoryScreen({ route, navigation }) {
         async function getUser()
         {
             console.log("getUser 호출됨");
-            await axios.get("http://10.0.2.2:8080/api/user/1").then((response)=>console.log(response.data)).catch((error)=>console.log(error));
+            await API.get("/api/user/1").then((response)=>console.log(response.data)).catch((error)=>console.log(error));
         }
         getUser();
     }, []);
