@@ -2,7 +2,7 @@
 //  React
 import { useState } from "react";
 import Postcode from '@actbase/react-daum-postcode';
-import axios from "axios";
+import API from "../api/API";
 
 //  Native
 import { View, StyleSheet, Pressable, TextInput, Modal } from "react-native";
@@ -46,7 +46,7 @@ function GenerateIDScreen({route, navigation})
             nickname,
         };
         console.log("post 호출됨");
-        await axios.post('http://10.0.2.2:8080/api/user', userInfo).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
+        await API.post('/api/user', userInfo).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
         navigation.navigate('SelectCategoryScreen', {userInfo});
     }
 
