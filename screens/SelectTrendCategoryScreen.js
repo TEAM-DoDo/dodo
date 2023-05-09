@@ -32,7 +32,7 @@ function SelectTrendCategoryScreen({ route, navigation }) {
 
     function moveToHomeScreen() {
         if (selectedIcons.length >= 2) {
-            navigation.navigate('HomeScreen', { selectedIcons });
+            navigation.navigate('BottomTabNavigatorScreen', { selectedIcons });
         } else {
             alert("Please select at least two icons.");
         }

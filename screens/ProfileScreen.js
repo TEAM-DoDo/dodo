@@ -6,7 +6,7 @@ const ProfileScreen = () => {
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
         <Image
-          source={require('./assets/profile-user.png')}
+          source={require('../assets/profile-user.png')}
           style={styles.avatar}
         />
         <Text style={styles.name}>User</Text>
