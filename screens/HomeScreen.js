@@ -162,7 +162,7 @@ function HomeScreen({navigation}){
         const formData = new FormData();
         formData.append("files",image);
         axios.post(
-            "http://192.168.0.2:8080/api/image",
+            "http://192.168.0.2:8080/api/image/upload/1",
             formData,
             {headers:{"Content-Type": `multipart/form-data`,}}).then((response)=>{console.log(response.status);}).catch((err)=>{console.log(err)})
         // axios.post("http://192.168.0.2:8080/api/image").then((response) => {console.log(response.status)});

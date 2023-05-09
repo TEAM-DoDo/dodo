@@ -1,17 +1,28 @@
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
-function requestImage(imageIndex){
-    
-    return null;
-}
-//두 번호를 넣으면 이미지 아이디 배열을 불러오는 함수
-function getImageIndex(doIndex){
-    return [1,2,3,4,5,6,7,8,9,10];
-}
+import { useState,useEffect } from "react";
+import API from "../api/API";
 function DoPicturesScreen(){
+    const [imagePathList, setImagePathList] = useState([]);
+    const requestImage = (imagePath) => {
+        console.log(imagePath.item);
+        return null;
+    }
+    //두 번호를 넣으면 이미지 아이디 배열을 불러오는 함수
+    const getImageIndex = (doIndex) => {
+        API.get("/api/image/download/"+doIndex+"/list")
+            .then(
+                (responce) => {
+                    setImagePathList(responce.data.image_id);
+                })
+            .catch(
+                (error) => {
+                    console.error(error);
+                });
+    }
     return(
         <View style={Style.conatiner}>
             <FlatList
-                data={getImageIndex(1)}
+                data={imagePathList}
                 keyExtractor={(item) => item}
                 numColumns={2}
                 renderItem={
