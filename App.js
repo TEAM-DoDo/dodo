@@ -54,7 +54,7 @@ function BottomTabNavigator({route, navigation})
       initialParams={{userInfo}}
       />
       <BottomTab.Screen name="Home_2" component={SelectTrendCategoryScreen}
-      initialParams={{userCategory}}
+      // initialParams={{userCategory}}
       /> 
       <BottomTab.Screen name="MyDo" component={DoScreen} options={
         {tabBarIcon: ({color, size}) => <Ionicons name='list' color={color} size={size} />}} 
@@ -123,6 +123,7 @@ export default function App() {
           <Stack.Screen name='GenerateIDScreen' component={GenerateIDScreen} />
           <Stack.Screen name="SelectCategoryScreen" component={SelectCategoryScreen} />
           <Stack.Screen name="SelectTrendCategoryScreen" component={SelectTrendCategoryScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
         </Stack.Navigator>
       </NavigationContainer>

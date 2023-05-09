@@ -5,8 +5,8 @@ import { useState } from "react";
 
 //  Native
 import { TouchableOpacity, View, Text, Button, StyleSheet, Pressable, FlatList } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+
 
 // Components
 import PrimaryButton from "../components/psc/PrimaryButton";
@@ -32,29 +32,20 @@ function SelectTrendCategoryScreen({ route, navigation }) {
 
     function moveToHomeScreen() {
         if (selectedIcons.length >= 2) {
-            navigation.navigate("SelectTrendCategoryScreen", { selectedIcons });
+            navigation.navigate('HomeScreen', { selectedIcons });
         } else {
             alert("Please select at least two icons.");
         }
     }
 
-    function pressHandler() {
-        console.log('Pressed!');
-    }
 
     const ICONS = [
-        { name: 'airplane', title: '여행' },
-        { name: 'brush', title: '공예' },
-        { name: 'language', title: '언어' },
-        { name: 'musical-notes', title: '음악/춤' },
-        { name: 'fitness', title: '운동/스포츠' },
-        { name: 'book', title: '스터디' },
-        { name: 'paw', title: '애완동물' },
-        { name: 'globe', title: '문화' },
-        { name: 'fast-food', title: '요리' },
-        { name: 'people-circle', title: '사교' },
-        { name: 'game-controller', title: '게임' },
-        { name: 'ellipsis-horizontal', title: '기타' },
+        { name: 'shopping-bag', title: '쇼핑' },
+        { name: 'youtube-play', title: 'Vlog' },
+        { name: 'bitcoin', title: '가상화폐' },
+        { name: 'language', title: '언어교환' },
+        { name: 'code', title: '코딩' },
+        
     ];
 
     function renderIcon({ item }) {
@@ -67,7 +58,7 @@ function SelectTrendCategoryScreen({ route, navigation }) {
                 ]}
                 onPress={() => toggleIconSelection(item.name)}
             >
-                <Ionicons name={item.name} size={24} color={isSelected ? '#008D62' : '#E30A8B'} />
+                <FontAwesome name={item.name} size={24} color={isSelected ? '#008D62' : '#E30A8B'} />
                 <Text style={[styles.buttonTitle, isSelected ? styles.selectedTitle : null]}>
                     {item.title}
                 </Text>
@@ -76,24 +67,25 @@ function SelectTrendCategoryScreen({ route, navigation }) {
     }
 
     return (
-        <View>
+        //데이터 전송 확인
+        /*<View>
             <Text>This is SelectTrendCategoryScreen</Text>
             <Text>{userCategory.selectedIcons}</Text>
             <Text>{userInfo.gender}</Text>
             <Text>{userInfo.address}</Text>
             <Text>{userInfo.birthdate}</Text>
-        </View>
+        </View>*/
 
-        /*<View style={styles.container}>
-            <Text style={styles.titleText}>{"키워드 ✅"}</Text>
+        <View style={styles.container}>
+            <Text style={styles.titleText}>{"🔥요즘뜨는 키워드"}</Text>
             <FlatList
                 data={ICONS}
                 numColumns={4}
                 renderItem={renderIcon}
                 keyExtractor={(item) => item.name}
             />
-          <PrimaryButton onPress={moveToSelectTrendCategoryScreen}>다음으로</PrimaryButton>
-        </View>*/
+          <PrimaryButton onPress={moveToHomeScreen}>다음으로</PrimaryButton>
+        </View>
     );
 }
 
