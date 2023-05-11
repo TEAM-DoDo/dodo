@@ -1,14 +1,10 @@
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { useState,useEffect } from "react";
-import API from "../api/API";
-function DoPicturesScreen(){
+import API, { localIpAddress,portNumber } from "../api/API";
+function DoPicturesScreen({doIndex = 1}){
     const [imagePathList, setImagePathList] = useState([]);
-    const requestImage = (imagePath) => {
-        console.log(imagePath.item);
-        return null;
-    }
     //두 번호를 넣으면 이미지 아이디 배열을 불러오는 함수
-    const getImageIndex = (doIndex) => {
+    const getImageIndex = () => {
         API.get("/api/image/download/"+doIndex+"/list")
             .then(
                 (responce) => {
@@ -19,6 +15,9 @@ function DoPicturesScreen(){
                     console.error(error);
                 });
     }
+    useEffect(() => {
+        getImageIndex();
+    });
     return(
         <View style={Style.conatiner}>
             <FlatList
@@ -27,7 +26,9 @@ function DoPicturesScreen(){
                 numColumns={2}
                 renderItem={
                     (item) =>
-                    <Image style={Style.do_image} source={requestImage(item)} alt="이미지를 불러올 수 없습니다."/>
+                    <Image style={Style.do_image} source={
+                        {uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doIndex}/${item.item}`}
+                    } alt="이미지를 불러올 수 없습니다."/>
                 }
             />
         </View>
