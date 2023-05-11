@@ -1,4 +1,4 @@
-import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, Pressable, StyleSheet, Text, View, } from "react-native";
 import { FontAwesome, MaterialCommunityIcons,Entypo  } from '@expo/vector-icons'; 
 import { ChatDummy, ChatParticipantsDummy, DoInfoDummy } from "../components/hgp/DummyData";
 import ChatBox from "../components/hgp/ChatBox";
@@ -10,6 +10,8 @@ import CircleUserImage from "../components/hgp/CircleUserImage";
 import axios from 'axios';
 import FormData from "form-data";
 import mime from "mime";
+import * as Location from "expo-location" // yarn add expo-location expo-task-manager
+import { useState } from "react";
 /***
  * 화면 : 홈 화면
  * 제작자 :홍기표
@@ -60,6 +62,7 @@ const FloatingButtonStyle = StyleSheet.create({
         backgroundColor:'#84004E'
     }
 });
+
 //리스트 항목 부분
 function DoButton({category="카테고리 정보",date=new Date(),pos="do 위치",onDoButtonPress}){
     return(
@@ -167,14 +170,39 @@ function HomeScreen({navigation}){
             {headers:{"Content-Type": `multipart/form-data`,}}).then((response)=>{console.log(response.status);}).catch((err)=>{console.log(err)})
         // axios.post("http://192.168.0.2:8080/api/image").then((response) => {console.log(response.status)});
     }
+
+    // const [status, requestPermission] = Location.useForegroundPermissions();
+    const [location, setLocation] = useState(null);
+
+    // const handleCurrentLocation = async () => {
+    //     let { status } = await getLastNotificationResponseAsync.requestForegroundPermissionAsync();
+    //     if (status !== 'granted'){
+    //         // handle permission denied
+    //         return;
+    //     }
+
+
+        const handleCurrentLocation = async () => {
+            let { status } = await Permissions.askAsync(Permissions.LOCATION_FOREGROUND);
+          
+            if (status !== 'granted') {
+              // handle permission denied
+              return;
+            }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+        console.log(location);
+    }
+
     return(
         <View style={Style.container}>
-            
             <View style={Style.top_bar}>
-                <Pressable style={Style.pos_show_button}>
+                <Pressable style={Style.pos_show_button} onPress={handleCurrentLocation}>
                     <FontAwesome name="map-marker" size={36} color="black" />
                     <Text style={Style.post_show_text}>현재 위치</Text>
                 </Pressable>
+                
                 <View style={Style.pos_show_button}>
                     <Pressable style={Style.icon_button} onPress={handleSearchButton}>
                         <FontAwesome name="search" size={34} color='black'/>
@@ -183,15 +211,18 @@ function HomeScreen({navigation}){
                         <MaterialCommunityIcons name="alarm-light-outline" size={36} color='black'/>
                     </Pressable>
                 </View>
+
             </View>
             <FlatList
                 data={DoInfoDummy}
                 keyExtractor={(item) => item.index}
                 numColumns={1}
                 renderItem={({item}) => <DoButton/>}
+                render={handleCurrentLocation}
             />
             <FloatingButton onFloatingButtonPress={handleFloatingButton}/>
         </View>
+        
     );
 }
 const Style = StyleSheet.create({

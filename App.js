@@ -13,6 +13,7 @@ import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { Ionicons } from '@expo/vector-icons';
 import * as Notifications from 'expo-notifications';
+import * as Lication from 'expo-location';
 
 //  Components
 import StartUpScreen from './screens/StartUpScreen';
@@ -84,7 +85,7 @@ export default function App() {
     await new Promise(resolve => setTimeout(resolve, 2000));
     await setAppIsReady(true);
   }
-
+  
   async function SplashOut()
   {
     await SplashScreen.hideAsync();
