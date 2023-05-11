@@ -12,6 +12,7 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { localIpAddress,portNumber } from "../api/API";
 var socket;
 var chatNum = 0;
 function Chat(chatNum,index,context){
@@ -23,7 +24,7 @@ function ChatScreen ({navigation}){
     const [chatText, setChatText] = useState('');
     const [chatList, setChats] = useState([]);
     useEffect(()=>{
-        socket = new WebSocket('ws://192.168.0.2:8080/chat');
+        socket = new WebSocket(`ws://${localIpAddress}:${portNumber}/chat`);
         socket.onopen = () => {
             console.log("success");
         };
