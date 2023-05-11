@@ -37,7 +37,7 @@ function SelectCategoryScreen({ route, navigation }) {
         if (selectedIcons.length >= 2) {
             navigation.navigate('SelectTrendCategoryScreen', {userInfo, userCategory});
         } else {
-            alert("Please select at least two icons.");
+            alert("키워드를 최소 2개 이상 선택해주세요.");
         }
     }
 
