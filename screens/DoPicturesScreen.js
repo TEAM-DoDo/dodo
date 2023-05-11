@@ -1,22 +1,37 @@
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
-function requestImage(imageIndex){
-    
-    return null;
-}
-//두 번호를 넣으면 이미지 아이디 배열을 불러오는 함수
-function getImageIndex(doIndex){
-    return [1,2,3,4,5,6,7,8,9,10];
-}
-function DoPicturesScreen(){
+import { useState,useEffect } from "react";
+import API, { localIpAddress,portNumber } from "../api/API";
+function DoPicturesScreen({doIndex = 1}){
+    const [imagePathList, setImagePathList] = useState([]);
+    //두 번호를 넣으면 이미지 아이디 배열을 불러오는 함수
+    const getImageIndex = () => {
+        API.get("/api/image/download/"+doIndex+"/list")
+            .then(
+                (responce) => {
+                    setImagePathList(responce.data.image_id);
+                })
+            .catch(
+                (error) => {
+                    console.error(error);
+                });
+    }
+    useEffect(() => {
+        getImageIndex();
+        return () => {
+          console.log('컴포넌트가 화면에서 사라짐');
+        };
+      }, []);
     return(
         <View style={Style.conatiner}>
             <FlatList
-                data={getImageIndex(1)}
+                data={imagePathList}
                 keyExtractor={(item) => item}
                 numColumns={2}
                 renderItem={
                     (item) =>
-                    <Image style={Style.do_image} source={requestImage(item)} alt="이미지를 불러올 수 없습니다."/>
+                    <Image style={Style.do_image} source={
+                        {uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doIndex}/${item.item}`}
+                    } alt="이미지를 불러올 수 없습니다."/>
                 }
             />
         </View>

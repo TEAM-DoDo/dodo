@@ -12,6 +12,8 @@ import FormData from "form-data";
 import mime from "mime";
 import * as Location from "expo-location" // yarn add expo-location expo-task-manager
 import { useState } from "react";
+import { localIpAddress, portNumber } from "../api/API";
+
 /***
  * 화면 : 홈 화면
  * 제작자 :홍기표
@@ -165,10 +167,9 @@ function HomeScreen({navigation}){
         const formData = new FormData();
         formData.append("files",image);
         axios.post(
-            "http://192.168.0.2:8080/api/image",
+            `http://${localIpAddress}:${portNumber}/api/image/upload/1`,
             formData,
             {headers:{"Content-Type": `multipart/form-data`,}}).then((response)=>{console.log(response.status);}).catch((err)=>{console.log(err)})
-        // axios.post("http://192.168.0.2:8080/api/image").then((response) => {console.log(response.status)});
     }
 
     // const [status, requestPermission] = Location.useForegroundPermissions();
