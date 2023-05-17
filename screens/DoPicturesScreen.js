@@ -1,6 +1,6 @@
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { useState,useEffect } from "react";
-import API, { localIpAddress,portNumber } from "../api/API";
+import API, { jwt, localIpAddress,portNumber } from "../api/API";
 function DoPicturesScreen({doIndex = 1}){
     const [imagePathList, setImagePathList] = useState([]);
     //두 번호를 넣으면 이미지 아이디 배열을 불러오는 함수
@@ -27,7 +27,12 @@ function DoPicturesScreen({doIndex = 1}){
                 renderItem={
                     (item) =>
                     <Image style={Style.do_image} source={
-                        {uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doIndex}/${item.item}`}
+                        {
+                            uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doIndex}/${item.item}`,
+                            headers:{ 
+                                Authorization : `Bearer ${jwt}`
+                            }
+                        }
                     } alt="이미지를 불러올 수 없습니다."/>
                 }
             />

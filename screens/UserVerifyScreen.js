@@ -9,6 +9,8 @@ import { View, StyleSheet } from "react-native";
 import PrimaryButton from "../components/psc/PrimaryButton";
 import LogoIconImage from "../components/psc/LogoIconImage";
 import InputField from "../components/psc/InputField";
+import API from "../api/API";
+import { HttpStatusCode } from "axios";
 
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({navigation})
@@ -33,10 +35,20 @@ function UserVerifyScreen({navigation})
 
     function MoveToNextScreen()
     {
-        navigation.navigate('GenerateIDScreen', //유저 가입여부 확인 로직이 없어 일단은 회원가입 창으로 이동하게 함
-        {
-            phoneNumber, //가입 페이지로 이동 시 핸드폰 번호를 두번 입력하지 않도록 데이터를 넘겨줌
+        //이곳에 인증번호 확인 로직 필요
+
+        //유저 가입 확인 로직 추가
+        API.get("/api/user/check",{params:{phoneNumber:phoneNumber}}).then((response) => {
+            console.log(response.data);
+            //제대로 된 응답 안에는 토큰이 포함됨
+            navigation.navigate('BottomTabNavigatorScreen');
+        }).catch((response) => {
+            console.log(response);
+            navigation.navigate('GenerateIDScreen',{
+                phoneNumber, //가입 페이지로 이동 시 핸드폰 번호를 두번 입력하지 않도록 데이터를 넘겨줌
+            });
         });
+
     }
 
     return (

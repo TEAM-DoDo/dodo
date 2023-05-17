@@ -46,7 +46,7 @@ function GenerateIDScreen({route, navigation})
             nickname,
         };
         console.log("post 호출됨");
-        await API.post('/api/user', userInfo).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
+        await API.post('/api/user', userInfo).then((response)=>console.log("받아온 데이터 :" + response.data)).catch((error)=>console.log(error));
         navigation.navigate('SelectCategoryScreen', {userInfo});
     }
 
