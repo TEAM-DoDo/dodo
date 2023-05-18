@@ -40,7 +40,7 @@ function BottomTabNavigator({route, navigation})
 {
   const userInfo = route.params.userInfo;
   const userCategory = route.params.userCategory;
-
+  const jwt = route.params.jwt;
   return(
     <BottomTab.Navigator
       screenOptions={{

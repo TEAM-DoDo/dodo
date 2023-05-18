@@ -7,13 +7,14 @@ import { Platform } from "react-native";
 
 //  Expo
 import Constants from 'expo-constants';
+import AsyncStorage from "@react-native-community/async-storage";
 
 //URL setting ------------------------------------------------------
 const { manifest } = Constants;
 export const localIpAddress = manifest.debuggerHost.split(":").shift(); //현재 ip주소
 
 export const portNumber = 8080;
-export var jwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjg0MTY3MzI4LCJleHAiOjE2ODQyNTM3Mjh9.NC24R8CLLKom5sNhq4zYUlpL4TpgLUrrSVRsbqVpk_I";
+
 const platformHTTP = Platform.select({
     android : "http",
     ios : "http",
@@ -25,10 +26,20 @@ const API = axios.create({
     baseURL,
     headers : {
         "Content-Type" : "application/json",
-        Authorization : `Bearer ${jwt}`
     },
     responseType: 'json',
     withCredentials : true,
 });
-
+API.interceptors.request.use(
+    async (config) => {
+        //내부 저장소에서 토큰 정보를 가져와서 헤더에 기입
+        await AsyncStorage.getItem("access_token",(err,result) => {
+            if(result != null){
+                config.headers.Authorization=`Bearer ${result}`;
+            }
+            return config;
+        });
+        return config;
+    }
+);
 export default API;

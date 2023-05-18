@@ -12,14 +12,13 @@ import FormData from "form-data";
 import mime from "mime";
 import * as Location from "expo-location" // yarn add expo-location expo-task-manager
 import { useState } from "react";
-import { localIpAddress, portNumber } from "../api/API";
-
+import API, { localIpAddress, portNumber } from "../api/API";
+import AsyncStorage from "@react-native-community/async-storage";
 /***
  * 화면 : 홈 화면
  * 제작자 :홍기표
  * 분리 부분은 나중에 컴포넌트로 만들어 분리할 예정
  */
-
 //플로팅 버튼 부분
 function FloatingButton({onFloatingButtonPress}){
     if (Platform.OS === 'android') {
@@ -66,12 +65,39 @@ const FloatingButtonStyle = StyleSheet.create({
 });
 
 //리스트 항목 부분
-function DoButton({category="카테고리 정보",date=new Date(),pos="do 위치",onDoButtonPress}){
+function DoButton({doId}){
+    const [name, setName] = useState('');
+    const [address, setAddress] = useState('');
+    const [category, setCategory] = useState('');
+    const [image, setImage] = useState('');
+    const [token,setToken] = useState('');
+    if(doId == null){
+        return null;
+    }
+    const onDoButtonPress = () => {
+        
+    };
+    console.log(doId);
+    API.get(`/api/do/${doId}`).then((response) => {
+        console.log(response.data);
+        setName(response.data.name);
+        setCategory(response.data.category);
+        setImage(response.data.image);
+        setAddress(response.data.address)
+    });
+    AsyncStorage.getItem("access_token").then((err,result) => {
+        setToken(result);
+    });
     return(
-        <Pressable style={DoButtonStyle.container}>
-            <Image style={DoButtonStyle.do_image}/>
+        <Pressable style={DoButtonStyle.container} onPress={onDoButtonPress}>
+            <Image style={DoButtonStyle.do_image} source={{
+                uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doId}/${image}`,
+                headers:{ 
+                    Authorization : `Bearer ${token}`
+                }
+            }}/>
             <View style={DoButtonStyle.do_info_holder}>
-                <Text style={DoButtonStyle.do_title}>Do 제목 입니다</Text>
+                <Text style={DoButtonStyle.do_title}>{name}</Text>
                 <Text style={DoButtonStyle.do_small_info}>카테고리 : {category}</Text>
                 <View>
                     <Text style={DoButtonStyle.do_small_info}>참여자</Text>
@@ -85,9 +111,9 @@ function DoButton({category="카테고리 정보",date=new Date(),pos="do 위치
                 <View style={DoButtonStyle.do_pos_date_holder}>
                     <View flexDirection='row' alignItems='center'>
                         <FontAwesome name="map-marker" size={18} color="gray"/>
-                        <Text style={[DoButtonStyle.do_small_info,{marginStart:5}]}>{pos}</Text>
+                        <Text style={[DoButtonStyle.do_small_info,{marginStart:5}]}>{address}</Text>
                     </View>
-                    <Text style={DoButtonStyle.do_small_info}>{moment(date).format("YYYY.MM.DD")}</Text>
+                    {/* <Text style={DoButtonStyle.do_small_info}>{moment(date).format("YYYY.MM.DD")}</Text> */}
                 </View>
             </View>
         </Pressable>
@@ -215,10 +241,10 @@ function HomeScreen({navigation}){
 
             </View>
             <FlatList
-                data={DoInfoDummy}
-                keyExtractor={(item) => item.index}
+                data={[0,1]}
+                keyExtractor={(item) => item}
                 numColumns={1}
-                renderItem={({item}) => <DoButton/>}
+                renderItem={({item}) => <DoButton doId={item}/>}
                 render={handleCurrentLocation}
             />
             <FloatingButton onFloatingButtonPress={handleFloatingButton}/>

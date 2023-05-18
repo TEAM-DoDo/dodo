@@ -11,6 +11,7 @@ import LogoIconImage from "../components/psc/LogoIconImage";
 import InputField from "../components/psc/InputField";
 import API from "../api/API";
 import { HttpStatusCode } from "axios";
+import AsyncStorage from "@react-native-community/async-storage";
 
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({navigation})
@@ -38,10 +39,19 @@ function UserVerifyScreen({navigation})
         //이곳에 인증번호 확인 로직 필요
 
         //유저 가입 확인 로직 추가
-        API.get("/api/user/check",{params:{phoneNumber:phoneNumber}}).then((response) => {
-            console.log(response.data);
+        const userInfo = {
+            address : "",
+            birth : "",
+            phoneNumber,
+            gender : 1,
+            nickname : "",
+        };
+        API.post("/api/user/check",{phoneNumber : phoneNumber,certNumber:"14632"}).then((response) => {
             //제대로 된 응답 안에는 토큰이 포함됨
-            navigation.navigate('BottomTabNavigatorScreen');
+            //토큰을 내부 저장소에 저장
+            AsyncStorage.setItem("access_token",response.data.accessToken);
+            AsyncStorage.setItem("refresh_token",response.data.accessToken);
+            navigation.navigate('BottomTabNavigatorScreen',{userInfo});
         }).catch((response) => {
             console.log(response);
             navigation.navigate('GenerateIDScreen',{
