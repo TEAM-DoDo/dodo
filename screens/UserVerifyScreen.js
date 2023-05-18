@@ -1,6 +1,6 @@
 //Import ---------------------------------------------------
 //  React
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 //  Native
 import { View, StyleSheet } from "react-native";
@@ -11,14 +11,28 @@ import LogoIconImage from "../components/psc/LogoIconImage";
 import InputField from "../components/psc/InputField";
 import API from "../api/API";
 import { HttpStatusCode } from "axios";
-import AsyncStorage from "@react-native-community/async-storage";
+import RNExitApp from "react-native-exit-app";
 
+// Plugin
+import * as Permissions from 'expo-permissions';
+import AsyncStorage from "@react-native-community/async-storage";
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({navigation})
 {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [checkNumber, setCheckNumber] = useState('');
-
+    // useEffect(() => {
+    //     Permissions.getAsync(Permissions.MEDIA_LIBRARY).then(
+    //         (status) => {
+    //             if (status !== 'granted') {
+    //                 console.log("사용자가 저장소 요청을 거부함");
+    //                 //RNExitApp.exitApp();
+    //               }
+    //         });
+    //     return () => {
+    //       console.log('컴포넌트가 화면에서 사라짐');
+    //     };
+    //   }, []);
     function PhoneNumberInputHandler(enteredNumber)
     {
         setPhoneNumber(enteredNumber.toString());
@@ -49,8 +63,8 @@ function UserVerifyScreen({navigation})
         API.post("/api/user/check",{phoneNumber : phoneNumber,certNumber:"14632"}).then((response) => {
             //제대로 된 응답 안에는 토큰이 포함됨
             //토큰을 내부 저장소에 저장
-            AsyncStorage.setItem("access_token",response.data.accessToken);
-            AsyncStorage.setItem("refresh_token",response.data.accessToken);
+            AsyncStorage.setItem("access_token",`${response.data.accessToken}`);
+            AsyncStorage.setItem("refresh_token",`${response.data.refreshToken}`);
             navigation.navigate('BottomTabNavigatorScreen',{userInfo});
         }).catch((response) => {
             console.log(response);

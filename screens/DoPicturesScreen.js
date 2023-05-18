@@ -1,23 +1,27 @@
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { useState,useEffect } from "react";
 import API, { jwt, localIpAddress,portNumber } from "../api/API";
-function DoPicturesScreen({doIndex = 1}){
+import AsyncStorage from "@react-native-community/async-storage";
+function DoPicturesScreen({doIndex = 1,navigation}){
     const [imagePathList, setImagePathList] = useState([]);
-    //두 번호를 넣으면 이미지 아이디 배열을 불러오는 함수
-    const getImageIndex = () => {
-        API.get("/api/image/download/"+doIndex+"/list")
-            .then(
-                (responce) => {
-                    setImagePathList(responce.data.image_id);
-                })
-            .catch(
-                (error) => {
-                    console.error(error);
-                });
-    }
+    const [token,setToken] = useState('');
+    const getBase64 = (url) => {
+        return API.get(url, {responseType: 'arraybuffer'})
+          .then(response => Buffer.from(response.data, 'binary').toString('base64'));
+    };
     useEffect(() => {
         console.log('컴포넌트가 화면에 나타남');
-        getImageIndex();
+        //두 번호를 넣으면 이미지 아이디 배열을 불러오는 함수
+        API.get("/api/image/download/"+doIndex+"/list")
+        .then((responce) => {
+                setImagePathList(responce.data.image_id);
+            })
+        .catch((error) => {
+                console.error(error);
+            });
+        AsyncStorage.getItem("access_token",(err,result) => {
+            setToken(result);
+        });
         return () => {
           console.log('컴포넌트가 화면에서 사라짐');
         };
@@ -29,15 +33,19 @@ function DoPicturesScreen({doIndex = 1}){
                 keyExtractor={(item) => item}
                 numColumns={2}
                 renderItem={
-                    (item) =>
-                    <Image style={Style.do_image} source={
-                        {
-                            uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doIndex}/${item.item}`,
-                            headers:{ 
-                                Authorization : `Bearer ${jwt}`
-                            }
-                        }
-                    } alt="이미지를 불러올 수 없습니다."/>
+                    (item) => {
+                        //console.log(token);
+                        return(
+                            <Image style={Style.do_image} source={
+                                {
+                                    uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doIndex}/${item.item}`,
+                                    headers:{ 
+                                        Authorization : `Bearer ${token}`
+                                    }
+                                }
+                            } alt="이미지를 불러올 수 없습니다."/>
+                        );
+                    }
                 }
             />
         </View>

@@ -11,7 +11,7 @@ import axios from 'axios';
 import FormData from "form-data";
 import mime from "mime";
 import * as Location from "expo-location" // yarn add expo-location expo-task-manager
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import API, { localIpAddress, portNumber } from "../api/API";
 import AsyncStorage from "@react-native-community/async-storage";
 /***
@@ -65,7 +65,7 @@ const FloatingButtonStyle = StyleSheet.create({
 });
 
 //리스트 항목 부분
-function DoButton({doId}){
+function DoButton({doId = 0}){
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [category, setCategory] = useState('');
@@ -77,17 +77,22 @@ function DoButton({doId}){
     const onDoButtonPress = () => {
         
     };
-    console.log(doId);
-    API.get(`/api/do/${doId}`).then((response) => {
-        console.log(response.data);
-        setName(response.data.name);
-        setCategory(response.data.category);
-        setImage(response.data.image);
-        setAddress(response.data.address)
-    });
-    AsyncStorage.getItem("access_token").then((err,result) => {
-        setToken(result);
-    });
+    useEffect(() => {
+        API.get(`/api/do/${doId}`).then((response) => {
+            //console.log(response.data);
+            setName(response.data.name);
+            setCategory(response.data.category);
+            setAddress(response.data.address);
+            setImage(response.data.image);
+        });
+        AsyncStorage.getItem("access_token",(err,result) => {
+            setToken(result);
+        });
+        return () => {
+          console.log('컴포넌트가 화면에서 사라짐');
+        };
+      }, []);
+
     return(
         <Pressable style={DoButtonStyle.container} onPress={onDoButtonPress}>
             <Image style={DoButtonStyle.do_image} source={{
@@ -166,6 +171,12 @@ const DoButtonStyle = StyleSheet.create({
 });
 //홈화면
 function HomeScreen({navigation}){
+    useEffect(() => {
+        
+        return () => {
+          console.log('컴포넌트가 화면에서 사라짐');
+        };
+      }, []);
     const handleAlarmButton = () => {
 
     }
