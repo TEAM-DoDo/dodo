@@ -1,178 +1,24 @@
 import { FlatList, Image, Pressable, StyleSheet, Text, View, } from "react-native";
 import { FontAwesome, MaterialCommunityIcons,Entypo  } from '@expo/vector-icons'; 
-import { ChatDummy, ChatParticipantsDummy, DoInfoDummy } from "../components/hgp/DummyData";
-import ChatBox from "../components/hgp/ChatBox";
-import * as Notification from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
-import moment from "moment/moment";
-import CircleUserImage from "../components/hgp/CircleUserImage";
 import axios from 'axios';
 import FormData from "form-data";
 import mime from "mime";
 import * as Location from "expo-location" // yarn add expo-location expo-task-manager
 import { useState,useEffect } from "react";
 import API, { localIpAddress, portNumber } from "../api/API";
-import AsyncStorage from "@react-native-community/async-storage";
+import FloatingButton from "../components/hgp/FloatingButton";
+import DoButton from "../components/hgp/DoButton";
 /***
  * 화면 : 홈 화면
  * 제작자 :홍기표
  * 분리 부분은 나중에 컴포넌트로 만들어 분리할 예정
  */
-//플로팅 버튼 부분
-function FloatingButton({onFloatingButtonPress}){
-    if (Platform.OS === 'android') {
-		Notification.setNotificationChannelAsync('default', {
-			name: 'default',
-			importance: Notification.AndroidImportance.MAX,
-			vibrationPattern: [0, 250, 250, 250],
-			lightColor: '#FF231F7C',
-		});
-	}
-    const test = () =>{
-        console.warn("알림 받았다");
-    };
-    Notification.addNotificationReceivedListener(test);
-    const testEvent = async () => {
-        //푸시알림 테스트용 함수
-        console.log("푸시알림 보내는 중");
-        await Notification.scheduleNotificationAsync({
-            content:{
-                title:"Test",
-                body:"this is test noti.", 
-            },
-            trigger:{seconds : 5},
-        });
-    }
-    return(
-        <Pressable style={FloatingButtonStyle.conatiner} onPress={onFloatingButtonPress}>
-            <Entypo name="plus" size={40} color="white" />
-        </Pressable>
-    );
-}
-const FloatingButtonStyle = StyleSheet.create({
-    conatiner:{
-        position:'absolute',
-        width:60,
-        height:60,
-        right: 15,
-        bottom: 15,
-        borderRadius:200,
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'#84004E'
-    }
-});
-
 //리스트 항목 부분
-function DoButton({doId = 0}){
-    const [name, setName] = useState('');
-    const [address, setAddress] = useState('');
-    const [category, setCategory] = useState('');
-    const [image, setImage] = useState('');
-    const [token,setToken] = useState('');
-    if(doId == null){
-        return null;
-    }
-    const onDoButtonPress = () => {
-        
-    };
-    useEffect(() => {
-        API.get(`/api/do/${doId}`).then((response) => {
-            //console.log(response.data);
-            setName(response.data.name);
-            setCategory(response.data.category);
-            setAddress(response.data.address);
-            setImage(response.data.image);
-        });
-        AsyncStorage.getItem("access_token",(err,result) => {
-            setToken(result);
-        });
-        return () => {
-          console.log('컴포넌트가 화면에서 사라짐');
-        };
-      }, []);
-
-    return(
-        <Pressable style={DoButtonStyle.container} onPress={onDoButtonPress}>
-            <Image style={DoButtonStyle.do_image} source={{
-                uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doId}/${image}`,
-                headers:{ 
-                    Authorization : `Bearer ${token}`
-                }
-            }}/>
-            <View style={DoButtonStyle.do_info_holder}>
-                <Text style={DoButtonStyle.do_title}>{name}</Text>
-                <Text style={DoButtonStyle.do_small_info}>카테고리 : {category}</Text>
-                <View>
-                    <Text style={DoButtonStyle.do_small_info}>참여자</Text>
-                    <FlatList
-                        horizontal={true}
-                        data={ChatParticipantsDummy}
-                        keyExtractor={(item) => item}
-                        renderItem={({item}) => <CircleUserImage mode='tiny' margin={2} index={item}/>}/>
-                </View>
-
-                <View style={DoButtonStyle.do_pos_date_holder}>
-                    <View flexDirection='row' alignItems='center'>
-                        <FontAwesome name="map-marker" size={18} color="gray"/>
-                        <Text style={[DoButtonStyle.do_small_info,{marginStart:5}]}>{address}</Text>
-                    </View>
-                    {/* <Text style={DoButtonStyle.do_small_info}>{moment(date).format("YYYY.MM.DD")}</Text> */}
-                </View>
-            </View>
-        </Pressable>
-    );
-}
-const DoButtonStyle = StyleSheet.create({
-    container:{
-        marginHorizontal:20,
-        marginVertical:10,
-        height:150,
-        borderRadius:30,
-        backgroundColor:"white",
-        flex:1,
-        flexDirection:'row',
-        overflow:'hidden',
-        elevation:2,
-        shadowColor : 'black', //only work for ios
-        shadowOffset : {width : 2, height : 2}, //only work for ios
-        shadowOpacity : 1, //only work for ios
-        shadowRadius : 6, //only work for ios
-    },
-    do_image:{
-        backgroundColor:'gray',
-        width:'40%',
-        height:'100%',
-    },
-    do_info_holder:{
-        backgroundColor:'#fdfdfd',
-        flex:1,
-        padding:10,
-        justifyContent:'space-between'
-    },
-    do_title:{
-        fontFamily:'NanumGothic-ExtraBold',
-        color:'#969696',
-        fontSize:16
-    },
-    do_small_info:{
-        fontFamily:'NanumGothic-Bold',
-        color:'#969696',
-        fontSize:14,
-        paddingVertical:2,
-    },
-    do_pos_date_holder:{
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between'
-        //backgroundColor:'gray'
-    },
-});
 //홈화면
 function HomeScreen({navigation}){
     useEffect(() => {
-        
         return () => {
           console.log('컴포넌트가 화면에서 사라짐');
         };
@@ -208,6 +54,9 @@ function HomeScreen({navigation}){
             formData,
             {headers:{"Content-Type": `multipart/form-data`,}}).then((response)=>{console.log(response.status);}).catch((err)=>{console.log(err)})
     }
+    const moveToDoScreen = (doIndex) => {
+        
+    };
 
     // const [status, requestPermission] = Location.useForegroundPermissions();
     const [location, setLocation] = useState(null);
@@ -220,14 +69,12 @@ function HomeScreen({navigation}){
     //     }
 
 
-        const handleCurrentLocation = async () => {
-            let { status } = await Permissions.askAsync(Permissions.LOCATION_FOREGROUND);
-          
-            if (status !== 'granted') {
-              // handle permission denied
-              return;
-            }
-
+    const handleCurrentLocation = async () => {
+        let { status } = await Permissions.askAsync(Permissions.LOCATION_FOREGROUND);
+        if (status !== 'granted') {
+          // handle permission denied
+          return;
+        }
         let location = await Location.getCurrentPositionAsync({});
         setLocation(location);
         console.log(location);
@@ -255,7 +102,7 @@ function HomeScreen({navigation}){
                 data={[0,1]}
                 keyExtractor={(item) => item}
                 numColumns={1}
-                renderItem={({item}) => <DoButton doId={item}/>}
+                renderItem={({item}) => <DoButton navigation={navigation} doId={item}/>}
                 render={handleCurrentLocation}
             />
             <FloatingButton onFloatingButtonPress={handleFloatingButton}/>

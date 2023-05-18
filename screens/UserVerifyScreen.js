@@ -3,7 +3,7 @@
 import { useState,useEffect } from "react";
 
 //  Native
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet,Pressable,Keyboard } from "react-native";
 
 //  Components
 import PrimaryButton from "../components/psc/PrimaryButton";
@@ -15,7 +15,7 @@ import RNExitApp from "react-native-exit-app";
 
 // Plugin
 import * as Permissions from 'expo-permissions';
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({navigation})
 {
@@ -74,16 +74,19 @@ function UserVerifyScreen({navigation})
         });
 
     }
-
+    const dismissKeyboard = () => {
+        console.log("dismiss keyboard");
+        Keyboard.dismiss();
+    };
     return (
-        <View style={styles.rootScreen}>
+        <Pressable style={styles.rootScreen} onPress={dismissKeyboard}>
             <LogoIconImage style={styles.logoIcon} />
             <View style={styles.textInputContainer}>
                 <InputField placeholder={"전화번호"} maxLength={11} onChangeText={PhoneNumberInputHandler} keyboardType='number-pad' />
                 <InputField placeholder={"인증번호"} maxLength={4} onChangeText={CheckNumberInputHandler} keyboardType='number-pad' />
             </View>
             <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
-        </View>
+        </Pressable>
     );
 }
 

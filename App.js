@@ -123,6 +123,7 @@ export default function App() {
           <Stack.Screen name="SelectCategoryScreen" component={SelectCategoryScreen} />
           <Stack.Screen name="SelectTrendCategoryScreen" component={SelectTrendCategoryScreen} />
           <Stack.Screen name="BottomTabNavigatorScreen" component={BottomTabNavigator} />
+          <Stack.Screen name="DoScreen" component={DoScreen} />
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
         </Stack.Navigator>
       </NavigationContainer>

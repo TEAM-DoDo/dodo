@@ -1,7 +1,7 @@
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { useState,useEffect } from "react";
 import API, { jwt, localIpAddress,portNumber } from "../api/API";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function DoPicturesScreen({doIndex = 1,navigation}){
     const [imagePathList, setImagePathList] = useState([]);
     const [token,setToken] = useState('');

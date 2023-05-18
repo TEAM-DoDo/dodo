@@ -7,7 +7,7 @@ import { Platform } from "react-native";
 
 //  Expo
 import Constants from 'expo-constants';
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //URL setting ------------------------------------------------------
 const { manifest } = Constants;
