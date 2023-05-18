@@ -31,38 +31,40 @@ import SelectTrendCategoryScreen from './screens/SelectTrendCategoryScreen';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
-const MainContent  = createNativeStackNavigator();
+const MainContent = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
+
+
 
 //Definition Component ---------------------------------------------------
 
-function BottomTabNavigator({route, navigation})
-{
+function BottomTabNavigator({ route, navigation }) {
   const userInfo = route.params.userInfo;
   const userCategory = route.params.userCategory;
 
-  return(
+  return (
     <BottomTab.Navigator
       screenOptions={{
-        headerShown : false,
-        tabBarActiveTintColor : 'blue',
-        tabBarInactiveTintColor : 'black',
-        tabBarShowLabel : false,
+        headerShown: false,
+        tabBarActiveTintColor: 'blue',
+        tabBarInactiveTintColor: 'black',
+        tabBarShowLabel: false,
       }}
     >
-      <BottomTab.Screen name="Home"  component={HomeScreen} options={
-        {tabBarIcon: ({color, size}) => <Ionicons name='home' color={color} size={size} />
-      }}
-      initialParams={{userInfo}}
+      <BottomTab.Screen name="Home" component={HomeScreen} options={
+        {
+          tabBarIcon: ({ color, size }) => <Ionicons name='home' color={color} size={size} />
+        }}
+        initialParams={{ userInfo }}
       />
       <BottomTab.Screen name="MyDo" component={DoScreen} options={
-        {tabBarIcon: ({color, size}) => <Ionicons name='list' color={color} size={size} />}} 
+        { tabBarIcon: ({ color, size }) => <Ionicons name='list' color={color} size={size} /> }}
       />
       <BottomTab.Screen name="Calender" component={CalendarScreen} options={
-        {tabBarIcon: ({color, size}) => <Ionicons name='calendar' color={color} size={size} />}} 
+        { tabBarIcon: ({ color, size }) => <Ionicons name='calendar' color={color} size={size} /> }}
       />
       <BottomTab.Screen name="Profile" component={ProfileScreen} options={
-        {tabBarIcon: ({color, size}) => <Ionicons name='person-circle' color={color} size={size} />}} 
+        { tabBarIcon: ({ color, size }) => <Ionicons name='person-circle' color={color} size={size} /> }}
       />
     </BottomTab.Navigator>
   );
@@ -71,35 +73,32 @@ function BottomTabNavigator({route, navigation})
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   
-  async function SplashIn()
-  {
+  async function SplashIn() {
     await SplashScreen.preventAutoHideAsync();
     await Font.loadAsync({
-      'NotoSansKR-Regular' : require('./assets/fonts/NotoSansKR-Regular.otf'),
-      'NotoSansKR-Bold' : require('./assets/fonts/NotoSansKR-Bold.otf'),
-      'NanumGothic-Bold' : require('./assets/fonts/NanumGothic-Bold.ttf'),
-      'NanumGothic-ExtraBold' : require('./assets/fonts/NanumGothic-ExtraBold.ttf'),
-      'NanumGothic-Regular' : require('./assets/fonts/NanumGothic-Regular.ttf'),
-      'OpenSans' : require('./assets/fonts/OpenSans.ttf'),
+      'NotoSansKR-Regular': require('./assets/fonts/NotoSansKR-Regular.otf'),
+      'NotoSansKR-Bold': require('./assets/fonts/NotoSansKR-Bold.otf'),
+      'NanumGothic-Bold': require('./assets/fonts/NanumGothic-Bold.ttf'),
+      'NanumGothic-ExtraBold': require('./assets/fonts/NanumGothic-ExtraBold.ttf'),
+      'NanumGothic-Regular': require('./assets/fonts/NanumGothic-Regular.ttf'),
+      'OpenSans': require('./assets/fonts/OpenSans.ttf'),
     });
     await new Promise(resolve => setTimeout(resolve, 2000));
     await setAppIsReady(true);
   }
-  
-  async function SplashOut()
-  {
+
+  async function SplashOut() {
     await SplashScreen.hideAsync();
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     SplashIn();
-  },[]);
+  }, []);
 
   if (!appIsReady) {
     return null;
   }
-  else
-  {
+  else {
     SplashOut();
   }
   //노티피케이션 설정
@@ -115,7 +114,7 @@ export default function App() {
       <StatusBar style='dark' />
       <NavigationContainer>
         <Stack.Navigator screenOptions={{
-          headerShown : false,
+          headerShown: false,
         }}>
           <Stack.Screen name='StartUpScreen' component={StartUpScreen} />
           <Stack.Screen name='UserVerifyScreen' component={UserVerifyScreen} />
@@ -123,7 +122,7 @@ export default function App() {
           <Stack.Screen name="SelectCategoryScreen" component={SelectCategoryScreen} />
           <Stack.Screen name="SelectTrendCategoryScreen" component={SelectTrendCategoryScreen} />
           <Stack.Screen name="BottomTabNavigatorScreen" component={BottomTabNavigator} />
-          <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
+          <Stack.Screen name='AlarmScreen' component={AlarmScreen} />
         </Stack.Navigator>
       </NavigationContainer>
 
