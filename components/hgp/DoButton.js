@@ -1,9 +1,10 @@
-import { FlatList, Image, Pressable, StyleSheet, Text, View, } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View, } from "react-native";
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useState,useEffect } from "react";
 import API, { localIpAddress, portNumber } from "../../api/API";
 import CircleUserImage from "./CircleUserImage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Image } from "expo-image";
 function DoButton({navigation,onDoButtonPress,doId = 0}){
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
@@ -25,7 +26,7 @@ function DoButton({navigation,onDoButtonPress,doId = 0}){
             setImage(response.data.image);
         });
         AsyncStorage.getItem("access_token",(err,result) => {
-            console.log(result)
+            //console.log(result)
             setToken(result);
         });
         return () => {

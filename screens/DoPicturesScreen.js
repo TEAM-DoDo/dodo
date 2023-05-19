@@ -1,26 +1,23 @@
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useState,useEffect } from "react";
 import API, { jwt, localIpAddress,portNumber } from "../api/API";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Image } from "expo-image";
 function DoPicturesScreen({doIndex = 1,navigation}){
     const [imagePathList, setImagePathList] = useState([]);
     const [token,setToken] = useState('');
-    const getBase64 = (url) => {
-        return API.get(url, {responseType: 'arraybuffer'})
-          .then(response => Buffer.from(response.data, 'binary').toString('base64'));
-    };
     useEffect(() => {
         console.log('컴포넌트가 화면에 나타남');
         //두 번호를 넣으면 이미지 아이디 배열을 불러오는 함수
-        API.get("/api/image/download/"+doIndex+"/list")
-        .then((responce) => {
-                setImagePathList(responce.data.image_id);
-            })
-        .catch((error) => {
-                console.error(error);
-            });
         AsyncStorage.getItem("access_token",(err,result) => {
             setToken(result);
+            API.get("/api/image/download/"+doIndex+"/list")
+            .then((responce) => {
+                    setImagePathList(responce.data.image_id);
+                })
+            .catch((error) => {
+                    console.error(error);
+                });
         });
         return () => {
           console.log('컴포넌트가 화면에서 사라짐');

@@ -34,7 +34,6 @@ API.interceptors.request.use(
     async (config) => {
         //내부 저장소에서 토큰 정보를 가져와서 헤더에 기입
         await AsyncStorage.getItem("access_token",(err,result) => {
-            //console.log(result);
             if(result != null){
                 config.headers.Authorization=`Bearer ${result}`;
             }
