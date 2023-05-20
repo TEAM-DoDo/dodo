@@ -22,10 +22,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import mime from "mime";
 import Toast from "react-native-root-toast";
 
-
-
 function DoInfoScreen({route, navigation}) {
     //console.log("from do info screen : " + route.params.id);
+    //이미지 새로고침을 위한 시간
+    const [tick,setTick] = useState(Date.now());
     //do에 대한 정보
     const [place, setPlace] = useState('');
     const [category, setCategory] = useState('');
@@ -36,23 +36,30 @@ function DoInfoScreen({route, navigation}) {
     const [scheduleDate,setScheduleDate] = useState('');
     const [schedulePlace,setSchedulePlace] = useState('');
     const [scheduleCost,setScheduleCost] = useState('');
+    const updateData = () => {
+        API.get(`/api/do/${route.params.id}`).then((response) => {
+            //console.log(response.data);
+            //console.log(response.data);
+            //setCategory(response.data.category);
+            setPlace(response.data.place);
+            //setImage(response.data.image);
+            setDescription(response.data.description);
+        });
+    };
     const getDoParticipantsNum = () => {
         return 3;
-    }
+    };
     if(route.params.id == null){
         navigation.goBack();
     }
     useEffect(() => {
+        navigation.addListener('focus',() => {
+            updateData();
+        });
         AsyncStorage.getItem("access_token",(err,result) => {
             //console.log(result)
             setToken(result);
-            API.get(`/api/do/${0}`).then((response) => {
-                //console.log(response.data);
-                //setCategory(response.data.category);
-                setPlace(response.data.place);
-                setImage(response.data.image);
-                setDescription(response.data.description);
-            });
+            updateData();
         });
         return(() => {
 
@@ -71,7 +78,7 @@ function DoInfoScreen({route, navigation}) {
         if(!isGetImageAllowed){
             //이미지 권한이 거부되면 toast를 띄워줘야함
             Toast.show('이미지 권한이 존재하지 않습니다.', {
-                duration: Toast.durations.LONG,
+                duration: Toast.durations.SHORT,
                 position: Toast.positions.BOTTOM,
                 shadow: true,
                 animation: true,
@@ -88,7 +95,7 @@ function DoInfoScreen({route, navigation}) {
         if(result.canceled){
             //이미지가 선택되지 않았다는 toast 띄워야함
             Toast.show('이미지가 선택되지 않았습니다.', {
-                duration: Toast.durations.LONG,
+                duration: Toast.durations.SHORT,
                 position: Toast.positions.BOTTOM,
                 shadow: true,
                 animation: true,
@@ -110,12 +117,20 @@ function DoInfoScreen({route, navigation}) {
         console.log('file',image.type);
         const formData = new FormData();
         formData.append("files",image);
-        //타이틀 이미지를 
+        //타이틀 이미지를 서버에 전송하여 설정
         API.post(
-            `http://${localIpAddress}:${portNumber}/api/image/upload/${route.params.id}`,
+            `http://${localIpAddress}:${portNumber}/api/do/${route.params.id}/title-image`,
             formData,
             {headers:{"Content-Type": `multipart/form-data`,}})
-            .then((response)=>{console.log(response.status);}).catch((err)=>{console.log(err)})
+            .then(
+                (response)=>{
+                    console.log(response.status);
+                    setTick(Date.now());
+                })
+            .catch(
+                (err)=>{
+                    console.log(err)
+                });
     }
     const handleShowAllParcitipants = () => {
 
@@ -132,7 +147,7 @@ function DoInfoScreen({route, navigation}) {
                         height:"100%"
                     }} 
                     source={{
-                        uri:`http://${localIpAddress}:${portNumber}/api/image/download/${route.params.id}/${image}?${Date.now()}`,
+                        uri:`http://${localIpAddress}:${portNumber}/api/do/${route.params.id}/title-image?${tick}`,
                         headers:{ 
                             Authorization : `Bearer ${token}`
                         }

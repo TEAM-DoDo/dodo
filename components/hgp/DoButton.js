@@ -36,7 +36,7 @@ function DoButton({navigation,doId = 0}){
     return(
         <Pressable style={DoButtonStyle.container} onPress={onDoButtonPress}>
             <Image style={DoButtonStyle.do_image} source={{
-                uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doId}/${image}?${Date.now()}`,
+                uri:`http://${localIpAddress}:${portNumber}/api/do/${doId}/title-image?${Date.now()}`,
                 headers:{ 
                     Authorization : `Bearer ${token}`
                 }
