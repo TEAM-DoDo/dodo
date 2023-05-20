@@ -11,7 +11,7 @@ import Constants from 'expo-constants';
 //URL setting ------------------------------------------------------
 const { manifest } = Constants;
 const localIpAddress = manifest.debuggerHost.split(":").shift(); //현재 ip주소
-
+console.log("현재 당신의 ip주소 : ", localIpAddress);
 const portNumber = 8080;
 const platformHTTP = Platform.select({
     android : "http",

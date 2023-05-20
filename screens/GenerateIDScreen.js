@@ -40,13 +40,13 @@ function GenerateIDScreen({route, navigation})
     {
         const userInfo = {
             address,
-            birth : koreaBirthFormat,
+            dateOfBirth : koreaBirthFormat,
             phoneNumber,
             gender : currentSelectedGender,
             nickname,
         };
         console.log("post 호출됨");
-        await API.post('/api/user', userInfo).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
+        await API.post('/api/users', userInfo).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
         navigation.navigate('SelectCategoryScreen', {userInfo});
     }
 

@@ -49,7 +49,7 @@ function SelectCategoryScreen({ route, navigation }) {
         async function getUser()
         {
             console.log("getUser 호출됨");
-            await API.get("/api/user/1").then((response)=>console.log(response.data)).catch((error)=>console.log(error));
+            await API.get(`/api/users/${userInfo.nickname}`).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
         }
         getUser();
     }, []);
