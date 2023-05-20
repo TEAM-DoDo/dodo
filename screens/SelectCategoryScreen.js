@@ -37,12 +37,8 @@ function SelectCategoryScreen({ route, navigation }) {
         if (selectedIcons.length >= 2) {
             navigation.navigate('SelectTrendCategoryScreen', {userInfo, userCategory});
         } else {
-            alert("Please select at least two icons.");
+            alert("키워드를 최소 2개 이상 선택해주세요.");
         }
-    }
-
-    function pressHandler() {
-        console.log('Pressed!');
     }
 
     useEffect(()=>{
@@ -57,13 +53,13 @@ function SelectCategoryScreen({ route, navigation }) {
     const icons = [
         { name: 'airplane', title: '여행' },
         { name: 'brush', title: '공예' },
-        { name: 'language', title: '언어' },
+        { name: 'beer', title: '술' },
         { name: 'musical-notes', title: '음악/춤' },
         { name: 'fitness', title: '운동/스포츠' },
         { name: 'book', title: '스터디' },
         { name: 'paw', title: '애완동물' },
         { name: 'globe', title: '문화' },
-        { name: 'fast-food', title: '요리' },
+        { name: 'restaurant', title: '맛집' },
         { name: 'people-circle', title: '사교' },
         { name: 'game-controller', title: '게임' },
         { name: 'ellipsis-horizontal', title: '기타' },

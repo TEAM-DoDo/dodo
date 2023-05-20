@@ -1,4 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useState,useEffect } from "react";
+import axios from 'axios';
 import { ChatDummy, ChatParticipantsDummy } from "../components/hgp/DummyData";
 import ChatBox from "../components/hgp/ChatBox";
 import CircleUserImage from "../components/hgp/CircleUserImage";
@@ -10,7 +12,44 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { localIpAddress,portNumber } from "../api/API";
+var socket;
+var chatNum = 0;
+function Chat(chatNum,index,context){
+    this.chatNum = chatNum;
+    this.index = index;
+    this.context = context;
+}
 function ChatScreen ({navigation}){
+    const [chatText, setChatText] = useState('');
+    const [chatList, setChats] = useState([]);
+    useEffect(()=>{
+        socket = new WebSocket(`ws://${localIpAddress}:${portNumber}/chat`);
+        socket.onopen = () => {
+            console.log("success");
+        };
+        socket.onmessage = (e) => {
+            // a message was received
+            console.log("receive message\n" + e.data);
+            var data = JSON.parse(e.data);
+            var chat = new Chat(chatNum,1,data.content);
+            setChats(chatList => [chat,...chatList]);
+            chatNum++;
+        };
+    
+        socket.onerror = (e) => {
+            // an error occurred
+            console.log(e.message);
+        };
+    
+        socket.onclose = (e) => {
+            // connection closed
+            console.log(e.code, e.reason);
+        };
+        return () => {
+            socket.close();
+        };
+    }, []);
     const handleClip = () =>{
         //클립 버튼을 눌렀을 때 이벤트
     }
@@ -19,6 +58,12 @@ function ChatScreen ({navigation}){
     }
     const handleCamera = () => {
         //카메라 버튼을 눌렀을 때 이벤트
+    }
+    const handleSendChat = () => {
+        let data = JSON.stringify({username:"아무게",content:chatText});
+        console.log("sending data : " + data);
+        socket.send(data);
+        setChatText('');
     }
     return (
         <View style={ChatScreenStyle.container}>
@@ -33,7 +78,8 @@ function ChatScreen ({navigation}){
                 />
             </View>
             <FlatList
-                data={ChatDummy}
+                inverted={true}
+                data={chatList}
                 keyExtractor={(item) => item.chatNum}
                 numColumns={1}
                 renderItem={({item}) =>
@@ -50,8 +96,9 @@ function ChatScreen ({navigation}){
                     <TextInput
                         style={ChatScreenStyle.chat_text_input_style}
                         placeholderTextColor="#545454"
-                        placeholder="메세지를 입력하세요" >
-                    </TextInput>
+                        placeholder="메세지를 입력하세요"
+                        onChangeText={text => setChatText(text)}
+                        value={chatText}/>
                     <Pressable style={ChatScreenStyle.button_style} onPress={handleEmoji}>
                         <FontAwesome5 name="laugh-beam" size={20} color="black" />
                     </Pressable>
@@ -59,7 +106,7 @@ function ChatScreen ({navigation}){
                         <AntDesign name="camerao" size={20} color="black" />
                     </Pressable>
                 </View>
-                <Pressable style={ChatScreenStyle.send_button}>
+                <Pressable style={ChatScreenStyle.send_button} onPress={handleSendChat}>
                     <Feather name="send" size={24} color="white" />
                 </Pressable>
             </View>
