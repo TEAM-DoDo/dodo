@@ -5,7 +5,7 @@ import API, { localIpAddress, portNumber } from "../../api/API";
 import CircleUserImage from "./CircleUserImage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
-function DoButton({navigation,onDoButtonPress,doId = 0}){
+function DoButton({navigation,doId = 0}){
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [category, setCategory] = useState('');
@@ -14,20 +14,19 @@ function DoButton({navigation,onDoButtonPress,doId = 0}){
     if(doId == null){
         return null;
     }
-    const test = () =>{
-        navigation.navigate("DoScreen");
+    const onDoButtonPress = () =>{
+        navigation.navigate("DoScreen",{id : doId, title : name});
     }
     useEffect(() => {
-        API.get(`/api/do/${doId}`).then((response) => {
-            //console.log(response.data);
-            setName(response.data.name);
-            setCategory(response.data.category);
-            setAddress(response.data.address);
-            setImage(response.data.image);
-        });
         AsyncStorage.getItem("access_token",(err,result) => {
-            //console.log(result)
             setToken(result);
+            API.get(`/api/do/${doId}`).then((response) => {
+                //console.log(response.data);
+                setName(response.data.doName);
+                //setCategory(response.data.category);
+                setAddress(response.data.place);
+                setImage(response.data.image);
+            });
         });
         return () => {
           console.log('컴포넌트가 화면에서 사라짐');
@@ -35,9 +34,9 @@ function DoButton({navigation,onDoButtonPress,doId = 0}){
       }, []);
 
     return(
-        <Pressable style={DoButtonStyle.container} onPress={test}>
+        <Pressable style={DoButtonStyle.container} onPress={onDoButtonPress}>
             <Image style={DoButtonStyle.do_image} source={{
-                uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doId}/${image}`,
+                uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doId}/${image}?${Date.now()}`,
                 headers:{ 
                     Authorization : `Bearer ${token}`
                 }

@@ -18,7 +18,11 @@ import DoButton from "../components/hgp/DoButton";
 //리스트 항목 부분
 //홈화면
 function HomeScreen({navigation}){
+    var [doList,setDoList] = useState([]);
     useEffect(() => {
+        API.get("/api/do/list").then((response) => {
+            setDoList(response.data.do_id);
+        });
         return () => {
           console.log('컴포넌트가 화면에서 사라짐');
         };
@@ -31,10 +35,10 @@ function HomeScreen({navigation}){
     }
     const handleFloatingButton = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
+            aspect: [1, 1],
+            quality: 0.3,
           });
         const image = {
            uri: '',
@@ -99,7 +103,7 @@ function HomeScreen({navigation}){
 
             </View>
             <FlatList
-                data={[0,1]}
+                data={doList}
                 keyExtractor={(item) => item}
                 numColumns={1}
                 renderItem={({item}) => <DoButton navigation={navigation} doId={item}/>}
@@ -121,7 +125,7 @@ const Style = StyleSheet.create({
         alignItems:'center',
         marginHorizontal:10,
         height:60,
-        backgroundColor:'gray'
+        //backgroundColor:'gray'
     },
     pos_show_button:{
         flexDirection:'row',

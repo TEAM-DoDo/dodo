@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView,StyleSheet } from 'react-native';
 //  Expo
 import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
@@ -28,6 +28,7 @@ import CalendarScreen from './screens/CalendarScreen';
 import HomeScreen from './screens/HomeScreen'
 import ProfileScreen from './screens/ProfileScreen';
 import SelectTrendCategoryScreen from './screens/SelectTrendCategoryScreen';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -111,7 +112,8 @@ export default function App() {
     }),
   });
   return (
-    <SafeAreaView flex={1}>
+    <SafeAreaView style={SafeAreaStyle.droidSafeArea}>
+      <RootSiblingParent>
       <StatusBar style='dark' />
       <NavigationContainer>
         <Stack.Navigator screenOptions={{
@@ -127,7 +129,14 @@ export default function App() {
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
-
+      </RootSiblingParent>
     </SafeAreaView>
   );
 }
+const SafeAreaStyle =  StyleSheet.create({
+  droidSafeArea: {
+      flex: 1,
+      backgroundColor: 'white',
+      paddingTop: Platform.OS === 'android' ? 25 : 0
+  },
+});

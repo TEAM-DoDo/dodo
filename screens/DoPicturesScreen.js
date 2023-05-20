@@ -1,24 +1,31 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { useState,useEffect } from "react";
 import API, { jwt, localIpAddress,portNumber } from "../api/API";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
-function DoPicturesScreen({doIndex = 1,navigation}){
+function DoPicturesScreen({navigation,route}){
+    const [isUpdated, setIsUpdated] = useState(false);
     const [imagePathList, setImagePathList] = useState([]);
     const [token,setToken] = useState('');
+    const updateData = () => {
+        console.log("Update from do picture screen")
+        AsyncStorage.getItem("access_token",(err,result) => {
+            setToken(result);
+            API.get("/api/image/download/"+route.params.id+"/list")
+                .then((responce) => {
+                        setImagePathList(responce.data.image_id);
+                        
+                    })
+                .catch((error) => {
+                        console.error(error);
+                    });
+            setIsUpdated(false);
+        });
+    }
     useEffect(() => {
         console.log('컴포넌트가 화면에 나타남');
         //두 번호를 넣으면 이미지 아이디 배열을 불러오는 함수
-        AsyncStorage.getItem("access_token",(err,result) => {
-            setToken(result);
-            API.get("/api/image/download/"+doIndex+"/list")
-            .then((responce) => {
-                    setImagePathList(responce.data.image_id);
-                })
-            .catch((error) => {
-                    console.error(error);
-                });
-        });
+        updateData();
         return () => {
           console.log('컴포넌트가 화면에서 사라짐');
         };
@@ -26,16 +33,22 @@ function DoPicturesScreen({doIndex = 1,navigation}){
     return(
         <View style={Style.conatiner}>
             <FlatList
+                refreshControl = {
+                    <RefreshControl
+                        refreshing= {isUpdated}
+                        onRefresh={updateData}
+                    />
+                }
                 data={imagePathList}
                 keyExtractor={(item) => item}
                 numColumns={2}
                 renderItem={
                     (item) => {
-                        //console.log(token);
+                        //console.log(`Bearer ${token}`);
                         return(
                             <Image style={Style.do_image} source={
                                 {
-                                    uri:`http://${localIpAddress}:${portNumber}/api/image/download/${doIndex}/${item.item}`,
+                                    uri:`http://${localIpAddress}:${portNumber}/api/image/download/${route.params.id}/${item.item}`,
                                     headers:{ 
                                         Authorization : `Bearer ${token}`
                                     }

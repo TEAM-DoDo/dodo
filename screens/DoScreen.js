@@ -1,18 +1,20 @@
 import { SafeAreaView, StyleSheet, View } from "react-native";
+import { useEffect,useState } from "react";
 import DoScreenHolder from "../components/hgp/DoScreenHolder";
 import TopBar from "../components/hgp/TopBar";
+import API from "../api/API";
 
-function DoScreen({navigation}){
+function DoScreen({navigation,route}){
     const handleGoBack = () =>{
-
+        navigation.goBack();
     }
     const handleAlarmButton = () => {
         navigation.navigate("AlarmScreen");
     }
     return(
         <SafeAreaView style={Style.container}>
-            <TopBar title="Do 제목" onGoBackPressed={handleGoBack} onAlarmPressed={handleAlarmButton}/>
-            <DoScreenHolder/>
+            <TopBar title={route.params.title} onGoBackPressed={handleGoBack} onAlarmPressed={handleAlarmButton}/>
+            <DoScreenHolder doId={route.params.id}/>
         </SafeAreaView>
 
     );
