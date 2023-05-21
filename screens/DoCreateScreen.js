@@ -120,7 +120,7 @@ const Style = StyleSheet.create({
         textAlignVertical: 'top',
     },
     create_button:{
-        flex:1,
+        flex:Dimensions.get('window').height * 0.1,
         borderRadius:30,
         margin:15,
         backgroundColor:'#E30A8B'

@@ -22,7 +22,7 @@ function DoButton({navigation,doId = 0}){
             setToken(result);
             API.get(`/api/do/${doId}`).then((response) => {
                 //console.log(response.data);
-                setName(response.data.doName);
+                setName(response.data.name);
                 //setCategory(response.data.category);
                 setAddress(response.data.place);
                 setImage(response.data.image);
