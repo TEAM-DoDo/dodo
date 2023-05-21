@@ -3,12 +3,72 @@ import { useState,useEffect } from "react";
 import API, { jwt, localIpAddress,portNumber } from "../api/API";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
+import FloatingButton from "../components/hgp/FloatingButton";
+import * as ImagePicker from "expo-image-picker";
+import Toast from "react-native-root-toast";
+import mime from "mime";
 function DoPicturesScreen({navigation,route}){
     const [isUpdated, setIsUpdated] = useState(false);
     const [imagePathList, setImagePathList] = useState([]);
     const [token,setToken] = useState('');
+    const addNewPicture = async () => {
+        //Do 구성원이 아니면 새로운 사진을 추가할 수 없게 해야함 혹은 버튼이 보이지 않도록 해야함
+        var isDoParticipants = true;
+        if(!isDoParticipants){
+            return;
+        }
+        var isGetImageAllowed = await ImagePicker.getMediaLibraryPermissionsAsync();
+        if(!isGetImageAllowed){
+            //이미지 권한이 거부되면 toast를 띄워줘야함
+            Toast.show('이미지 권한이 존재하지 않습니다.', {
+                duration: Toast.durations.SHORT,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+                delay: 0,
+            });
+            return;
+        }
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 0.25,
+          });
+        if(result.canceled){
+            //이미지가 선택되지 않았다는 toast 띄워야함
+            Toast.show('이미지가 선택되지 않았습니다.', {
+                duration: Toast.durations.SHORT,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+                delay: 0,
+            });
+            return;
+        }
+        const image = {
+           uri: '',
+           type: 'image/jpeg',
+           name: 'test',
+        };
+        image.uri = result.assets[0].uri;
+        image.name = image.uri.split("/").pop();
+        image.type = mime.getType(image.uri);
+        const formData = new FormData();
+        formData.append("files",image);
+        API.post(
+            `/api/image/upload/${route.params.id}`,
+            formData,
+            {headers:{"Content-Type": `multipart/form-data`,}})
+            .then(
+                (response)=>{
+                    updateData();
+                })
+            .catch((err)=>{console.log(err)})
+    }
     const updateData = () => {
-        console.log("Update from do picture screen")
+        //console.log("Update from do picture screen")
         AsyncStorage.getItem("access_token",(err,result) => {
             setToken(result);
             API.get("/api/image/download/"+route.params.id+"/list")
@@ -23,11 +83,11 @@ function DoPicturesScreen({navigation,route}){
         });
     }
     useEffect(() => {
-        console.log('컴포넌트가 화면에 나타남');
+        //console.log('컴포넌트가 화면에 나타남');
         //두 번호를 넣으면 이미지 아이디 배열을 불러오는 함수
         updateData();
         return () => {
-          console.log('컴포넌트가 화면에서 사라짐');
+          //console.log('컴포넌트가 화면에서 사라짐');
         };
       }, []);
     return(
@@ -58,6 +118,7 @@ function DoPicturesScreen({navigation,route}){
                     }
                 }
             />
+            <FloatingButton onFloatingButtonPress={addNewPicture}/>
         </View>
     );
 }

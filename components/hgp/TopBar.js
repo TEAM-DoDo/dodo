@@ -15,18 +15,14 @@ function TopBar({title='탑바 제목',enableAlarmButton=true,onAlarmPressed,onG
     );
 }
 const Style = StyleSheet.create({
-    container:{
-        container:{
-            flexDirection:'column',
-            flex:1,
-        },
-    },
     top_bar:{
         height:60,
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
+        alignSelf:'stretch',
         marginHorizontal:10,
+        //backgroundColor:'gray'
     },
     back_button:{
         padding:10,

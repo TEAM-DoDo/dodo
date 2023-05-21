@@ -60,7 +60,7 @@ function UserVerifyScreen({navigation})
             gender : 1,
             nickname : "",
         };
-        API.post("/api/user/check",{phoneNumber : phoneNumber,certNumber:"14632"}).then((response) => {
+        API.post("/api/users/check",{phoneNumber : phoneNumber,certNumber:"14632"}).then((response) => {
             //제대로 된 응답 안에는 토큰이 포함됨
             //토큰을 내부 저장소에 저장
             AsyncStorage.setItem("access_token",`${response.data.accessToken}`);

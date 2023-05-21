@@ -19,10 +19,13 @@ import DoButton from "../components/hgp/DoButton";
 //홈화면
 function HomeScreen({navigation}){
     var [doList,setDoList] = useState([]);
-    useEffect(() => {
+    const updateDoData = () => {
         API.get("/api/do/list").then((response) => {
             setDoList(response.data.do_id);
         });
+    }
+    useEffect(() => {
+        updateDoData();
         return () => {
           console.log('컴포넌트가 화면에서 사라짐');
         };
@@ -34,29 +37,7 @@ function HomeScreen({navigation}){
 
     }
     const handleFloatingButton = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [1, 1],
-            quality: 0.3,
-          });
-        const image = {
-           uri: '',
-           type: 'image/jpeg',
-           name: 'test',
-        };
-        image.uri = result.assets[0].uri;
-        image.name = image.uri.split("/").pop();
-        image.type = mime.getType(image.uri);
-        console.log('file',image.uri);
-        console.log('file',image.name);
-        console.log('file',image.type);
-        const formData = new FormData();
-        formData.append("files",image);
-        axios.post(
-            `http://${localIpAddress}:${portNumber}/api/image/upload/1`,
-            formData,
-            {headers:{"Content-Type": `multipart/form-data`,}}).then((response)=>{console.log(response.status);}).catch((err)=>{console.log(err)})
+        navigation.navigate("DoCreateScreen");
     }
     const moveToDoScreen = (doIndex) => {
         

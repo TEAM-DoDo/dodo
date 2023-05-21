@@ -1,6 +1,6 @@
 //react
 import { useState,useEffect } from "react";
-import {Pressable, StyleSheet, View, Text, FlatList} from "react-native";
+import {Pressable, StyleSheet, View, Text, FlatList, ScrollView,Dimensions} from "react-native";
 
 //expo
 import { AntDesign, Entypo } from '@expo/vector-icons';
@@ -21,6 +21,7 @@ import 'moment/locale/ko';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import mime from "mime";
 import Toast from "react-native-root-toast";
+import DoNotice from "../components/hgp/DoNotice";
 
 function DoInfoScreen({route, navigation}) {
     //console.log("from do info screen : " + route.params.id);
@@ -37,14 +38,20 @@ function DoInfoScreen({route, navigation}) {
     const [schedulePlace,setSchedulePlace] = useState('');
     const [scheduleCost,setScheduleCost] = useState('');
     const updateData = () => {
-        API.get(`/api/do/${route.params.id}`).then((response) => {
-            //console.log(response.data);
-            //console.log(response.data);
-            //setCategory(response.data.category);
-            setPlace(response.data.place);
-            //setImage(response.data.image);
-            setDescription(response.data.description);
+        AsyncStorage.getItem("access_token",(err,result) => {
+            //console.log(result)
+            setToken(result);
+            API.get(`/api/do/${route.params.id}`).then((response) => {
+                //console.log(response.data);
+                //console.log(response.data);
+                //setCategory(response.data.category);
+                setPlace(response.data.place);
+                //setImage(response.data.image);
+                setDescription(response.data.description);
+                setTick(Date.now());
+            });
         });
+
     };
     const getDoParticipantsNum = () => {
         return 3;
@@ -56,11 +63,7 @@ function DoInfoScreen({route, navigation}) {
         navigation.addListener('focus',() => {
             updateData();
         });
-        AsyncStorage.getItem("access_token",(err,result) => {
-            //console.log(result)
-            setToken(result);
-            updateData();
-        });
+
         return(() => {
 
         });
@@ -112,19 +115,15 @@ function DoInfoScreen({route, navigation}) {
         image.uri = result.assets[0].uri;
         image.name = image.uri.split("/").pop();
         image.type = mime.getType(image.uri);
-        console.log('file',image.uri);
-        console.log('file',image.name);
-        console.log('file',image.type);
         const formData = new FormData();
         formData.append("files",image);
         //타이틀 이미지를 서버에 전송하여 설정
         API.post(
-            `http://${localIpAddress}:${portNumber}/api/do/${route.params.id}/title-image`,
+            `/api/do/${route.params.id}/title-image`,
             formData,
             {headers:{"Content-Type": `multipart/form-data`,}})
             .then(
                 (response)=>{
-                    console.log(response.status);
                     setTick(Date.now());
                 })
             .catch(
@@ -132,14 +131,17 @@ function DoInfoScreen({route, navigation}) {
                     console.log(err)
                 });
     }
+    const handleEmptyShedulePress = () =>{
+        navigation.navigate("DoScheduleAddScreen");
+    }
     const handleShowAllParcitipants = () => {
 
     }
     const handleShowNotice = () => {
-
+        navigation.navigate("DoNoiceScreen",{id:route.params.id});
     }
     return (
-        <View style={Style.container}>
+        <ScrollView style={Style.container}>
             <Pressable style={Style.do_title_img} onPress={handleDoImagePress}>
                 <Image 
                     style={{
@@ -168,7 +170,7 @@ function DoInfoScreen({route, navigation}) {
                         <Entypo name="circle-with-plus" size={16} margin={5} color="gray" />
                     </Pressable>
                 </View>
-                <DoSchedule date={new Date()} place='을지로 입구' cost={30000} isEmpty={false}/>
+                <DoSchedule isEmpty={true} onEmptySchedulepress={handleEmptyShedulePress}/>
             </View>
             <View style={Style.info_holder}>
                 <View flexDirection='row' alignItems='center'>
@@ -189,43 +191,23 @@ function DoInfoScreen({route, navigation}) {
             <View style={Style.info_holder}>
                 <View flexDirection='row' alignItems='center'>
                     <Text style={Style.info_title}>공지사항</Text>
-                    <Pressable onPress={handleShowNotice}>
-                        <AntDesign name="right" size={10} color="gray" padding={5}/>
-                    </Pressable>
                 </View>
-                {/* 향후 해당 부분은 컴포넌트화 하여 유저 리스트 표시창 제작시 사용할 예정 */}
-                <View flexDirection='row' alignItems='center' marginVertical={10}>
-                    <CircleUserImage mode='minimize' index={1}/>
-                    <Text style={Style.notice_writer}>공지사항 작성자</Text>
-                </View>
-                {/* 여기까지 */}
-                {/* 향후 해당 부분은 컴포넌트화 하여 공지사항을 보여주는 리스트 제작시 사용할 예정 */}
-                <View>
-                    <Text style={Style.notice_context}>공지사항 내용 공지사항 내용 공지사항 내용 공지사항 내용 공지사항 내용 공지사항 내용 공지사항 내용 공지사항 내용 공지사항 내용 공지사항 내용 공지사항 내용 공지사항 내용</Text>
-                    <Text style={Style.notice_date}>{moment().format('YYYY년 MM월 DD일 hh:mm 작성됨')}</Text>
-                </View>
-                {/* 여기까지 */}
-                <View>
-                    <Pressable style={Style.like_button}>
-                        <AntDesign name="heart" size={20} color="red" />
-                        <Text style={Style.like_button_text}>좋아요</Text>
-                        <Text style={[Style.like_button_text,{color:'red'}]}>2</Text>
-                    </Pressable>
-                </View>
+                <Pressable onPress={handleShowNotice}>
+                    <DoNotice doid={route.params.id} postid="last"/>
+                </Pressable>
             </View>
-        </View>
+        </ScrollView>
     );
 };
 const Style = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor:'white',
-        alignItems:'center'
+        //alignItems:'center'
     },
     do_title_img:{
         margin:10,
         alignSelf:'stretch',
-        height:'20%',
+        height:Dimensions.get('window').height*0.2,
         overflow:'hidden',
         backgroundColor:'#c7c7c7',
         borderRadius:15
@@ -234,7 +216,6 @@ const Style = StyleSheet.create({
         alignSelf:'stretch',
         marginVertical:5,
         marginHorizontal:10,
-        //backgroundColor:'gray'
     },
     info_title:{
         fontFamily:'NanumGothic-ExtraBold',
@@ -273,14 +254,6 @@ const Style = StyleSheet.create({
         fontSize:14,
         margin:3
     },
-    do_container:{
-        marginVertical:5,
-        flexDirection:'row'
-    },
-    do_date:{
-        fontFamily:'NanumGothic-Regular',
-        fontWeight:'bold',
-        fontSize:18,
-    }
+
 });
 export default DoInfoScreen;

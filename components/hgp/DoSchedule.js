@@ -2,14 +2,11 @@ import moment from "moment";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import {Entypo } from '@expo/vector-icons';
 
-function DoSchedule({date,place,cost,isEmpty}){
+function DoSchedule({date,place,cost,isEmpty,onEmptySchedulepress,onSchedulePress}){
     //비어있는 두 일정을 클릭했을 경우 알림을 띄우거나 관리자일경우 일정 생성 가능
     if(isEmpty){
-        const handleEmptyDoSchedulePress = () => {
-            console.log('비어있는 일정을 클릭하셨습니다.');
-        }
         return(
-            <Pressable style={Style.container} onPress={handleEmptyDoSchedulePress}>
+            <Pressable style={Style.container} onPress={onEmptySchedulepress}>
                 <View style={Style.add_do_schedule_button}>
                     <Entypo name="circle-with-plus" size={16} color="gray"/>
                 </View>
@@ -21,7 +18,7 @@ function DoSchedule({date,place,cost,isEmpty}){
         console.log('일정을 클릭하셨습니다.');
     }
     return(
-        <Pressable style={Style.container} onPress={handleDoSchedulePress}>
+        <Pressable style={Style.container} onPress={onSchedulePress}>
             <View style={Style.date_holder}>
                 <Text style={Style.do_date}>화요일</Text>
                 <Text style={Style.do_date}>D-5</Text>
