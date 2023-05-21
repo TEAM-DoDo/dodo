@@ -131,7 +131,6 @@ export default function App() {
           <Stack.Screen name='DoNoiceScreen'component={DoNoticeScreen}/>
           <Stack.Screen name='DoCreateScreen'component={DoCreateScreen}/>
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
-          <Stack.Screen name='AlarmScreen' component={AlarmScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       </RootSiblingParent>

@@ -48,7 +48,7 @@ function UserVerifyScreen({ navigation }) {
             {
                 phoneNumber, //가입 페이지로 이동 시 핸드폰 번호를 두번 입력하지 않도록 데이터를 넘겨줌
             });
-
+        return;
         //유저 가입 확인 로직 추가
         const userInfo = {
             address : "",
