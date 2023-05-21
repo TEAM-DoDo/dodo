@@ -12,13 +12,11 @@ import InputField from "../components/psc/InputField";
 import API from "../api/API";
 import { HttpStatusCode } from "axios";
 import RNExitApp from "react-native-exit-app";
-
 // Plugin
 import * as Permissions from 'expo-permissions';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 //Definition Component ---------------------------------------------------
-function UserVerifyScreen({navigation})
-{
+function UserVerifyScreen({ navigation }) {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [checkNumber, setCheckNumber] = useState('');
     // useEffect(() => {
@@ -33,24 +31,23 @@ function UserVerifyScreen({navigation})
     //       console.log('컴포넌트가 화면에서 사라짐');
     //     };
     //   }, []);
-    function PhoneNumberInputHandler(enteredNumber)
-    {
+
+    function PhoneNumberInputHandler(enteredNumber) {
         setPhoneNumber(enteredNumber.toString());
     }
 
-    function CheckNumberInputHandler(enteredNumber)
-    {
+    function CheckNumberInputHandler(enteredNumber) {
         setCheckNumber(enteredNumber.toString());
     }
 
-    function CheckUserExistInDB()
-    {
+    function CheckUserExistInDB() {
         //전화번호를 통해 이미 가입된 유저인지 신규유저인지 판별하고 navigate함수 안 이동할 screen의 이름 분기 처리 해야함.
     }
-
-    function MoveToNextScreen()
-    {
-        //이곳에 인증번호 확인 로직 필요
+    function MoveToNextScreen() {
+        navigation.navigate('GenerateIDScreen', //유저 가입여부 확인 로직이 없어 일단은 회원가입 창으로 이동하게 함
+            {
+                phoneNumber, //가입 페이지로 이동 시 핸드폰 번호를 두번 입력하지 않도록 데이터를 넘겨줌
+            });
 
         //유저 가입 확인 로직 추가
         const userInfo = {
@@ -94,16 +91,16 @@ export default UserVerifyScreen;
 
 //Style ---------------------------------------------------
 const styles = StyleSheet.create({
-    rootScreen : {
-        flex : 1,
-        alignItems : 'center',
+    rootScreen: {
+        flex: 1,
+        alignItems: 'center',
     },
-    logoIcon : {
-        marginTop : '20%',
-        marginBottom : 50,
+    logoIcon: {
+        marginTop: '20%',
+        marginBottom: 50,
     },
-    textInputContainer : {
-        width : '100%',
-        marginBottom : '20%',
+    textInputContainer: {
+        width: '100%',
+        marginBottom: '20%',
     },
 });

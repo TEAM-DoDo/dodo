@@ -17,11 +17,11 @@ function SelectTrendCategoryScreen({ route, navigation }) {
     const userCategory = route.params.userCategory;
     const userInfo = route.params.userInfo;
     console.log("SelectTrendCategoryScreen에서 출력 : ", userInfo, userCategory);
-    const [selectedIcons, setSelectedIcons] = useState([]);
+    const [selectedTrendIcons, setSelectedTrendIcons] = useState([]);
 
 
     function toggleIconSelection(iconName) {
-        setSelectedIcons((prevState) => {
+        setSelectedTrendIcons((prevState) => {
             if (prevState.includes(iconName)) {
                 return prevState.filter((name) => name !== iconName);
             } else {
@@ -31,11 +31,12 @@ function SelectTrendCategoryScreen({ route, navigation }) {
     }
 
     function moveToHomeScreen() {
-        if (selectedIcons.length >= 2) {
-            navigation.navigate('BottomTabNavigatorScreen', { selectedIcons });
-        } else {
-            alert("Please select at least two icons.");
-        }
+        const userTrendCategory = {
+            selectedTrendIcons
+        };
+        console.log("SelectTrendCategoryScreen에서 다음 내용을 업데이트 함:", userInfo, userCategory, userTrendCategory);
+
+        navigation.navigate('BottomTabNavigatorScreen', { selectedTrendIcons });
     }
 
 
@@ -45,11 +46,11 @@ function SelectTrendCategoryScreen({ route, navigation }) {
         { name: 'bitcoin', title: '가상화폐' },
         { name: 'language', title: '언어교환' },
         { name: 'code', title: '코딩' },
-        
+
     ];
 
     function renderIcon({ item }) {
-        const isSelected = selectedIcons.includes(item.name);
+        const isSelected = selectedTrendIcons.includes(item.name);
         return (
             <Pressable
                 style={[
@@ -77,14 +78,14 @@ function SelectTrendCategoryScreen({ route, navigation }) {
         </View>*/
 
         <View style={styles.container}>
-            <Text style={styles.titleText}>{"🔥요즘뜨는 키워드"}</Text>
+            <Text style={styles.titleText}>{"🔥 요즘뜨는 키워드"}</Text>
             <FlatList
                 data={ICONS}
                 numColumns={4}
                 renderItem={renderIcon}
                 keyExtractor={(item) => item.name}
             />
-          <PrimaryButton onPress={moveToHomeScreen}>다음으로</PrimaryButton>
+            <PrimaryButton onPress={moveToHomeScreen}>다음으로</PrimaryButton>
         </View>
     );
 }

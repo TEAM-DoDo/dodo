@@ -37,7 +37,7 @@ function SelectCategoryScreen({ route, navigation }) {
         if (selectedIcons.length >= 2) {
             navigation.navigate('SelectTrendCategoryScreen', {userInfo, userCategory});
         } else {
-            alert("Please select at least two icons.");
+            alert("키워드를 최소 2개 이상 선택해주세요.");
         }
     }
 
@@ -45,7 +45,7 @@ function SelectCategoryScreen({ route, navigation }) {
         async function getUser()
         {
             console.log("getUser 호출됨");
-            await API.get("/api/user/1").then((response)=>console.log(response.data)).catch((error)=>console.log(error));
+            await API.get(`/api/users/${userInfo.nickname}`).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
         }
         getUser();
     }, []);
