@@ -76,14 +76,19 @@ function UserVerifyScreen({ navigation }) {
         Keyboard.dismiss();
     };
     return (
-        <Pressable style={styles.rootScreen} onPress={dismissKeyboard}>
+        <View style={styles.rootScreen}>
             <LogoIconImage style={styles.logoIcon} />
+            <View style={styles.buttonContainer}>
+                <Pressable onPress={sendVerificationCode} style={styles.button}>
+                    <Text style={styles.buttonText}>인증번호발급</Text>
+                </Pressable>
+            </View>
             <View style={styles.textInputContainer}>
                 <InputField placeholder={"전화번호"} maxLength={11} onChangeText={PhoneNumberInputHandler} keyboardType='number-pad' />
                 <InputField placeholder={"인증번호"} maxLength={4} onChangeText={CheckNumberInputHandler} keyboardType='number-pad' />
             </View>
             <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
-        </Pressable>
+        </View>
     );
 }
 
@@ -102,5 +107,22 @@ const styles = StyleSheet.create({
     textInputContainer: {
         width: '100%',
         marginBottom: '20%',
+    },
+    buttonContainer: {
+        alignItems: 'flex-end',
+        width: '78%',
+        marginBottom: 1,
+    
+    },
+    buttonText: {
+        color: 'white',
+        textDecorationLine: 'underline',
+    },
+    button: {
+        alignItems: 'flex-end',
+        backgroundColor: '#E30A8B',
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 4,
     },
 });
