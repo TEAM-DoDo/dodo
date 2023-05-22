@@ -107,7 +107,10 @@ function GenerateIDScreen({route, navigation})
         <View style={styles.rootScreen}>
             <LogoIconImage style={styles.logoIcon} />
             <View style={styles.textInputContainer}>
-                <InputField placeholder={"닉네임"} maxLength={11} value={nickname} onChangeText={nicknameHandler} />
+                <InputField 
+                placeholder={ "닉네임" }
+                    maxLength={11} value={nickname} onChangeText={nicknameHandler} style = {styles.textInputField}/>
+
                 <View style={styles.pickerContainer}>
                     <Pressable onPress={onPressDate} style={styles.datePress}>
                         <TextInput
@@ -136,7 +139,7 @@ function GenerateIDScreen({route, navigation})
                 <Pressable onPress={AddressModalHandler} style={styles.datePress}>
                     <TextInput
                       pointerEvents="none"
-                      style={styles.textInput}
+                      style={styles.textInputAdreess}
                       placeholder={'주소'}
                       placeholderTextColor="grey"
                       underlineColorAndroid="transparent"
@@ -163,19 +166,33 @@ const styles = StyleSheet.create({
         marginBottom : 30,
     },
     textInputContainer : {
-        width : '100%',
+        flexDirection : 'center',
+        alignItems : 'center',
+        width : '120%',
         marginBottom : '10%',
+        marginRight : 2,
     },
+    // textInputContainer : {
+    //     flexDirection:'cneter',
+    //     alignItems: 'center',
+    //     width : '120%',
+    //     marginBottom : '10%',
+    //     marginRight : 2,
+        
+    // },
     pickerContainer : {
         flexDirection : "row",
-        justifyContent : 'space-between',
-        width : '80%',
-        alignSelf : 'center',
-        marginBottom : 20,
+        // justifyContent : 'space-between',
+        justifyContent : 'space-around',
+        width : '84%',
+        marginBottom : 10,
+        marginLeft : 110,
+        marginRight : 40,
     },
     datePress : {
         width : '60%',
-        marginRight : 5,
+        marginRight : 110,
+        
     },
     textInput : {
         paddingVertical : 17,
@@ -183,11 +200,31 @@ const styles = StyleSheet.create({
         paddingHorizontal : 16,
         borderColor : 'grey',
         borderWidth : 1,
-        fontSize : 23,
+        fontSize : 20,
         fontFamily : 'NanumGothic-Bold',
+        color : 'grey',
+        width : '100%',
     },
+    textInputAdreess : {
+        paddingVertical : 17,
+        borderRadius : 16,
+        paddingHorizontal : 16,
+        borderColor : 'grey',
+        borderWidth : 1,
+        width : '135%',
+        marginLeft : 37,
+        fontSize : 23,
+        marginLeft : 1,
+        fontFamily : 'NanumGothic-Bold',
+
+    }, 
     genderButtonsContainer : {
-        width : '40%',
+        width : '18%',
         flexDirection : "row",
+        // justifyContent : 'soace-around',
+        // flexWrap : 'Wrap',
+        // alignContent : 'flex-start',
+        marginRight : 140,
+        
     },
 });
