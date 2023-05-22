@@ -3,7 +3,7 @@
 import { useState,useEffect } from "react";
 
 //  Native
-import { View, StyleSheet,Pressable,Keyboard } from "react-native";
+import { View, StyleSheet,Pressable,Keyboard,Text} from "react-native";
 
 //  Components
 import PrimaryButton from "../components/psc/PrimaryButton";
@@ -15,6 +15,7 @@ import RNExitApp from "react-native-exit-app";
 // Plugin
 import * as Permissions from 'expo-permissions';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {auth} from "../api/firebaseAPI";
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({ navigation }) {
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -31,6 +32,17 @@ function UserVerifyScreen({ navigation }) {
     //       console.log('컴포넌트가 화면에서 사라짐');
     //     };
     //   }, []);
+
+    const sendVerificationCode = async () => {
+        try {
+            console.log("this is sendVerificationCode");
+            //await auth().signInWithPhoneNumber(phoneNumber);
+            // 인증 코드를 전송하고 결과를 확인
+            // 필요에 따라 사용자 인터페이스를 업데이트하거나 다음 단계로 이동
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     function PhoneNumberInputHandler(enteredNumber) {
         setPhoneNumber(enteredNumber.toString());
