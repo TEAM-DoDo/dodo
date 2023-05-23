@@ -24,7 +24,7 @@ function ChatScreen ({navigation}){
     const [chatText, setChatText] = useState('');
     const [chatList, setChats] = useState([]);
     useEffect(()=>{
-        socket = new WebSocket(`ws://${localIpAddress}:${portNumber}/chat`);
+        socket = new WebSocket(`ws://${localIpAddress}:${portNumber}/api/chat`);
         socket.onopen = () => {
             console.log("success");
         };

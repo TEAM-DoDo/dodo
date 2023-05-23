@@ -21,6 +21,19 @@ const platformHTTP = Platform.select({
 });
 const baseURL = `${platformHTTP}://${localIpAddress}:${portNumber}`;
 
+//jwt setting ----------------------------------------------------------------
+var access_token = "";
+var refresh_token = "";
+
+export function setAccessToken(token){
+    access_token = token;
+}
+export function setRefreshToken(token){
+    refresh_token = token;
+}
+
+
+
 //Cretae axios module ------------------------------------------------------
 const API = axios.create({
     baseURL,
@@ -33,12 +46,7 @@ const API = axios.create({
 API.interceptors.request.use(
     async (config) => {
         //내부 저장소에서 토큰 정보를 가져와서 헤더에 기입
-        await AsyncStorage.getItem("access_token",(err,result) => {
-            if(result != null){
-                config.headers.Authorization=`Bearer ${result}`;
-            }
-            return config;
-        });
+        config.headers.Authorization=`Bearer ${access_token}`;
         return config;
     }
 );
