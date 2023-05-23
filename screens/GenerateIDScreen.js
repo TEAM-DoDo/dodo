@@ -22,7 +22,7 @@ function GenerateIDScreen({route, navigation})
     const [address, setAddress] = useState('');
     const [nickname, setNickname] = useState('');
     const [birthdate, setBirthdate] = useState(new Date());
-    const [currentSelectedGender, setCurrentSelectedGender] = useState('남');
+    const [currentSelectedGender, setCurrentSelectedGender] = useState();
     
     const [visible, setVisible] = useState(false); // 날짜 피커 모달 노출 여부
     const [isModal, setIsModal] = useState(false); // 주소 모달 노출 여부
@@ -107,7 +107,10 @@ function GenerateIDScreen({route, navigation})
         <View style={styles.rootScreen}>
             <LogoIconImage style={styles.logoIcon} />
             <View style={styles.textInputContainer}>
-                <InputField placeholder={"닉네임"} maxLength={11} value={nickname} onChangeText={nicknameHandler} />
+                <InputField 
+                placeholder={ "닉네임" }
+                    maxLength={11} value={nickname} onChangeText={nicknameHandler} style = {styles.textInputField}/>
+
                 <View style={styles.pickerContainer}>
                     <Pressable onPress={onPressDate} style={styles.datePress}>
                         <TextInput
@@ -122,8 +125,19 @@ function GenerateIDScreen({route, navigation})
                     </Pressable>
                     <DatePicker dataMoveToScreen={onPressDatePickerConfirm} visible={visible} onCancel={onCancel} />
                     <View style={styles.genderButtonsContainer}>
-                        <SmallToggleSwitch handler={SelectGenderHandler} selectedGender={currentSelectedGender}>남</SmallToggleSwitch>
-                        <SmallToggleSwitch handler={SelectGenderHandler} selectedGender={currentSelectedGender}>여</SmallToggleSwitch>
+                        <SmallToggleSwitch
+                            handler={SelectGenderHandler}
+                            selectedGender={currentSelectedGender}
+                            style = {currentSelectedGender === '남' ? [styles.maleButton, styles.activeButton] : styles.maleButton}>
+                                남
+                                </SmallToggleSwitch>
+
+                        <SmallToggleSwitch 
+                            handler={SelectGenderHandler}
+                            selectedGender={currentSelectedGender}
+                            style = {currentSelectedGender === '여' ? [styles.femaleButton, styles.activeButton] : styles.femaleButton}>
+                                여
+                                </SmallToggleSwitch>
                     </View>
                 </View>
                 <Modal visible={isModal}>
@@ -136,7 +150,7 @@ function GenerateIDScreen({route, navigation})
                 <Pressable onPress={AddressModalHandler} style={styles.datePress}>
                     <TextInput
                       pointerEvents="none"
-                      style={styles.textInput}
+                      style={styles.textInputAdreess}
                       placeholder={'주소'}
                       placeholderTextColor="grey"
                       underlineColorAndroid="transparent"
@@ -163,31 +177,51 @@ const styles = StyleSheet.create({
         marginBottom : 30,
     },
     textInputContainer : {
-        width : '100%',
+        flexDirection : 'center',
+        alignItems : 'center',
+        width : '115%',
         marginBottom : '10%',
+        marginRight : 2,
     },
     pickerContainer : {
         flexDirection : "row",
-        justifyContent : 'space-between',
-        width : '80%',
-        alignSelf : 'center',
+        // justifyContent : 'space-between',
+        justifyContent : 'space-around',
+        width : '84%',
         marginBottom : 20,
+        marginLeft : 110,
+        marginRight : 40,
     },
     datePress : {
         width : '60%',
-        marginRight : 5,
+        marginRight : 110,
     },
     textInput : {
         paddingVertical : 17,
         borderRadius : 16,
         paddingHorizontal : 16,
-        borderColor : 'grey',
+        borderColor : '#c5c5c5',
         borderWidth : 1,
-        fontSize : 23,
+        fontSize : 20,
         fontFamily : 'NanumGothic-Bold',
+        color : 'grey',
+        width : '105%',
     },
+    textInputAdreess : {
+        paddingVertical : 17,
+        borderRadius : 16,
+        paddingHorizontal : 16,
+        borderColor : '#c5c5c5',
+        borderWidth : 1,
+        width : '132%',
+        fontSize : 23,
+        marginLeft : 9,
+        fontFamily : 'NanumGothic-Bold',
+        
+    }, 
     genderButtonsContainer : {
-        width : '40%',
+        width : '17%',
         flexDirection : "row",
+        marginRight : 120,
     },
 });
