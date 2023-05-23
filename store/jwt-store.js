@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
+import { setAccessToken, setRefreshToken } from "../api/API";
 const jwtSlice = createSlice({
     name:'jwt',
     initialState:{
@@ -8,20 +9,24 @@ const jwtSlice = createSlice({
     },
     reducers:{
         addAccessToken : (state,action) => {
-            AsyncStorage.setItem("access_key",action.payload.access_token);
             state.access_token = action.payload.access_token;
+            setAccessToken(action.payload.access_token);
+            AsyncStorage.setItem("access_key",action.payload.access_token);
         },
         removeAccessToken : (state) => {
-            AsyncStorage.removeItem("access_key");
             state.access_token = null;
+            setAccessToken("");
+            AsyncStorage.removeItem("access_key");
         },
         addRefreshToken : (state,action) => {
-            AsyncStorage.setItem("refresh_token",action.payload.refresh_token);
             state.refresh_token = action.payload.refresh_token;
+            setRefreshToken(action.payload.refresh_token);
+            AsyncStorage.setItem("refresh_token",action.payload.refresh_token);
         },
         removeRefreshToken : (state) => {
-            AsyncStorage.removeItem("refresh_token");
             state.refresh_token = null;
+            setRefreshToken("");
+            AsyncStorage.removeItem("refresh_token");
         },
     },
 });

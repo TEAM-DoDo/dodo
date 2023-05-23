@@ -26,11 +26,7 @@ function ChatScreen ({navigation}){
     const [chatList, setChats] = useState([]);
     const accessToken = useSelector((state) => state.jwt.access_token);
     useEffect(()=>{
-        socket = new WebSocket(`ws://${localIpAddress}:${portNumber}/api/chat`,{
-            auth : {
-                token : `Bearer ${accessToken}`
-            }
-        });
+        socket = new WebSocket(`ws://${localIpAddress}:${portNumber}/api/chat`);
         socket.onopen = () => {
             console.log("success");
         };
