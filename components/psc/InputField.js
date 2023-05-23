@@ -19,7 +19,7 @@ export default InputField;
 //Style ---------------------------------------------------
 const styles = StyleSheet.create({
     container : {
-        width : '100%',
+        width : '99%',
         paddingBottom : 6,
         overflow : 'hidden',
         marginBottom : 20,
@@ -28,16 +28,20 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity:  0.4,
         shadowRadius: 3,
+        fontFamily : 'NanumGothic-Bold',
+        fontcolor : 'grey',
+        
     },
     input : {
         width : '80%',
-        height : 70,
+        height : 65,
         alignSelf : 'center',
         paddingHorizontal : 16,
         borderRadius : 16,
-        borderColor : 'grey',
+        borderColor : '#c5c5c5',
         borderWidth : 1,
         fontSize : 20,
         fontFamily : 'NanumGothic-Bold',
+        color : 'grey',
     },
 });
