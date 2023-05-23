@@ -107,10 +107,7 @@ function GenerateIDScreen({route, navigation})
         <View style={styles.rootScreen}>
             <LogoIconImage style={styles.logoIcon} />
             <View style={styles.textInputContainer}>
-                <InputField 
-                placeholder={ "닉네임" }
-                    maxLength={11} value={nickname} onChangeText={nicknameHandler} style = {styles.textInputField}/>
-
+                <InputField placeholder={"닉네임"} maxLength={11} value={nickname} onChangeText={nicknameHandler} />
                 <View style={styles.pickerContainer}>
                     <Pressable onPress={onPressDate} style={styles.datePress}>
                         <TextInput
@@ -150,7 +147,7 @@ function GenerateIDScreen({route, navigation})
                 <Pressable onPress={AddressModalHandler} style={styles.datePress}>
                     <TextInput
                       pointerEvents="none"
-                      style={styles.textInputAdreess}
+                      style={styles.textInput}
                       placeholder={'주소'}
                       placeholderTextColor="grey"
                       underlineColorAndroid="transparent"
@@ -177,24 +174,20 @@ const styles = StyleSheet.create({
         marginBottom : 30,
     },
     textInputContainer : {
-        flexDirection : 'center',
         alignItems : 'center',
         width : '115%',
         marginBottom : '10%',
-        marginRight : 2,
     },
     pickerContainer : {
         flexDirection : "row",
-        // justifyContent : 'space-between',
-        justifyContent : 'space-around',
-        width : '84%',
+        justifyContent : 'space-between',
+        width : '80%',
+        alignSelf : 'center',
         marginBottom : 20,
-        marginLeft : 110,
-        marginRight : 40,
     },
     datePress : {
         width : '60%',
-        marginRight : 110,
+        marginRight : 5,
     },
     textInput : {
         paddingVertical : 17,
@@ -202,26 +195,11 @@ const styles = StyleSheet.create({
         paddingHorizontal : 16,
         borderColor : '#c5c5c5',
         borderWidth : 1,
-        fontSize : 20,
-        fontFamily : 'NanumGothic-Bold',
-        color : 'grey',
-        width : '105%',
-    },
-    textInputAdreess : {
-        paddingVertical : 17,
-        borderRadius : 16,
-        paddingHorizontal : 16,
-        borderColor : '#c5c5c5',
-        borderWidth : 1,
-        width : '132%',
         fontSize : 23,
-        marginLeft : 9,
         fontFamily : 'NanumGothic-Bold',
-        
-    }, 
+    },
     genderButtonsContainer : {
-        width : '17%',
+        width : '40%',
         flexDirection : "row",
-        marginRight : 120,
     },
 });
