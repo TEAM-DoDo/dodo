@@ -13,6 +13,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { localIpAddress,portNumber } from "../api/API";
+import { useSelector } from "react-redux";
 var socket;
 var chatNum = 0;
 function Chat(chatNum,index,context){
@@ -23,8 +24,13 @@ function Chat(chatNum,index,context){
 function ChatScreen ({navigation}){
     const [chatText, setChatText] = useState('');
     const [chatList, setChats] = useState([]);
+    const accessToken = useSelector((state) => state.jwt.access_token);
     useEffect(()=>{
-        socket = new WebSocket(`ws://${localIpAddress}:${portNumber}/chat`);
+        socket = new WebSocket(`ws://${localIpAddress}:${portNumber}/api/chat`,{
+            auth : {
+                token : `Bearer ${accessToken}`
+            }
+        });
         socket.onopen = () => {
             console.log("success");
         };
