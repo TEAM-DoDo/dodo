@@ -15,7 +15,6 @@ import RNExitApp from "react-native-exit-app";
 // Plugin
 import * as Permissions from 'expo-permissions';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {auth} from "../api/firebaseAPI";
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({ navigation }) {
     const [phoneNumber, setPhoneNumber] = useState('');
