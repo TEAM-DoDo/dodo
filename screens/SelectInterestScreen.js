@@ -1,20 +1,12 @@
-import { useEffect, useState } from "react";
-
-//  Native
-import { View, Text, Button, StyleSheet, Pressable, FlatList } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from "react";
+import { ScrollView, View, Text, Button, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 
 
-// Components
-import PrimaryButton from "../components/psc/PrimaryButton";
+function SelectInterestScreen({ navigation }) {
+    const [selectedSubjects, setSelectedSubjects] = useState([]);
 
-
-//Definition Component ---------------------------------------------------
-function SelectInterestScreen({navigation}) {
-    const [selectedIcons, setSelectedIcons] = useState([]);
-
-    function toggleIconSelection(iconName) {
-        setSelectedIcons((prevState) => {
+    function toggleSubjectSelection(iconName) {
+        setSelectedSubjects((prevState) => {
             if (prevState.includes(iconName)) {
                 return prevState.filter((name) => name !== iconName);
             } else {
@@ -23,58 +15,52 @@ function SelectInterestScreen({navigation}) {
         });
     }
 
-    
-
-    const icons = [
-        { name: 'airplane', title: '여행' },
-        { name: 'brush', title: '공예' },
-        { name: 'beer', title: '술' },
-        { name: 'musical-notes', title: '음악/춤' },
-        { name: 'fitness', title: '운동/스포츠' },
-        { name: 'book', title: '스터디' },
-        { name: 'paw', title: '애완동물' },
-        { name: 'globe', title: '문화' },
-        { name: 'restaurant', title: '맛집' },
-        { name: 'people-circle', title: '사교' },
-        { name: 'game-controller', title: '게임' },
-        { name: 'ellipsis-horizontal', title: '기타' },
+    const subjects = [
+        { name: "physics", title: "물리 치료" },
+        { name: "gender", title: "성별" },
+        { name: "university", title: "대학교" },
+        { name: "love", title: "사랑" },
+        // Add more subjects here
     ];
 
-    function renderIcon({ item }) {
-        const isSelected = selectedIcons.includes(item.name);
+    function renderSubjectButton({ item }) {
+        const isSelected = selectedSubjects.includes(item.name);
         return (
-            <Pressable
+            <TouchableOpacity
                 style={[
                     styles.button,
-                    isSelected ? styles.selectedButton : null,
+                    isSelected ? styles.selectedSubject : null,
                 ]}
-                onPress={() => toggleIconSelection(item.name)}
+                onPress={() => toggleSubjectSelection(item.name)}
             >
-                <Ionicons name={item.name} size={24} color={isSelected ? '#008D62' : '#E30A8B'} />
                 <Text style={[styles.buttonTitle, isSelected ? styles.selectedTitle : null]}>
                     {item.title}
                 </Text>
-            </Pressable>
+            </TouchableOpacity>
         );
+    }
+
+    function saveSelectedSubjects() {
+        // Logic to save selected subjects and navigate back to ProfileScreen
+        // You can pass the selectedSubjects to ProfileScreen using navigation or other state management approach
+        navigation.goBack(); // Example: Navigating back to ProfileScreen
     }
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titleText}>{"키워드 ✅"}</Text>
+            <Text style={styles.titleText}>{"관심사❤️‍🔥"}</Text>
             <FlatList
-                data={icons}
-                numColumns={4}
-                renderItem={renderIcon}
+                data={subjects}
+                numColumns={5} // Adjust the number of columns as per your design preference
+                renderItem={renderSubjectButton}
                 keyExtractor={(item) => item.name}
             />
-          
+            <TouchableOpacity style={styles.saveButton} onPress={saveSelectedSubjects}>
+                <Text style={styles.saveButtonText}>저장하기</Text>
+            </TouchableOpacity>
         </View>
     );
 }
-
-export default SelectInterestScreen;
-
-//style ---------------------------------------------------
 
 const styles = StyleSheet.create({
     container: {
@@ -97,6 +83,30 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 8,
         borderWidth: 1,
-    }
-
+    },
+    selectedSubject: {
+        backgroundColor: '#008D62',
+        borderColor: '#008D62',
+    },
+    buttonTitle: {
+        color: '#E30A8B',
+        fontSize: 16,
+    },
+    selectedTitle: {
+        color: '#fff',
+    },
+    saveButton: {
+        margin: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        backgroundColor: '#E30A8B',
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    saveButtonText: {
+        color: '#fff',
+        fontSize: 18,
+    },
 });
+
+export default SelectInterestScreen;
