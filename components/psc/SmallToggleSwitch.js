@@ -6,18 +6,16 @@ import { View, StyleSheet, Pressable, TextInput, Text } from "react-native";
 import Colors from "../../constants/Colors";
 
 //Definition Component ---------------------------------------------------
-function SmallToggleSwitch({children, handler, selectedGender,})
+function SmallToggleSwitch({children, handler, selectedGender})
 {
     const isSelected = selectedGender == children;
 
     return  (
         <View style={styles.outerContainer}>
             <Pressable style={({pressed})=>[styles.innerContainer, pressed ? styles.opacityWhenPressed : null, isSelected ? styles.selectedInnerContainer : null]} 
-            // <Pressable style={({pressed})=>[styles.innerContainer, pressed ? styles.opacityWhenPressed : null, isSelected ? styles.selectedInnerContainer : null]}
             android_ripple={{color : Colors.genderToggle.rippleColor}}
             onPress={()=>handler(children)}>
                 <Text style={[styles.text, isSelected ? styles.selectedTextColor : null]}>{children}</Text>
-                {/* <Text style={[styles.text, isSelected ? styles.selectedTextColor : null]}>{children}</Text> */}
             </Pressable>
         </View>
     );
@@ -38,7 +36,7 @@ const styles = StyleSheet.create({
     },
     innerContainer : {
         backgroundColor : Colors.genderToggle.nonSelectedButtonColor,
-        padding : 18,
+        padding : 25,
     },
     text : {
         color : Colors.genderToggle.nonSelectedTextColor,
@@ -55,13 +53,4 @@ const styles = StyleSheet.create({
     selectedTextColor : {
         color : Colors.genderToggle.selectedTextColor,
     },
-    // maleButton: {
-    //     backgroundColor: 'blue',
-    // },
-    // femaleButton: {
-    //     backgroundColor: 'pink',
-    // },
-    // activeButton: {
-    //     opacity: 0.6,
-    // },
 });
