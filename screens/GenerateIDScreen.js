@@ -22,7 +22,7 @@ function GenerateIDScreen({route, navigation})
     const [address, setAddress] = useState('');
     const [nickname, setNickname] = useState('');
     const [birthdate, setBirthdate] = useState(new Date());
-    const [currentSelectedGender, setCurrentSelectedGender] = useState();
+    const [currentSelectedGender, setCurrentSelectedGender] = useState('');
     
     const [visible, setVisible] = useState(false); // 날짜 피커 모달 노출 여부
     const [isModal, setIsModal] = useState(false); // 주소 모달 노출 여부
@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
         marginBottom : 30,
     },
     textInputContainer : {
+        flexDirection : 'column', 
         alignItems : 'center',
         width : '115%',
         marginBottom : '10%',
