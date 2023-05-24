@@ -22,6 +22,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import mime from "mime";
 import Toast from "react-native-root-toast";
 import DoNotice from "../components/hgp/DoNotice";
+import { useSelector } from "react-redux";
 
 function DoInfoScreen({route, navigation}) {
     //console.log("from do info screen : " + route.params.id);
@@ -30,28 +31,22 @@ function DoInfoScreen({route, navigation}) {
     //do에 대한 정보
     const [place, setPlace] = useState('');
     const [category, setCategory] = useState('');
-    const [image, setImage] = useState('');
     const [description,setDescription] = useState('');
-    const [token,setToken] = useState('');
+    const accessToken = useSelector((state) => state.jwt.access_token);
     //do Schedule에 대한 정보
     const [scheduleDate,setScheduleDate] = useState('');
     const [schedulePlace,setSchedulePlace] = useState('');
     const [scheduleCost,setScheduleCost] = useState('');
     const updateData = () => {
-        AsyncStorage.getItem("access_token",(err,result) => {
-            //console.log(result)
-            setToken(result);
-            API.get(`/api/do/${route.params.id}`).then((response) => {
-                //console.log(response.data);
-                //console.log(response.data);
-                //setCategory(response.data.category);
-                setPlace(response.data.place);
-                //setImage(response.data.image);
-                setDescription(response.data.description);
-                setTick(Date.now());
-            });
+        API.get(`/api/do/${route.params.id}`).then((response) => {
+            //console.log(response.data);
+            //console.log(response.data);
+            //setCategory(response.data.category);
+            setPlace(response.data.place);
+            //setImage(response.data.image);
+            setDescription(response.data.description);
+            setTick(Date.now());
         });
-
     };
     const getDoParticipantsNum = () => {
         return 3;
@@ -122,14 +117,8 @@ function DoInfoScreen({route, navigation}) {
             `/api/do/${route.params.id}/title-image`,
             formData,
             {headers:{"Content-Type": `multipart/form-data`,}})
-            .then(
-                (response)=>{
-                    setTick(Date.now());
-                })
-            .catch(
-                (err)=>{
-                    console.log(err)
-                });
+            .then((response)=>{setTick(Date.now());})
+            .catch((err)=>{console.log(err)});
     }
     const handleEmptyShedulePress = () =>{
         navigation.navigate("DoScheduleAddScreen");
@@ -151,7 +140,7 @@ function DoInfoScreen({route, navigation}) {
                     source={{
                         uri:`http://${localIpAddress}:${portNumber}/api/do/${route.params.id}/title-image?${tick}`,
                         headers:{ 
-                            Authorization : `Bearer ${token}`
+                            Authorization : `Bearer ${accessToken}`
                         }
                     }}/>
             </Pressable>

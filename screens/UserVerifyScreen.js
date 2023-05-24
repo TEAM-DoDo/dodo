@@ -15,23 +15,19 @@ import RNExitApp from "react-native-exit-app";
 // Plugin
 import * as Permissions from 'expo-permissions';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch, useSelector } from "react-redux";
+import { addAccessToken,addRefreshToken } from "../store/jwt-store";
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({ navigation }) {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [checkNumber, setCheckNumber] = useState('');
-    // useEffect(() => {
-    //     Permissions.getAsync(Permissions.MEDIA_LIBRARY).then(
-    //         (status) => {
-    //             if (status !== 'granted') {
-    //                 console.log("사용자가 저장소 요청을 거부함");
-    //                 //RNExitApp.exitApp();
-    //               }
-    //         });
-    //     return () => {
-    //       console.log('컴포넌트가 화면에서 사라짐');
-    //     };
-    //   }, []);
+    const accessToken = useSelector((state) => state.jwt.access_token);
+    const refreshToken = useSelector((state) => state.jwt.refresh_token);
+    // console.log(accessToken);
+    // console.log(refreshToken);
 
+    const dispatch = useDispatch();
+    //Redux에서 토큰 
     const sendVerificationCode = async () => {
         try {
             console.log("this is sendVerificationCode");
@@ -71,8 +67,9 @@ function UserVerifyScreen({ navigation }) {
         API.post("/api/users/check",{phoneNumber : phoneNumber,certNumber:"14632"}).then((response) => {
             //제대로 된 응답 안에는 토큰이 포함됨
             //토큰을 내부 저장소에 저장
-            AsyncStorage.setItem("access_token",`${response.data.accessToken}`);
-            AsyncStorage.setItem("refresh_token",`${response.data.refreshToken}`);
+            //console.log(response.data);
+            dispatch(addAccessToken({ access_token : `${response.data.accessToken}`}));
+            dispatch(addRefreshToken({ refresh_token : `${response.data.refreshToken}`}));
             navigation.navigate('BottomTabNavigatorScreen',{userInfo});
         }).catch((response) => {
             console.log(response);
@@ -122,7 +119,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         alignItems: 'flex-end',
         width: '78%',
-        marginBottom: 1,
+        marginBottom: -40,
     
     },
     buttonText: {
