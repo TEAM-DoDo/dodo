@@ -15,11 +15,23 @@ function SelectInterestScreen({ navigation }) {
         });
     }
 
-    const subjects = [
-        { name: "physics", title: "물리 치료" },
-        { name: "gender", title: "성별" },
-        { name: "university", title: "대학교" },
-        { name: "love", title: "사랑" },
+    const countrySubjects = [
+        { name: "america", title: "미국🇺🇸" },
+        { name: "australia", title: "호주🇦🇺" },
+        { name: "canada", title: "캐나다🇨🇦" },
+        { name: "china", title: "중국🇨🇳" },
+        { name: "hongkong", title: "홍콩🇭🇰" },
+        { name: "india", title: "인도🇮🇳" },
+        { name: "japan", title: "일본🇯🇵" },
+        { name: "korea", title: "한국🇰🇷" },
+        // Add more subjects here
+    ];
+
+    const sportsSubjects = [
+        { name: "baseball", title: "야구" },
+        { name: "football", title: "축구" },
+        { name: "basketball", title: "농구" },
+        { name: "boxing", title: "복싱🥊" },
         // Add more subjects here
     ];
 
@@ -47,18 +59,60 @@ function SelectInterestScreen({ navigation }) {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.titleText}>{"관심사❤️‍🔥"}</Text>
-            <FlatList
-                data={subjects}
-                numColumns={5} // Adjust the number of columns as per your design preference
-                renderItem={renderSubjectButton}
-                keyExtractor={(item) => item.name}
-            />
+        <ScrollView style={styles.container}>
+            <View>
+                <Text style={styles.titleText}>{"관심사❤️‍🔥"}</Text>
+                <Text style={styles.subjectText}>{"출신 국가🌎"}</Text>
+                <View style={styles.buttonContainer}>
+                    {countrySubjects.map((item) => (
+                        <TouchableOpacity
+                            key={item.name}
+                            style={[
+                                styles.button,
+                                selectedSubjects.includes(item.name) ? styles.selectedSubject : null,
+                            ]}
+                            onPress={() => toggleSubjectSelection(item.name)}
+                        >
+                            <Text
+                                style={[
+                                    styles.buttonTitle,
+                                    selectedSubjects.includes(item.name) ? styles.selectedTitle : null,
+                                ]}
+                            >
+                                {item.title}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </View>
+            <View>
+                <Text style={styles.subjectText}>{"스포츠🤸🏻‍♂️"}</Text>
+                <View style={styles.buttonContainer}>
+                    {sportsSubjects.map((item) => (
+                        <TouchableOpacity
+                            key={item.name}
+                            style={[
+                                styles.button,
+                                selectedSubjects.includes(item.name) ? styles.selectedSubject : null,
+                            ]}
+                            onPress={() => toggleSubjectSelection(item.name)}
+                        >
+                            <Text
+                                style={[
+                                    styles.buttonTitle,
+                                    selectedSubjects.includes(item.name) ? styles.selectedTitle : null,
+                                ]}
+                            >
+                                {item.title}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </View>
             <TouchableOpacity style={styles.saveButton} onPress={saveSelectedSubjects}>
                 <Text style={styles.saveButtonText}>저장하기</Text>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -75,12 +129,30 @@ const styles = StyleSheet.create({
         paddingVertical: 16,
         paddingHorizontal: 16,
     },
-    button: {
-        flex: 1,
+    subjectText: {
+        color: '#E30A8B',
+        fontSize: 15,
+        marginHorizontal: 8,
+        marginVertical: 4,
+        paddingVertical: 8,
+        paddingHorizontal: 8,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 4,
-        padding: 8,
+        marginVertical: 2,
+        marginHorizontal: 4,
+    },
+    button: {
+        flexBasis: '20%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 4,
+        marginHorizontal: 6,
+        paddingVertical: 4,
+        paddingHorizontal: 2,
         borderRadius: 8,
         borderWidth: 1,
     },
@@ -90,7 +162,7 @@ const styles = StyleSheet.create({
     },
     buttonTitle: {
         color: '#E30A8B',
-        fontSize: 16,
+        fontSize: 10,
     },
     selectedTitle: {
         color: '#fff',
