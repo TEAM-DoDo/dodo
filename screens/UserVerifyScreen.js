@@ -67,7 +67,7 @@ function UserVerifyScreen({ navigation }) {
         API.post("/api/users/check",{phoneNumber : phoneNumber,certNumber:"14632"}).then((response) => {
             //제대로 된 응답 안에는 토큰이 포함됨
             //토큰을 내부 저장소에 저장
-            console.log(response.data);
+            //console.log(response.data);
             dispatch(addAccessToken({ access_token : `${response.data.accessToken}`}));
             dispatch(addRefreshToken({ refresh_token : `${response.data.refreshToken}`}));
             navigation.navigate('BottomTabNavigatorScreen',{userInfo});

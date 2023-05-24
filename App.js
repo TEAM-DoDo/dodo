@@ -37,6 +37,9 @@ import DoNoticeScreen from './screens/DoNoticeScreen';
 import DoCreateScreen from './screens/DoCreateScreen';
 import SelectInterestScreen from './screens/SelectInterestScreen';
 
+// Library
+import * as encoding from 'text-encoding';
+
 //Create Navigation
 const Stack = createNativeStackNavigator();
 const MainContent = createNativeStackNavigator();

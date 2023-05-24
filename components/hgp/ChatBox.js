@@ -26,9 +26,11 @@ function isMyIndex(index){
     var num = Number(index);
     return num !== 1;
 }
-function ChatBox({time, index, context}) {
+function ChatBox({index=1,time, name, content}) {
     var isOpponent = isMyIndex(index);
-    console.log(index,context)
+    //console.log(index,context)
+    var d = new Date(0);
+    d.setUTCSeconds(time);
     if(isOpponent){
         return (
             <View style={ChatStyle.chat}>
@@ -36,10 +38,10 @@ function ChatBox({time, index, context}) {
                     <CircleUserImage mode='chat' index={index}/>
                 </View>
                 <View style={ChatStyle.chat_holder}>
-                    <Text style={[ChatStyle.chat_opponent_name]}>{getName(index)}</Text>
+                    <Text style={[ChatStyle.chat_opponent_name]}>{name}</Text>
                     <View style={ChatStyle.chat_box_holder} flexDirection='row'>
-                        <Text style={[ChatStyle.chat_opponent_box,ChatStyle.chat_box_standard]}>{context}</Text>
-                        <Text style={ChatStyle.time_text}>{moment(new Date()).format('LT')}</Text>
+                        <Text style={[ChatStyle.chat_opponent_box,ChatStyle.chat_box_standard]}>{content}</Text>
+                        <Text style={ChatStyle.time_text}>{moment(d).format('LT')}</Text>
                     </View>
                 </View>
             </View>
@@ -49,8 +51,8 @@ function ChatBox({time, index, context}) {
         <View style={ChatStyle.chat}>
             <View style={ChatStyle.chat_holder}>
                 <View style={ChatStyle.chat_box_holder} flexDirection='row-reverse'>
-                    <Text style={[ChatStyle.chat_my_box,ChatStyle.chat_box_standard]}>{context}</Text>
-                    <Text style={ChatStyle.time_text}>{moment(new Date()).format('LT')}</Text>
+                    <Text style={[ChatStyle.chat_my_box,ChatStyle.chat_box_standard]}>{content}</Text>
+                    <Text style={ChatStyle.time_text}>{moment(d).format('LT')}</Text>
                 </View>
             </View>
         </View>

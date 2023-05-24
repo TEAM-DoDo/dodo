@@ -14,42 +14,46 @@ import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { localIpAddress,portNumber } from "../api/API";
 import { useSelector } from "react-redux";
-var socket;
-var chatNum = 0;
-function Chat(chatNum,index,context){
-    this.chatNum = chatNum;
-    this.index = index;
-    this.context = context;
-}
-function ChatScreen ({navigation}){
+import { Client, Message, Stomp } from '@stomp/stompjs';
+import SockJS from "sockjs-client";
+import { Chat } from "../data/Chat";
+import moment from "moment";
+var client;
+function ChatScreen ({navigation,route}){
     const [chatText, setChatText] = useState('');
     const [chatList, setChats] = useState([]);
     const accessToken = useSelector((state) => state.jwt.access_token);
     useEffect(()=>{
-        socket = new WebSocket(`ws://${localIpAddress}:${portNumber}/api/chat`);
-        socket.onopen = () => {
-            console.log("success");
-        };
-        socket.onmessage = (e) => {
-            // a message was received
-            console.log("receive message\n" + e.data);
-            var data = JSON.parse(e.data);
-            var chat = new Chat(chatNum,1,data.content);
+        client = Stomp.over(() => {
+            const sock = new SockJS(`http://${localIpAddress}:${portNumber}/api/chat`);
+            return sock;
+        });
+        client.connect({
+            Authorization: `Bearer ${accessToken}`
+        },null);
+        const messageCallback = function (message) {
+            // called when the client receives a STOMP message from the server
+            var data = JSON.parse(message.body);
+            var chat = new Chat({
+                id:data.id,
+                username:data.username,
+                content:data.content,
+                date: data.date
+            });
             setChats(chatList => [chat,...chatList]);
-            chatNum++;
+          };
+        client.onConnect = (frame) => {
+            console.log("connected");
+            client.subscribe(`/app/${route.params.id}/enter`,(message) => {
+                console.log(message.body);
+                setChats(JSON.parse(message.body));
+            });
+            client.subscribe(`/topic/room/${route.params.id}`,messageCallback);
         };
-    
-        socket.onerror = (e) => {
-            // an error occurred
-            console.log(e.message);
-        };
-    
-        socket.onclose = (e) => {
-            // connection closed
-            console.log(e.code, e.reason);
-        };
+
+        client.activate();
         return () => {
-            socket.close();
+            
         };
     }, []);
     const handleClip = () =>{
@@ -62,9 +66,17 @@ function ChatScreen ({navigation}){
         //카메라 버튼을 눌렀을 때 이벤트
     }
     const handleSendChat = () => {
-        let data = JSON.stringify({username:"아무게",content:chatText});
-        console.log("sending data : " + data);
-        socket.send(data);
+        
+        let chat = new Chat({
+            username:"임시",
+            content:chatText
+        });
+        let data = JSON.stringify(chat);
+        //console.log("sending data : " + data);
+        client.publish({
+            destination: `/app/${route.params.id}`,
+            body: data
+          });
         setChatText('');
     }
     return (
@@ -82,12 +94,13 @@ function ChatScreen ({navigation}){
             <FlatList
                 inverted={true}
                 data={chatList}
-                keyExtractor={(item) => item.chatNum}
+                keyExtractor={(item) => item.id}
                 numColumns={1}
                 renderItem={({item}) =>
                 <ChatBox
-                    index={item.index}
-                    context={item.context}
+                    name={item.username}
+                    time={item.date}
+                    content={item.content}
                 />}
             />
             <View style={ChatScreenStyle.chat_input_holder}>
