@@ -1,17 +1,17 @@
 const Colors = {
     button : {
         mainBackgroundColor : '#DE3163',
-        textColor : 'white',
+        textColor : '#FFFFFF',
         rippleColor : '#640233',
     },
     title : {
         titleColor : '#DE3163',
     },
     genderToggle : {
-        selectedButtonColor : '#0984e3',
-        nonSelectedButtonColor : 'white',
-        selectedTextColor : 'white',
-        nonSelectedTextColor : '#0984e3',
+        selectedButtonColor : '#DE3163',
+        nonSelectedButtonColor : '#FFFFFF',
+        selectedTextColor : '#FFFFFF',
+        nonSelectedTextColor : '#DE3163',
         rippleColor : '##ffeaa7',
     },
 }

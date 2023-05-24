@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 // Redux
 import { Provider } from 'react-redux';
+import { store } from './store/redux-store';
 //  Native
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -34,9 +35,7 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 import DoScheduleAddScreen from './screens/DoScheduleAddScreen';
 import DoNoticeScreen from './screens/DoNoticeScreen';
 import DoCreateScreen from './screens/DoCreateScreen';
-import { store } from './store/redux-store';
-
-
+import SelectInterestScreen from './screens/SelectInterestScreen';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -135,6 +134,7 @@ export default function App() {
           <Stack.Screen name='DoNoiceScreen'component={DoNoticeScreen}/>
           <Stack.Screen name='DoCreateScreen'component={DoCreateScreen}/>
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
+          <Stack.Screen name='SelectInterestScreen' component={SelectInterestScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
       </RootSiblingParent>
