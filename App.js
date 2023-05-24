@@ -32,6 +32,7 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 import DoScheduleAddScreen from './screens/DoScheduleAddScreen';
 import DoNoticeScreen from './screens/DoNoticeScreen';
 import DoCreateScreen from './screens/DoCreateScreen';
+import SelectInterestScreen from './screens/SelectInterestScreen';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -131,6 +132,7 @@ export default function App() {
           <Stack.Screen name='DoNoiceScreen'component={DoNoticeScreen}/>
           <Stack.Screen name='DoCreateScreen'component={DoCreateScreen}/>
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
+          <Stack.Screen name='SelectInterestScreen' component={SelectInterestScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
       </RootSiblingParent>
