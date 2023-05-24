@@ -3,7 +3,7 @@
 import { useState,useEffect } from "react";
 
 //  Native
-import { View, StyleSheet,Pressable,Keyboard } from "react-native";
+import { View, StyleSheet,Pressable,Keyboard,Text} from "react-native";
 
 //  Components
 import PrimaryButton from "../components/psc/PrimaryButton";
@@ -28,6 +28,17 @@ function UserVerifyScreen({ navigation }) {
 
     const dispatch = useDispatch();
     //Redux에서 토큰 
+    const sendVerificationCode = async () => {
+        try {
+            console.log("this is sendVerificationCode");
+            //await auth().signInWithPhoneNumber(phoneNumber);
+            // 인증 코드를 전송하고 결과를 확인
+            // 필요에 따라 사용자 인터페이스를 업데이트하거나 다음 단계로 이동
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     function PhoneNumberInputHandler(enteredNumber) {
         setPhoneNumber(enteredNumber.toString());
     }
@@ -73,14 +84,19 @@ function UserVerifyScreen({ navigation }) {
         Keyboard.dismiss();
     };
     return (
-        <Pressable style={styles.rootScreen} onPress={dismissKeyboard}>
+        <View style={styles.rootScreen}>
             <LogoIconImage style={styles.logoIcon} />
+            <View style={styles.buttonContainer}>
+                <Pressable onPress={sendVerificationCode} style={styles.button}>
+                    <Text style={styles.buttonText}>인증번호발급</Text>
+                </Pressable>
+            </View>
             <View style={styles.textInputContainer}>
                 <InputField placeholder={"전화번호"} maxLength={11} onChangeText={PhoneNumberInputHandler} keyboardType='number-pad' />
                 <InputField placeholder={"인증번호"} maxLength={4} onChangeText={CheckNumberInputHandler} keyboardType='number-pad' />
             </View>
             <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
-        </Pressable>
+        </View>
     );
 }
 
@@ -99,5 +115,22 @@ const styles = StyleSheet.create({
     textInputContainer: {
         width: '100%',
         marginBottom: '20%',
+    },
+    buttonContainer: {
+        alignItems: 'flex-end',
+        width: '78%',
+        marginBottom: 1,
+    
+    },
+    buttonText: {
+        color: 'white',
+        textDecorationLine: 'underline',
+    },
+    button: {
+        alignItems: 'flex-end',
+        backgroundColor: '#E30A8B',
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 4,
     },
 });
