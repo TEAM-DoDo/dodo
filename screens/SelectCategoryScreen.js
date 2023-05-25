@@ -85,7 +85,8 @@ function SelectCategoryScreen({ route, navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titleText}>{"키워드 ✅"}</Text>
+            <Text style={styles.titleText}>{"키워드"}</Text>
+            {/* ✅ */}
             <FlatList
                 data={icons}
                 numColumns={4}
@@ -105,14 +106,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        fontFamily : 'NanumGothic-Bold',
     },
     titleText: {
         color: '#E30A8B',
-        fontSize: 30,
+        fontSize: 45,
         marginHorizontal: 16,
         marginVertical: 8,
         paddingVertical: 16,
         paddingHorizontal: 16,
+        fontFamily : 'NanumGothic-Bold',
     },
     button: {
         flex: 1,
@@ -122,6 +125,8 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 8,
         borderWidth: 1,
+        fontFamily : 'NanumGothic-Bold',
+        borderColor : '#c5c5c5',
     }
 
 });

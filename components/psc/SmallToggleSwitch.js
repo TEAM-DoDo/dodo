@@ -55,13 +55,4 @@ const styles = StyleSheet.create({
     selectedTextColor : {
         color : Colors.genderToggle.selectedTextColor,
     },
-    // maleButton: {
-    //     backgroundColor: 'blue',
-    // },
-    // femaleButton: {
-    //     backgroundColor: 'pink',
-    // },
-    // activeButton: {
-    //     opacity: 0.6,
-    // },
 });

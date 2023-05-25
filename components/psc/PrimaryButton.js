@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
         shadowOffset : {width : 2, height : 2}, //only work for ios
         shadowOpacity : 0.25, //only work for ios
         shadowRadius : 6, //only work for ios
+        marginTop : '-5%',
     },
     innerContainer : {
         backgroundColor : Colors.button.mainBackgroundColor,

@@ -147,7 +147,7 @@ function GenerateIDScreen({route, navigation})
                 <Pressable onPress={AddressModalHandler} style={styles.datePress}>
                     <TextInput
                       pointerEvents="none"
-                      style={styles.textInput}
+                      style={styles.textInputAdress}
                       placeholder={'주소'}
                       placeholderTextColor="grey"
                       underlineColorAndroid="transparent"
@@ -182,9 +182,10 @@ const styles = StyleSheet.create({
     pickerContainer : {
         flexDirection : "row",
         justifyContent : 'space-between',
-        width : '80%',
+        width : '90%',
         alignSelf : 'center',
         marginBottom : 20,
+        marginLeft : 50,
     },
     datePress : {
         width : '60%',
@@ -199,8 +200,20 @@ const styles = StyleSheet.create({
         fontSize : 23,
         fontFamily : 'NanumGothic-Bold',
     },
+    textInputAdress : {
+        paddingVertical : 17,
+        borderRadius : 16,
+        paddingHorizontal : 16,
+        borderColor : '#c5c5c5',
+        borderWidth : 1,
+        width : '130%',
+        fontSize : 23,
+        fontFamily : 'NanumGothic-Bold', 
+        alignSelf : 'center',
+        
+    },
     genderButtonsContainer : {
-        width : '40%',
+        width : '100%',
         flexDirection : "row",
     },
 });

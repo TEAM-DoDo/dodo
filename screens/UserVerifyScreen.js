@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         alignItems: 'flex-end',
         width: '78%',
-        marginBottom: 1,
+        marginBottom: -40,
     
     },
     buttonText: {
