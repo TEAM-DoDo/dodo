@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import API from "../api/API";
 
 
+
 //  Native
-import { TouchableOpacity, View, Text, Button, StyleSheet, Pressable, FlatList } from "react-native";
+import { TouchableOpacity, View, Text, button, StyleSheet, Pressable, FlatList } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
+
 
 
 // Components
@@ -85,7 +87,7 @@ function SelectCategoryScreen({ route, navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titleText}>{"키워드"}</Text>
+            <Text style={styles.titleText}>{"관심 키워드"}</Text>
             {/* ✅ */}
             <FlatList
                 data={icons}
@@ -107,16 +109,19 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         fontFamily : 'NanumGothic-Bold',
+        
     },
     titleText: {
+        justifyContent : 'center',
         color: '#E30A8B',
-        fontSize: 45,
+        fontSize: 30,
         marginHorizontal: 16,
         marginVertical: 8,
         paddingVertical: 16,
         paddingHorizontal: 16,
         fontFamily : 'NanumGothic-Bold',
     },
+
     button: {
         flex: 1,
         alignItems: 'center',
@@ -124,9 +129,9 @@ const styles = StyleSheet.create({
         margin: 4,
         padding: 8,
         borderRadius: 8,
-        borderWidth: 1,
+        // borderRadius: 8,
+        borderWidth: 2,
         fontFamily : 'NanumGothic-Bold',
         borderColor : '#c5c5c5',
     }
-
 });
