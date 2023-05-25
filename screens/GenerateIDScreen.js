@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
         marginBottom : '10%',
     },
     pickerContainer : {
+        width:"100%",
         flexDirection : "row",
         justifyContent : 'space-between',
         height: 60,
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
         marginBottom : 20,
     },
     datePress : {
-        flex:3,
+        flex:1,
         marginRight : 5,
     },
     textInput : {
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
         fontFamily : 'NanumGothic-Bold',
     },
     genderButtonsContainer : {
-        width : '40%',
+        alignSelf:'baseline',
         height : "100%",
         flexDirection : "row",
     },
@@ -214,6 +215,6 @@ const styles = StyleSheet.create({
         alignSelf:'stretch',
         height: 60,
         alignSelf : 'center',
-        marginBottom : 20,
+        marginBottom : 30,
     },
 });

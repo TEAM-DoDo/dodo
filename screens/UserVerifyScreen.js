@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         marginBottom: 50,
     },
     textInputContainer: {
-        width: '100%',
+        width: '80%',
         marginBottom: '20%',
     },
     buttonContainer: {
