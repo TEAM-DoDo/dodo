@@ -152,7 +152,7 @@ function GenerateIDScreen({route, navigation})
             </View>
             <Modal visible={isModal}>
                     <Postcode
-                        style={{ width: Dimensions.get("window").width, height: Dimensions.get("window").height }}
+                        style={{ width: Dimensions.get("window").width, height: Dimensions.get("window").h }}
                         jsOptions={{ animation: true, hideMapBtn: true }}
                         onSelected={getAddressData}
                     />
@@ -184,11 +184,12 @@ const styles = StyleSheet.create({
     pickerContainer : {
         width:"100%",
         flexDirection : "row",
+        justifyContent:'space-between',
         height: 60,
         marginBottom : 20,
     },
     datePress : {
-        flex:3,
+        alignSelf:'stretch',
         marginRight : 5,
     },
     textInput : {
