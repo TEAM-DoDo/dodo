@@ -5,7 +5,7 @@ import Postcode from '@actbase/react-daum-postcode';
 import API from "../api/API";
 
 //  Native
-import { View, StyleSheet, Pressable, TextInput, Modal } from "react-native";
+import { View, StyleSheet, Pressable, TextInput, Modal,Dimensions } from "react-native";
 
 //  Components
 import PrimaryButton from "../components/psc/PrimaryButton";
@@ -152,7 +152,7 @@ function GenerateIDScreen({route, navigation})
             </View>
             <Modal visible={isModal}>
                     <Postcode
-                        style={{ width: 320, height: 320 }}
+                        style={{ width: Dimensions.get("window").width, height: Dimensions.get("window").height }}
                         jsOptions={{ animation: true, hideMapBtn: true }}
                         onSelected={getAddressData}
                     />
@@ -180,18 +180,15 @@ const styles = StyleSheet.create({
         flexDirection : 'column', 
         alignItems : 'center',
         alignSelf:'stretch',
-        marginBottom : '10%',
     },
     pickerContainer : {
         width:"100%",
         flexDirection : "row",
-        justifyContent : 'space-between',
         height: 60,
-        alignSelf : 'center',
         marginBottom : 20,
     },
     datePress : {
-        flex:1,
+        flex:3,
         marginRight : 5,
     },
     textInput : {
