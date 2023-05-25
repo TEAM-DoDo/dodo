@@ -2,6 +2,9 @@
 //  React
 import { useState, useEffect } from 'react';
 
+// Redux
+import { Provider } from 'react-redux';
+import { store } from './store/redux-store';
 //  Native
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -33,6 +36,9 @@ import DoScheduleAddScreen from './screens/DoScheduleAddScreen';
 import DoNoticeScreen from './screens/DoNoticeScreen';
 import DoCreateScreen from './screens/DoCreateScreen';
 import SelectInterestScreen from './screens/SelectInterestScreen';
+
+// Library
+import * as encoding from 'text-encoding';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -76,7 +82,6 @@ function BottomTabNavigator({ route, navigation }) {
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
-  
   async function SplashIn() {
     await SplashScreen.preventAutoHideAsync();
     await Font.loadAsync({
@@ -90,7 +95,6 @@ export default function App() {
     await new Promise(resolve => setTimeout(resolve, 2000));
     await setAppIsReady(true);
   }
-
   async function SplashOut() {
     await SplashScreen.hideAsync();
   }
@@ -115,6 +119,7 @@ export default function App() {
   });
   return (
     <SafeAreaView style={SafeAreaStyle.droidSafeArea}>
+      <Provider store={store}>
       <RootSiblingParent>
       <StatusBar style='dark' />
       <NavigationContainer>
@@ -136,6 +141,7 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
       </RootSiblingParent>
+      </Provider>
     </SafeAreaView>
   );
 }

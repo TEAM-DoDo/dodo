@@ -1,19 +1,35 @@
 //Import ---------------------------------------------------
 //  Native
 import { View, StyleSheet, Image } from "react-native";
+import { useEffect } from "react";
 
 //  Expo
 import { Video } from 'expo-av';
+
+//  Redux Storage
+import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //  Components
 import PrimaryButton from "../components/psc/PrimaryButton";
 import Title from '../components/psc/Title';
 import LogoIconImage from "../components/psc/LogoIconImage";
+import { addAccessToken, addRefreshToken } from "../store/jwt-store";
 
 //Definition Component ---------------------------------------------------
 function StartUpScreen({navigation})
 {
     const introVideoPath = require('../assets/videos/Intro.mp4');
+    const dispatch = useDispatch();
+    //기본 토큰 정보 로딩
+    useEffect(() => {
+      AsyncStorage.getItem("access_token",(err,result) => {
+        dispatch(addAccessToken({ access_token : result}));
+      });
+      AsyncStorage.getItem("refresh_token",(err,result) => {
+        dispatch(addRefreshToken({ refresh_token : result}));
+      });
+    }, []);
 
     function MoveToUserVerifyScreen()
     {

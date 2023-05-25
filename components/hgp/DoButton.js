@@ -5,12 +5,13 @@ import API, { localIpAddress, portNumber } from "../../api/API";
 import CircleUserImage from "./CircleUserImage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
+import { useSelector } from "react-redux";
 function DoButton({navigation,doId = 0}){
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [category, setCategory] = useState('');
     const [image, setImage] = useState('');
-    const [token,setToken] = useState('');
+    const accessToken = useSelector((state) => state.jwt.access_token);
     if(doId == null){
         return null;
     }
@@ -18,15 +19,12 @@ function DoButton({navigation,doId = 0}){
         navigation.navigate("DoScreen",{id : doId, title : name});
     }
     useEffect(() => {
-        AsyncStorage.getItem("access_token",(err,result) => {
-            setToken(result);
-            API.get(`/api/do/${doId}`).then((response) => {
-                //console.log(response.data);
-                setName(response.data.name);
-                //setCategory(response.data.category);
-                setAddress(response.data.place);
-                setImage(response.data.image);
-            });
+        API.get(`/api/do/${doId}`).then((response) => {
+            //console.log(response.data);
+            setName(response.data.name);
+            //setCategory(response.data.category);
+            setAddress(response.data.place);
+            setImage(response.data.image);
         });
         return () => {
           console.log('컴포넌트가 화면에서 사라짐');
@@ -38,7 +36,7 @@ function DoButton({navigation,doId = 0}){
             <Image style={DoButtonStyle.do_image} source={{
                 uri:`http://${localIpAddress}:${portNumber}/api/do/${doId}/title-image?${Date.now()}`,
                 headers:{ 
-                    Authorization : `Bearer ${token}`
+                    Authorization : `Bearer ${accessToken}`
                 }
             }}/>
             <View style={DoButtonStyle.do_info_holder}>

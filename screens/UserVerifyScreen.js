@@ -15,23 +15,19 @@ import RNExitApp from "react-native-exit-app";
 // Plugin
 import * as Permissions from 'expo-permissions';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch, useSelector } from "react-redux";
+import { addAccessToken,addRefreshToken } from "../store/jwt-store";
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({ navigation }) {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [checkNumber, setCheckNumber] = useState('');
-    // useEffect(() => {
-    //     Permissions.getAsync(Permissions.MEDIA_LIBRARY).then(
-    //         (status) => {
-    //             if (status !== 'granted') {
-    //                 console.log("사용자가 저장소 요청을 거부함");
-    //                 //RNExitApp.exitApp();
-    //               }
-    //         });
-    //     return () => {
-    //       console.log('컴포넌트가 화면에서 사라짐');
-    //     };
-    //   }, []);
+    const accessToken = useSelector((state) => state.jwt.access_token);
+    const refreshToken = useSelector((state) => state.jwt.refresh_token);
+    // console.log(accessToken);
+    // console.log(refreshToken);
 
+    const dispatch = useDispatch();
+    //Redux에서 토큰 
     const sendVerificationCode = async () => {
         try {
             console.log("this is sendVerificationCode");
@@ -55,11 +51,11 @@ function UserVerifyScreen({ navigation }) {
         //전화번호를 통해 이미 가입된 유저인지 신규유저인지 판별하고 navigate함수 안 이동할 screen의 이름 분기 처리 해야함.
     }
     function MoveToNextScreen() {
-        navigation.navigate('GenerateIDScreen', //유저 가입여부 확인 로직이 없어 일단은 회원가입 창으로 이동하게 함
-            {
-                phoneNumber, //가입 페이지로 이동 시 핸드폰 번호를 두번 입력하지 않도록 데이터를 넘겨줌
-            });
-        return;
+        // navigation.navigate('GenerateIDScreen', //유저 가입여부 확인 로직이 없어 일단은 회원가입 창으로 이동하게 함
+        //     {
+        //         phoneNumber, //가입 페이지로 이동 시 핸드폰 번호를 두번 입력하지 않도록 데이터를 넘겨줌
+        //     });
+        // return;
         //유저 가입 확인 로직 추가
         const userInfo = {
             address : "",
@@ -71,8 +67,9 @@ function UserVerifyScreen({ navigation }) {
         API.post("/api/users/check",{phoneNumber : phoneNumber,certNumber:"14632"}).then((response) => {
             //제대로 된 응답 안에는 토큰이 포함됨
             //토큰을 내부 저장소에 저장
-            AsyncStorage.setItem("access_token",`${response.data.accessToken}`);
-            AsyncStorage.setItem("refresh_token",`${response.data.refreshToken}`);
+            //console.log(response.data);
+            dispatch(addAccessToken({ access_token : `${response.data.accessToken}`}));
+            dispatch(addRefreshToken({ refresh_token : `${response.data.refreshToken}`}));
             navigation.navigate('BottomTabNavigatorScreen',{userInfo});
         }).catch((response) => {
             console.log(response);

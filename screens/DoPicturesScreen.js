@@ -7,10 +7,11 @@ import FloatingButton from "../components/hgp/FloatingButton";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-root-toast";
 import mime from "mime";
+import { useSelector } from "react-redux";
 function DoPicturesScreen({navigation,route}){
     const [isUpdated, setIsUpdated] = useState(false);
     const [imagePathList, setImagePathList] = useState([]);
-    const [token,setToken] = useState('');
+    const accessToken = useSelector((state) => state.jwt.access_token);
     const addNewPicture = async () => {
         //Do 구성원이 아니면 새로운 사진을 추가할 수 없게 해야함 혹은 버튼이 보이지 않도록 해야함
         var isDoParticipants = true;
@@ -69,18 +70,15 @@ function DoPicturesScreen({navigation,route}){
     }
     const updateData = () => {
         //console.log("Update from do picture screen")
-        AsyncStorage.getItem("access_token",(err,result) => {
-            setToken(result);
-            API.get("/api/image/download/"+route.params.id+"/list")
-                .then((responce) => {
-                        setImagePathList(responce.data.image_id);
-                        
-                    })
-                .catch((error) => {
-                        console.error(error);
-                    });
-            setIsUpdated(false);
-        });
+        API.get("/api/image/download/"+route.params.id+"/list")
+        .then((responce) => {
+                setImagePathList(responce.data.image_id);
+                
+            })
+        .catch((error) => {
+                console.error(error);
+            });
+        setIsUpdated(false);
     }
     useEffect(() => {
         //console.log('컴포넌트가 화면에 나타남');
@@ -110,7 +108,7 @@ function DoPicturesScreen({navigation,route}){
                                 {
                                     uri:`http://${localIpAddress}:${portNumber}/api/image/download/${route.params.id}/${item.item}`,
                                     headers:{ 
-                                        Authorization : `Bearer ${token}`
+                                        Authorization : `Bearer ${accessToken}`
                                     }
                                 }
                             } alt="이미지를 불러올 수 없습니다."/>
