@@ -45,7 +45,6 @@ function SelectInterestScreen({ navigation }) {
         { name: "Taiwan", title: "대만🇹🇼" },
         { name: "Italy", title: "이탈리아🇮🇹" },
         { name: "Portugal", title: "포르투갈🇵🇹" },
-        
     ];
 
     const sportsSubjects = [
