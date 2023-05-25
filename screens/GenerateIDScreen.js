@@ -106,9 +106,9 @@ function GenerateIDScreen({route, navigation})
     return (
         <View style={styles.rootScreen}>
             <LogoIconImage style={styles.logoIcon} />
-            <View style={styles.textInputContainer}>
-                <InputField placeholder={"닉네임"} maxLength={11} value={nickname} onChangeText={nicknameHandler} />
-                <View style={styles.pickerContainer}>
+            <View style={styles.comp_component}>
+            <InputField placeholder={"닉네임"} maxLength={11} value={nickname} onChangeText={nicknameHandler} />
+            <View style={styles.pickerContainer}>
                     <Pressable onPress={onPressDate} style={styles.datePress}>
                         <TextInput
                           pointerEvents="none"
@@ -137,17 +137,10 @@ function GenerateIDScreen({route, navigation})
                                 </SmallToggleSwitch>
                     </View>
                 </View>
-                <Modal visible={isModal}>
-                    <Postcode
-                        style={{ width: 320, height: 320 }}
-                        jsOptions={{ animation: true, hideMapBtn: true }}
-                        onSelected={getAddressData}
-                    />
-                </Modal>
-                <Pressable onPress={AddressModalHandler} style={styles.datePress}>
+                <Pressable onPress={AddressModalHandler} style={styles.address_container}>
                     <TextInput
                       pointerEvents="none"
-                      style={styles.textInputAdress}
+                      style={styles.textInput}
                       placeholder={'주소'}
                       placeholderTextColor="grey"
                       underlineColorAndroid="transparent"
@@ -155,8 +148,15 @@ function GenerateIDScreen({route, navigation})
                       value={address}
                     />
                 </Pressable>
+                <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
             </View>
-            <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
+            <Modal visible={isModal}>
+                    <Postcode
+                        style={{ width: 320, height: 320 }}
+                        jsOptions={{ animation: true, hideMapBtn: true }}
+                        onSelected={getAddressData}
+                    />
+                </Modal>
         </View>
     );
 }
@@ -169,6 +169,9 @@ const styles = StyleSheet.create({
         flex : 1,
         alignItems : 'center',
     },
+    comp_component:{
+        width:"90%",
+    },
     logoIcon : {
         marginTop : '10%',
         marginBottom : 30,
@@ -176,22 +179,22 @@ const styles = StyleSheet.create({
     textInputContainer : {
         flexDirection : 'column', 
         alignItems : 'center',
-        width : '115%',
+        alignSelf:'stretch',
         marginBottom : '10%',
     },
     pickerContainer : {
         flexDirection : "row",
         justifyContent : 'space-between',
-        width : '90%',
+        height: 60,
         alignSelf : 'center',
         marginBottom : 20,
-        marginLeft : 50,
     },
     datePress : {
-        width : '60%',
+        flex:3,
         marginRight : 5,
     },
     textInput : {
+        width:"100%",
         paddingVertical : 17,
         borderRadius : 16,
         paddingHorizontal : 16,
@@ -200,20 +203,17 @@ const styles = StyleSheet.create({
         fontSize : 23,
         fontFamily : 'NanumGothic-Bold',
     },
-    textInputAdress : {
-        paddingVertical : 17,
-        borderRadius : 16,
-        paddingHorizontal : 16,
-        borderColor : '#c5c5c5',
-        borderWidth : 1,
-        width : '130%',
-        fontSize : 23,
-        fontFamily : 'NanumGothic-Bold', 
-        alignSelf : 'center',
-        
-    },
     genderButtonsContainer : {
-        width : '100%',
+        width : '40%',
+        height : "100%",
         flexDirection : "row",
+    },
+    address_container : {
+        flexDirection : "row",
+        justifyContent : 'space-between',
+        alignSelf:'stretch',
+        height: 60,
+        alignSelf : 'center',
+        marginBottom : 20,
     },
 });

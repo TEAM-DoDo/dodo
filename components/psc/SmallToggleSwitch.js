@@ -27,8 +27,10 @@ export default SmallToggleSwitch;
 
 const styles = StyleSheet.create({
     outerContainer : {
+        height:"95%",
+        aspectRatio:1,
         borderRadius : 15,
-        margin : 5,
+        marginHorizontal:5,
         overflow : 'hidden',
         elevation : 8, //only work for android
         shadowColor : 'black', //only work for ios
