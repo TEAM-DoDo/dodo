@@ -80,16 +80,6 @@ function ChatScreen ({navigation,route}){
     }
     return (
         <View style={ChatScreenStyle.container}>
-            <View style={ChatScreenStyle.participants_holder}>
-                <Text>채팅 참여자</Text>
-                <FlatList
-                    horizontal={true}
-                    data={ChatParticipantsDummy}
-                    keyExtractor={(item) => item}
-                    alignItems='center'
-                    renderItem={({item}) => <CircleUserImage mode='expand' margin={5} index={item}/>}
-                />
-            </View>
             <FlatList
                 inverted={true}
                 data={chatList}

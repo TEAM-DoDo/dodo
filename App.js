@@ -40,6 +40,7 @@ import SelectInterestScreen from './screens/SelectInterestScreen';
 // Library
 import * as encoding from 'text-encoding';
 import { KeyboardAvoidingView } from 'react-native';
+import UserListScreen from './screens/UserListScreen';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -140,6 +141,7 @@ export default function App() {
           <Stack.Screen name='DoCreateScreen'component={DoCreateScreen}/>
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
           <Stack.Screen name='SelectInterestScreen' component={SelectInterestScreen}/>
+          <Stack.Screen name='UserListScreen' component={UserListScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
       </RootSiblingParent>
