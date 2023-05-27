@@ -27,4 +27,19 @@ const Style = StyleSheet.create({
         backgroundColor:'white',
     },
 });
+function UserItem({id,name,profileImage}){
+    return(
+        <View style={UserItemStlye.container}>
+            <Text>{name}</Text>
+        </View>
+    );
+}
+const UserItemStlye = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
+    }
+});
 export default UserListScreen;
