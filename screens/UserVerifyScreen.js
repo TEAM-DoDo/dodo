@@ -3,7 +3,7 @@
 import { useState,useEffect } from "react";
 
 //  Native
-import { View, StyleSheet,Pressable,Keyboard,Text} from "react-native";
+import { View, StyleSheet,Pressable,Keyboard,Text,KeyboardAvoidingView} from "react-native";
 
 //  Components
 import PrimaryButton from "../components/psc/PrimaryButton";
@@ -122,8 +122,8 @@ function UserVerifyScreen({ navigation }) {
         });
     }
     const dismissKeyboard = () => {
-        console.log("dismiss keyboard");
-        Keyboard.dismiss();
+        // console.log("dismiss keyboard");
+        // Keyboard.dismiss();
     };
     return (
         <Pressable style={styles.rootScreen} onPress={dismissKeyboard}>

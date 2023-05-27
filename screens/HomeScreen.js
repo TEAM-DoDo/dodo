@@ -87,6 +87,7 @@ function HomeScreen({navigation}){
 
             </View>
             <FlatList
+                style={Style.list_holder}
                 data={doList}
                 keyExtractor={(item) => item}
                 numColumns={1}
@@ -110,6 +111,9 @@ const Style = StyleSheet.create({
         marginHorizontal:10,
         height:60,
         //backgroundColor:'gray'
+    },
+    list_holder:{
+        padding:10,
     },
     pos_show_button:{
         flexDirection:'row',

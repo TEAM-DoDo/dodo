@@ -121,13 +121,13 @@ function DoInfoScreen({route, navigation}) {
             .catch((err)=>{console.log(err)});
     }
     const handleEmptyShedulePress = () =>{
-        navigation.navigate("DoScheduleAddScreen");
+        navigation.navigate("DoScheduleAddScreen",{id:route.params.id});
     }
     const handleShowAllParcitipants = () => {
 
     }
     const handleShowNotice = () => {
-        navigation.navigate("DoNoiceScreen",{id:route.params.id});
+        navigation.navigate("DoNoticeScreen",{id:route.params.id});
     }
     return (
         <ScrollView style={Style.container}>

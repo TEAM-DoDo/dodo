@@ -31,6 +31,7 @@ function ChatScreen ({navigation,route}){
         client.connect({
             Authorization: `Bearer ${accessToken}`
         },null);
+        client.debug = (str) => {return;};
         const messageCallback = function (message) {
             // called when the client receives a STOMP message from the server
             var data = JSON.parse(message.body);
@@ -43,14 +44,13 @@ function ChatScreen ({navigation,route}){
             setChats(chatList => [chat,...chatList]);
           };
         client.onConnect = (frame) => {
-            console.log("connected");
+            //console.log("connected");
             client.subscribe(`/app/${route.params.id}/enter`,(message) => {
-                console.log(message.body);
+                //console.log(message.body);
                 setChats(JSON.parse(message.body));
             });
             client.subscribe(`/topic/room/${route.params.id}`,messageCallback);
         };
-
         client.activate();
         return () => {
             
@@ -66,7 +66,6 @@ function ChatScreen ({navigation,route}){
         //카메라 버튼을 눌렀을 때 이벤트
     }
     const handleSendChat = () => {
-        
         let chat = new Chat({
             username:"임시",
             content:chatText
