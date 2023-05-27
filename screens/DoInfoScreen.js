@@ -34,18 +34,18 @@ function DoInfoScreen({route, navigation}) {
     const [description,setDescription] = useState('');
     const accessToken = useSelector((state) => state.jwt.access_token);
     //do Schedule에 대한 정보
-    const [scheduleDate,setScheduleDate] = useState('');
-    const [schedulePlace,setSchedulePlace] = useState('');
-    const [scheduleCost,setScheduleCost] = useState('');
+    const [doSchedule, setDoSchedule] = useState(null);
     const updateData = () => {
         API.get(`/api/do/${route.params.id}`).then((response) => {
-            //console.log(response.data);
-            //console.log(response.data);
-            //setCategory(response.data.category);
             setPlace(response.data.place);
-            //setImage(response.data.image);
             setDescription(response.data.description);
             setTick(Date.now());
+        });
+        API.get(`/api/do/${route.params.id}/schedules`).then((response) => {
+            setDoSchedule(response.data);
+            console.log(response.data);
+        }).catch((error) => {
+            console.log(error);
         });
     };
     const getDoParticipantsNum = () => {
@@ -58,7 +58,6 @@ function DoInfoScreen({route, navigation}) {
         navigation.addListener('focus',() => {
             updateData();
         });
-
         return(() => {
 
         });
@@ -159,7 +158,12 @@ function DoInfoScreen({route, navigation}) {
                         <Entypo name="circle-with-plus" size={16} margin={5} color="gray" />
                     </Pressable>
                 </View>
-                <DoSchedule isEmpty={true} onEmptySchedulepress={handleEmptyShedulePress}/>
+                <DoSchedule 
+                    isEmpty={(doSchedule==null)} onEmptySchedulepress={handleEmptyShedulePress}
+                    startDate={doSchedule?.startTime} endDate={doSchedule?.endTime}
+                    title={doSchedule?.title} description={doSchedule?.detail}
+                    cost={doSchedule?.cost} place={doSchedule?.place}
+                />
             </View>
             <View style={Style.info_holder}>
                 <View flexDirection='row' alignItems='center'>

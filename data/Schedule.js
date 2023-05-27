@@ -1,5 +1,5 @@
 export class Schedule{
-    constructor({id,title,startTime,endTime,place,detail,doId}){
+    constructor({id,title,startTime,endTime,place,detail,doId,cost}){
         
         this.id = id;
         this.title = title;
@@ -8,5 +8,6 @@ export class Schedule{
         this.place = place;
         this.detail = detail;
         this.doId = doId;
+        this.cost = cost;
     }
 }

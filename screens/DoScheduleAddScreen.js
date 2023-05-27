@@ -193,9 +193,10 @@ function DoScheduleAddScreen({navigation, route}) {
             place: address,
             cost: cost,
             detail: des,
-            startTime: Math.round(startDate.getTime()/1000),
-            endTime: Math.round(endDate.getTime()/1000),
+            startTime: Math.round(startDate.getTime()),
+            endTime: Math.round(endDate.getTime()),
             doId: route.params.id,
+            cost: cost.replace(/,/g,"").replace(/원/g,""),
         });
         console.log(schedule);
         API.post(`/api/do/${route.params.id}/schedules`,schedule).then((res) => {
