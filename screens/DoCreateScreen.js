@@ -37,6 +37,7 @@ function DoCreateScreen({navigation}){
             doName : name,
             description : des,
             place : address,
+            userId : 1
         }
         API.post("/api/do/create",data).then((response) => {
             Toast.show('Do가 생성되었습니다.', {
@@ -91,19 +92,6 @@ const Style = StyleSheet.create({
         fontFamily:'NanumGothic-ExtraBold',
         fontSize:20
     },
-    input_container : {
-        height : 70,
-        alignSelf : 'stretch',
-        padding: 10,
-        marginHorizontal:20,
-        overflow:'scroll',
-        marginVertical:10,
-        borderRadius : 20,
-        borderColor : 'grey',
-        borderWidth : 1,
-        fontSize : 15,
-        fontFamily : 'NanumGothic-Bold',
-    },
     input_box : {
         height:Dimensions.get('window').height * 0.48,
         alignSelf : 'stretch',
@@ -117,6 +105,19 @@ const Style = StyleSheet.create({
         fontSize : 15,
         fontFamily : 'NanumGothic-Bold',
         textAlignVertical: 'top',
+    },
+    input_container : {
+        height : 70,
+        alignSelf : 'stretch',
+        padding: 10,
+        marginHorizontal:20,
+        overflow:'scroll',
+        marginVertical:10,
+        borderRadius : 20,
+        borderColor : 'grey',
+        borderWidth : 1,
+        fontSize : 15,
+        fontFamily : 'NanumGothic-Bold',
     },
     create_button:{
         flex:Dimensions.get('window').height * 0.1,
