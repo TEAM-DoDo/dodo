@@ -7,7 +7,8 @@ function InputField({placeholder, maxLength, onChangeText, keyboardType='default
 {
     return(
         <View style={styles.container}>
-            <TextInput style={styles.input} placeholder={placeholder} keyboardType={keyboardType} 
+            <TextInput style={styles.input} 
+            placeholder={placeholder} placeholderTextColor="grey" keyboardType={keyboardType} 
             maxLength={maxLength} onChangeText={onChangeText} 
             autoCapitalize='none' value={value} />
         </View>

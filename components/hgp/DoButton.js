@@ -33,12 +33,15 @@ function DoButton({navigation,doId = 0}){
 
     return(
         <Pressable style={DoButtonStyle.container} onPress={onDoButtonPress}>
-            <Image style={DoButtonStyle.do_image} source={{
+            <View style={DoButtonStyle.do_image}>
+                <Image width="100%" height="100%" source={{
                 uri:`http://${localIpAddress}:${portNumber}/api/do/${doId}/title-image?${Date.now()}`,
                 headers:{ 
                     Authorization : `Bearer ${accessToken}`
                 }
-            }}/>
+                }}/>
+            </View>
+
             <View style={DoButtonStyle.do_info_holder}>
                 <Text style={DoButtonStyle.do_title}>{name}</Text>
                 <Text style={DoButtonStyle.do_small_info}>카테고리 : {category}</Text>
@@ -64,27 +67,29 @@ function DoButton({navigation,doId = 0}){
 }
 const DoButtonStyle = StyleSheet.create({
     container:{
-        marginHorizontal:20,
+        width:"100%",
+        aspectRatio:2,
+        backgroundColor:'white',
         marginVertical:10,
-        height:150,
         borderRadius:30,
-        backgroundColor:"white",
         flex:1,
         flexDirection:'row',
-        overflow:'hidden',
-        elevation:2,
-        shadowColor : 'black', //only work for ios
-        shadowOffset : {width : 2, height : 2}, //only work for ios
-        shadowOpacity : 1, //only work for ios
-        shadowRadius : 6, //only work for ios
+        //overflow:'hidden',
+        shadowOffset: { width: 0.5, height: 0.5 },
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
+        elevation: 3,
+        // background color must be set
     },
     do_image:{
         backgroundColor:'gray',
         width:'40%',
         height:'100%',
+        overflow:'hidden',
+        borderBottomLeftRadius:30,
+        borderTopLeftRadius:30
     },
     do_info_holder:{
-        backgroundColor:'#fdfdfd',
         flex:1,
         padding:10,
         justifyContent:'space-between'

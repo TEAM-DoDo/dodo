@@ -48,16 +48,18 @@ function DoPicturesScreen({navigation,route}){
             });
             return;
         }
-        const image = {
-           uri: '',
-           type: 'image/jpeg',
-           name: 'test',
-        };
-        image.uri = result.assets[0].uri;
-        image.name = image.uri.split("/").pop();
-        image.type = mime.getType(image.uri);
         const formData = new FormData();
-        formData.append("files",image);
+        for(var i = 0; i < result.assets.length;i++){
+            let image = {
+            uri: '',
+            type: 'image/jpeg',
+            name: 'test',
+            };
+            image.uri = result.assets[0].uri;
+            image.name = image.uri.split("/").pop();
+            image.type = mime.getType(image.uri);
+            formData.append("files",image);
+        }
         API.post(
             `/api/image/upload/${route.params.id}`,
             formData,

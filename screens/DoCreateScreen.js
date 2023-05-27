@@ -1,15 +1,14 @@
 import { View,StyleSheet,Dimensions,Modal,Pressable,TextInput,Text } from "react-native";
 import { useState } from "react";
 import TopBar from "../components/hgp/TopBar";
-import InputField from "../components/psc/InputField";
 import Postcode from "@actbase/react-daum-postcode";
 import API from "../api/API";
 import Toast from "react-native-root-toast";
 
 function DoCreateScreen({navigation}){
     const [isModal,setIsModal] = useState(false);
-    const [name,setName] = useState("");
     const [address,setAddress] = useState("");
+    const [name,setName] = useState("");
     const [des,setDes] = useState("");
     const onGoBackPressed = () =>{
         navigation.goBack();
@@ -63,10 +62,10 @@ function DoCreateScreen({navigation}){
     return(
         <View style={Style.container}>
             <TopBar title="Do 만들기" onGoBackPressed={onGoBackPressed} enableAlarmButton={false}/>
-            <TextInput style={Style.input_container} placeholder={"Do 이름"} onChangeText={setName} value={name} />
-            <TextInput style={Style.input_container} placeholder={"Do 지역"} onChangeText={setAddress} value={address} onPressIn={onAddressPartSelected}/>
+            <TextInput style={Style.input_container} placeholder={"Do 이름"} placeholderTextColor={'gray'} onChangeText={setName} value={name} />
+            <TextInput style={Style.input_container} placeholder={"Do 지역"} placeholderTextColor={'gray'} onChangeText={setAddress} value={address} onPressIn={onAddressPartSelected}/>
             <Text style={Style.input_title}>소개하는 말</Text>
-            <TextInput style={Style.input_box} multiline={true} placeholder={"소개하는 말을 적어주세요."} onChangeText={setDes} value={des}/>
+            <TextInput style={Style.input_box} multiline={true} placeholder={"소개하는 말을 적어주세요."} placeholderTextColor={'gray'} onChangeText={setDes} value={des}/>
             <Pressable style={Style.create_button} onPress={onCreateButtonPressed}>
                 <Text style={Style.create_button_text}>만들기</Text>
             </Pressable>

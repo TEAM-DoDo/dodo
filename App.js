@@ -39,6 +39,8 @@ import SelectInterestScreen from './screens/SelectInterestScreen';
 
 // Library
 import * as encoding from 'text-encoding';
+import { KeyboardAvoidingView } from 'react-native';
+import UserListScreen from './screens/UserListScreen';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -118,7 +120,8 @@ export default function App() {
     }),
   });
   return (
-    <SafeAreaView style={SafeAreaStyle.droidSafeArea}>
+    <SafeAreaView style={Style.droidSafeArea}>
+      {/* <KeyboardAvoidingView style={Style.master_view} behavior='padding'> */}
       <Provider store={store}>
       <RootSiblingParent>
       <StatusBar style='dark' />
@@ -134,21 +137,26 @@ export default function App() {
           <Stack.Screen name="BottomTabNavigatorScreen" component={BottomTabNavigator} />
           <Stack.Screen name="DoScreen" component={DoScreen} />
           <Stack.Screen name='DoScheduleAddScreen' component={DoScheduleAddScreen}/>
-          <Stack.Screen name='DoNoiceScreen'component={DoNoticeScreen}/>
+          <Stack.Screen name='DoNoticeScreen'component={DoNoticeScreen}/>
           <Stack.Screen name='DoCreateScreen'component={DoCreateScreen}/>
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
           <Stack.Screen name='SelectInterestScreen' component={SelectInterestScreen}/>
+          <Stack.Screen name='UserListScreen' component={UserListScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
       </RootSiblingParent>
       </Provider>
+      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 }
-const SafeAreaStyle =  StyleSheet.create({
+const Style =  StyleSheet.create({
   droidSafeArea: {
       flex: 1,
-      backgroundColor: 'white',
       paddingTop: Platform.OS === 'android' ? 25 : 0
   },
+  master_view:{
+    flex: 1,
+    backgroundColor: 'white',
+  }
 });

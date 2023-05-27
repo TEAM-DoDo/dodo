@@ -23,6 +23,8 @@ import mime from "mime";
 import Toast from "react-native-root-toast";
 import DoNotice from "../components/hgp/DoNotice";
 import { useSelector } from "react-redux";
+import FloatingButton from "../components/hgp/FloatingButton";
+import { DoOfUser } from "../data/DoOfUser";
 
 function DoInfoScreen({route, navigation}) {
     //console.log("from do info screen : " + route.params.id);
@@ -34,18 +36,26 @@ function DoInfoScreen({route, navigation}) {
     const [description,setDescription] = useState('');
     const accessToken = useSelector((state) => state.jwt.access_token);
     //do Schedule에 대한 정보
-    const [scheduleDate,setScheduleDate] = useState('');
-    const [schedulePlace,setSchedulePlace] = useState('');
-    const [scheduleCost,setScheduleCost] = useState('');
+    const [doSchedule, setDoSchedule] = useState(null);
+    const [isParticipant, setIsParticipant] = useState(false);
+    const [participants, setParticipants] = useState([]);
+
     const updateData = () => {
         API.get(`/api/do/${route.params.id}`).then((response) => {
-            //console.log(response.data);
-            //console.log(response.data);
-            //setCategory(response.data.category);
             setPlace(response.data.place);
-            //setImage(response.data.image);
             setDescription(response.data.description);
+            //console.log(response.data);
             setTick(Date.now());
+        });
+        API.get(`/api/do-of-user/${route.params.id}`).then((response) => {
+            setParticipants(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+        API.get(`/api/do/${route.params.id}/schedules`).then((response) => {
+            setDoSchedule(response.data);
+        }).catch((error) => {
+            console.log("data not found");
         });
     };
     const getDoParticipantsNum = () => {
@@ -58,7 +68,6 @@ function DoInfoScreen({route, navigation}) {
         navigation.addListener('focus',() => {
             updateData();
         });
-
         return(() => {
 
         });
@@ -121,14 +130,27 @@ function DoInfoScreen({route, navigation}) {
             .catch((err)=>{console.log(err)});
     }
     const handleEmptyShedulePress = () =>{
-        navigation.navigate("DoScheduleAddScreen");
+        navigation.navigate("DoScheduleAddScreen",{id:route.params.id});
     }
     const handleShowAllParcitipants = () => {
-
+        navigation.navigate('UserListScreen',{id:route.params.id});
     }
     const handleShowNotice = () => {
-        navigation.navigate("DoNoiceScreen",{id:route.params.id});
+        navigation.navigate("DoNoticeScreen",{id:route.params.id});
     }
+    const handleOnParticipatePress = () => {
+        console.log("snffuTdma");
+        let data = new DoOfUser({
+            doId:route.params.id,
+            userId:2,
+        });
+        API.post(`/api/do-of-user`,data).then((response) => {
+            console.log(response.data);
+            setIsParticipant(true);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }        
     return (
         <ScrollView style={Style.container}>
             <Pressable style={Style.do_title_img} onPress={handleDoImagePress}>
@@ -159,7 +181,12 @@ function DoInfoScreen({route, navigation}) {
                         <Entypo name="circle-with-plus" size={16} margin={5} color="gray" />
                     </Pressable>
                 </View>
-                <DoSchedule isEmpty={true} onEmptySchedulepress={handleEmptyShedulePress}/>
+                <DoSchedule 
+                    isEmpty={(doSchedule==null)} onEmptySchedulepress={handleEmptyShedulePress}
+                    startDate={doSchedule?.startTime} endDate={doSchedule?.endTime}
+                    title={doSchedule?.title} description={doSchedule?.detail}
+                    cost={doSchedule?.cost} place={doSchedule?.place}
+                />
             </View>
             <View style={Style.info_holder}>
                 <View flexDirection='row' alignItems='center'>
@@ -171,10 +198,10 @@ function DoInfoScreen({route, navigation}) {
                 <FlatList
                     marginVertical={10}
                     horizontal={true}
-                    data={ChatParticipantsDummy}
-                    keyExtractor={(item) => item}
+                    data={participants}
+                    keyExtractor={(item) => item.id}
                     alignItems='center'
-                    renderItem={({item}) => <CircleUserImage mode='minimize' margin={5} index={item}/>}
+                    renderItem={({item}) => <CircleUserImage mode='minimize' margin={5} index={item.profileImagePath}/>}
                 />
             </View>
             <View style={Style.info_holder}>
@@ -185,6 +212,10 @@ function DoInfoScreen({route, navigation}) {
                     <DoNotice doid={route.params.id} postid="last"/>
                 </Pressable>
             </View>
+            {   isParticipant?
+                    null:
+                    <FloatingButton onFloatingButtonPress={handleOnParticipatePress}/>
+            }
         </ScrollView>
     );
 };
