@@ -42,6 +42,7 @@ import * as encoding from 'text-encoding';
 import { KeyboardAvoidingView } from 'react-native';
 import UserListScreen from './screens/UserListScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SchduleInfoScreen from './screens/ScheduleInfoScreen';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -141,6 +142,7 @@ export default function App() {
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
           <Stack.Screen name='SelectInterestScreen' component={SelectInterestScreen}/>
           <Stack.Screen name='UserListScreen' component={UserListScreen}/>
+          <Stack.Screen name='ScheduleInfoScreen' component={SchduleInfoScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
       </RootSiblingParent>
