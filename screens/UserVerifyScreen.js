@@ -85,6 +85,10 @@ function UserVerifyScreen({ navigation }) {
                         id : response.data.userdata.id,
                         imagePath : response.data.userdata.imagePath,
                     };
+                    if(userInfo.nickname === null){
+                        navigation.navigate('GenerateIDScreen',{phoneNumber : phoneNumber,id : response.data.userdata.id});
+                        break;
+                    }
                     dispatch(addUserInfo({ data : userInfo }));
                     navigation.navigate('BottomTabNavigatorScreen');
                     break;

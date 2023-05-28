@@ -14,7 +14,7 @@ function DoScreenHolder({doId}){
             },
         }}>
         <TabBar.Screen name="정보" component={DoInfoScreen} initialParams={{id : doId}}/>
-        <TabBar.Screen name="게시글" component={DoPicturesScreen} initialParams={{id : doId}}/>
+        <TabBar.Screen name="사진" component={DoPicturesScreen} initialParams={{id : doId}}/>
         <TabBar.Screen name="채팅" component={ChatScreen} initialParams={{id : doId}}/>
     </TabBar.Navigator>
     );

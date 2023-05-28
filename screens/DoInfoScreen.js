@@ -153,6 +153,9 @@ function DoInfoScreen({route, navigation}) {
     const handleShowNotice = () => {
         navigation.navigate("DoNoticeScreen",{id:route.params.id});
     }
+    const handleOnSchedulePress = () => {
+        navigation.navigate("DoScheduleInfoScreen",{data : doSchedule});
+    }
     const handleOnParticipatePress = () => {
         let data = new DoOfUser({
             doId:route.params.id,
@@ -199,6 +202,7 @@ function DoInfoScreen({route, navigation}) {
                 </View>
                 <DoSchedule 
                     isEmpty={(doSchedule==null)} onEmptySchedulepress={handleEmptyShedulePress}
+                    onSchedulePress={handleOnSchedulePress}
                     startDate={doSchedule?.startTime} endDate={doSchedule?.endTime}
                     title={doSchedule?.title} description={doSchedule?.detail}
                     cost={doSchedule?.cost} place={doSchedule?.place}

@@ -39,7 +39,11 @@ function ChatBox({chatUserId,time, content}) {
                     <Text style={[ChatStyle.chat_opponent_name]}>{chatUserNickname}</Text>
                     <View style={ChatStyle.chat_box_holder} flexDirection='row'>
                         <Text style={[ChatStyle.chat_opponent_box,ChatStyle.chat_box_standard]}>{content}</Text>
-                        <Text style={ChatStyle.time_text}>{moment(d).format('LT')}</Text>
+                        <View style={ChatStyle.time_text_holder}>
+                            <Text style={ChatStyle.time_text}>{moment(d).format('YYYY-MM-DD')}</Text>
+                            <Text style={ChatStyle.time_text}>{moment(d).format('LT')}</Text>
+                        </View>
+                        
                     </View>
                 </View>
             </View>
@@ -50,7 +54,10 @@ function ChatBox({chatUserId,time, content}) {
             <View style={ChatStyle.chat_holder}>
                 <View style={ChatStyle.chat_box_holder} flexDirection='row-reverse'>
                     <Text style={[ChatStyle.chat_my_box,ChatStyle.chat_box_standard]}>{content}</Text>
-                    <Text style={ChatStyle.time_text}>{moment(d).format('LT')}</Text>
+                    <View style={ChatStyle.time_text_holder}>
+                        <Text style={ChatStyle.time_text}>{moment(d).format('YYYY-MM-DD')}</Text>
+                        <Text style={ChatStyle.time_text}>{moment(d).format('LT')}</Text>
+                    </View>
                 </View>
             </View>
         </View>
@@ -98,7 +105,10 @@ const ChatStyle = StyleSheet.create({
     },
     time_text:{
         color:'#707070',
-        margin:5
+
+    },
+    time_text_holder:{
+        paddingHorizontal:5,
     }
 });
 export default ChatBox;

@@ -13,7 +13,7 @@ function DoScreen({navigation,route}){
     }
     return(
         <SafeAreaView style={Style.container}>
-            <TopBar title={route.params.title} onGoBackPressed={handleGoBack} onAlarmPressed={handleAlarmButton}/>
+            <TopBar title={route.params.title} onGoBackPressed={handleGoBack} enableAlarmButton={false}/>
             <DoScreenHolder doId={route.params.id}/>
         </SafeAreaView>
 

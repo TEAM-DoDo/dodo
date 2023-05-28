@@ -11,12 +11,12 @@ const jwtSlice = createSlice({
         addAccessToken : (state,action) => {
             state.access_token = action.payload.access_token;
             setAccessToken(action.payload.access_token);
-            AsyncStorage.setItem("access_key",action.payload.access_token);
+            AsyncStorage.setItem("access_token",action.payload.access_token);
         },
         removeAccessToken : (state) => {
             state.access_token = null;
             setAccessToken("");
-            AsyncStorage.removeItem("access_key");
+            AsyncStorage.removeItem("access_token");
         },
         addRefreshToken : (state,action) => {
             state.refresh_token = action.payload.refresh_token;
