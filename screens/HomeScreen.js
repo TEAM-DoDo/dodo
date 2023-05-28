@@ -10,6 +10,7 @@ import { useState,useEffect } from "react";
 import API, { localIpAddress, portNumber } from "../api/API";
 import FloatingButton from "../components/hgp/FloatingButton";
 import DoButton from "../components/hgp/DoButton";
+import { useSelector } from "react-redux";
 /***
  * 화면 : 홈 화면
  * 제작자 :홍기표
@@ -18,6 +19,7 @@ import DoButton from "../components/hgp/DoButton";
 //리스트 항목 부분
 //홈화면
 function HomeScreen({navigation}){
+    console.log(useSelector(state=>state.userInfo.id));
     var [doList,setDoList] = useState([]);
     const updateDoData = () => {
         API.get("/api/do/list").then((response) => {

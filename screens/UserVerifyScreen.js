@@ -83,6 +83,7 @@ function UserVerifyScreen({ navigation }) {
                         nickname : response.data.userdata.nickname,
                         category : response.data.userdata.category,
                         id : response.data.userdata.id,
+                        imagePath : response.data.userdata.imagePath,
                     };
                     dispatch(addUserInfo({ data : userInfo }));
                     navigation.navigate('BottomTabNavigatorScreen');

@@ -15,12 +15,14 @@ import Colors from "../constants/Colors";
 import mime from 'mime';
 import DoSimpleBanner from '../components/psc/DoSimpleBanner';
 import SimpleCategory from '../components/psc/SimpleCategory';
+
+import unknownImagePath from "../assets/images/Unknown_person.jpg";
 function ProfileScreen ({navigation, route}) {
   
   const [intro, setIntro] = useState('Input the Text');
   // const [myDo, setMyDo] = useState('Input the Text');
   const [interests, setInterests] = useState('Input the Text');
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(useSelector(state => state.userInfo));
   const [doList, setDoList] = useState([]); 
   const [isInfoUpdated, setIsInfoUpdated] = useState(false);
   function moveToSelectInterestScreen() { // 관심사 선택 화면 이동
@@ -29,36 +31,34 @@ function ProfileScreen ({navigation, route}) {
 
   //redux
   const dispatch = useDispatch();
-  const addUserInfo = dispatch(addUserInfo);
-  const removeUserInfo = dispatch(removeUserInfo);
-
-
-  const userId = useSelector(state => state.user.id); //만약 업로드한 이미지가 없다면 어떻게 처리?
+  console.log("리덕스 업데이트 되는지 여부 : ", useSelector(state => state.userInfo));
+  const userId = useSelector(state => state.userInfo.id); //만약 업로드한 이미지가 없다면 어떻게 처리?
 
   const handleResponseError = (err) => {
-    Toast.show(err), 
+    Toast.show(err, 
     {
-      duration : Toast.durations.SHORT,
-      position : Toast.positions.BOTTOM,
-      shadow : true,
-      animation : true,
-      hideOnPress : true,
-      delay : 0,
-    }
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    })
   }
 
   const updateUserInfo = ({data}) =>
   {
-    setUserInfo(current => data);
+    setUserInfo(data.user);
   }
 
   const updateMyDoList = ({data}) => 
   {
-    setDoList(current => data.doResponseDTOList);
+    console.log("axios로 가져온 do 리스트 : ", data);
+    setDoList(data.doResponseDTOList);
   }
 
   const updateData = async () => {
-    await API.get(`api/users/${userId}`).then(updateUserInfo).catch(handleResponseError).finally(()=>console.log("Get 유저 정보 Axios 처리 끝"));
+    //await API.get(`api/users/${userId}`).then(updateUserInfo).catch(handleResponseError).finally(()=>console.log("Get 유저 정보 Axios 처리 끝"));
     await API.get(`api/users/doList`, {
       params : {
         id : userId,
@@ -79,58 +79,62 @@ function ProfileScreen ({navigation, route}) {
       {
         Toast.show("이미지 권한이 존재하지 않습니다.",
         {
-          duration : Toast.durations.SHORT,
-          position : Toast.positions.BOTTOM,
-          shadow : true,
-          animation : true,
-          hideOnPress : true,
-          delay : 0,
-        })
+          duration: Toast.durations.SHORT,
+          position: Toast.positions.BOTTOM,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        });
         return;
       }
       let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes : ImagePicker.MediaTypeOptions.Images,
-        allowsEditing : true,
-        quality : 0.25,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 0.25,
       });
       if(result.canceled)
       {
-        Toast.show("이미지가 선택되지 않았습니다.", {
-          duration : Toast.durations.SHORT,
-          position : Toast.positions.BOTTOM,
-          shadow : true,
-          animation : true,
-          hideOnPress : true,
-          delay : 0,
+        Toast.show("이미지가 선택되지 않았습니다.", 
+        {
+          duration: Toast.durations.SHORT,
+          position: Toast.positions.BOTTOM,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
         });
         return;
       }
       const image = {
-        uri : '',
-        type : "image/jpeg",
-        name : 'test',
+        uri: '',
+        type: 'image/jpeg',
+        name: 'test',
       };
       image.uri = result.assets[0].uri;
       image.name = image.uri.split("/").pop();
       image.type = mime.getType(image.uri);
       const formData = new FormData();
       formData.append("files", image);
+      userInfo.imagePath = image.name;
+      dispatch(addUserInfo({data : userInfo}));
       API.post(
         `api/users/${userId}/profile-image`, formData,
-        {headers : {"Content-Type":`multipart/form-data`}}
-      ).then(response => setIsInfoUpdated(current => !currnet)).catch(err => console.log(err));
+        {headers:{"Content-Type": `multipart/form-data`}}
+      ).then(response => setIsInfoUpdated(current => !current)).catch(err => console.log(err));
   }
-
+  console.log(typeof JSON.parse(userInfo.category));
   return (
     <ScrollView style={styles.container}>
       <View style={styles.avatarContainer}>
         <Pressable onPress={handleProfileImageUpload} style={({pressed}) => [styles.avatarPressArea, pressed ? styles.pressedOpacity : null]} 
         android_ripple={{color : Colors.button.rippleColor}}>  
           <Image
-            source={{uri:`http://${localIpAddress}:${portNumber}/api/users/${userId}/profile-image`}} // TO DO : add profile edit function
+            source={userInfo.imagePath == null ? unknownImagePath : {uri:`http://${localIpAddress}:${portNumber}/api/users/${userId}/profile-image`}} // TO DO : add profile edit function
             style={styles.avatar}
           />
         </Pressable>
+        <Text>{userInfo.id}</Text>
         <Text style={styles.name}>{userInfo.nickname}</Text>
         <Text style={styles.infoValue}>{userInfo.address}</Text>
       </View>
@@ -148,7 +152,7 @@ function ProfileScreen ({navigation, route}) {
           <Text style={styles.infoLabel}>가입한 Do</Text> 
         </View>
         {
-          doList.map((aDo)=> <DoSimpleBanner props={aDo} />)
+          doList.map((aDo, i)=> <DoSimpleBanner key={i} doInfo={aDo} />)
         }
       </View>
       <View style={styles.infoContainer}>
@@ -158,7 +162,7 @@ function ProfileScreen ({navigation, route}) {
         </Pressable> */}
         {/* <Text style={styles.infoValue}>Input the Text</Text> */}
         <View>
-          {JSON.parse(userInfo.category).split(",").map((category) => <SimpleCategory props={category} />)}
+          {JSON.parse(userInfo.category).map((item, i) => <SimpleCategory key={i} text={item} />)}
         </View>
       </View>
     </ScrollView>

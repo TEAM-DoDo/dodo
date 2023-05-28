@@ -3,27 +3,28 @@ import { localIpAddress, portNumber } from '../../api/API';
 import Colors from "../../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 
-const DoSimpleBanner = ({id, name, description, place, bannerImagePath}) => {
+const DoSimpleBanner = ({doInfo}) => {
+    console.log("do simple banner 정보 : ", doInfo);
     const navigation = useNavigation();
     const moveToDoScreen = () =>
     {
-        navigation.navigate("DoScreen", {id});
+        navigation.navigate("DoScreen", {id : doInfo.id});
     }
 
     return(
         <View style={styles.outerContainer}>
             <Pressable onPress={moveToDoScreen} style={({pressed}) => [styles.pressArea, pressed ? styles.pressOpacity : null]} android_ripple={{color : Colors.button.rippleColor}}>
-                <View style={avatarContainer}>
-                    <Image style={avatar} source={{uri : `http://${localIpAddress}:${portNumber}/api/do/${id}/title-image`}} />
+                <View style={styles.avatarContainer}>
+                    <Image style={styles.avatar} source={{uri : `http://${localIpAddress}:${portNumber}/api/do/${doInfo.id}/title-image`}} />
                 </View>
-                <View style={innerContainer}>
+                <View style={styles.innerContainer}>
                     <View>
-                        <Text style={styles.title}>{name}</Text>
+                        <Text>{doInfo.name}</Text>
                     </View>
-                    <View style={infoContainer}>
-                        <Text>{place}</Text>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.title}>{doInfo.place}</Text>
                         <Text>|</Text>
-                        <Text>{description}</Text>
+                        <Text>{doInfo.description}</Text>
                     </View>
                 </View>
             </Pressable>

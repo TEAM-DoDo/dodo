@@ -23,6 +23,7 @@ function StartUpScreen({navigation})
     const introVideoPath = require('../assets/videos/Intro.mp4');
     const dispatch = useDispatch();
     //기본 토큰 정보 로딩 및 유저 정보 로딩
+    /*
     useEffect(() => {
       AsyncStorage.getItem("access_token",(err,result) => {
         if(result != null){
@@ -39,7 +40,7 @@ function StartUpScreen({navigation})
         }
       });
     }, []);
-
+    */
     function MoveToUserVerifyScreen()
     {
         navigation.navigate("UserVerifyScreen");

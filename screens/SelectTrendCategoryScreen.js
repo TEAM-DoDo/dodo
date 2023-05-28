@@ -44,7 +44,8 @@ function SelectTrendCategoryScreen({ route, navigation }) {
                     gender: response.data.gender,
                     nickname: response.data.nickname,
                     category: response.data.category,
-                    id: userInfo.id
+                    imagePath : null,
+                    id: userInfo.id,
                 };
                 if (response.status == 200) {
                     console.log("유저 정보 수정 성공");
