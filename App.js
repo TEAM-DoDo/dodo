@@ -41,6 +41,7 @@ import SelectInterestScreen from './screens/SelectInterestScreen';
 import * as encoding from 'text-encoding';
 import { KeyboardAvoidingView } from 'react-native';
 import UserListScreen from './screens/UserListScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -52,8 +53,6 @@ const BottomTab = createBottomTabNavigator();
 //Definition Component ---------------------------------------------------
 
 function BottomTabNavigator({ route, navigation }) {
-  const userInfo = route.params.userInfo;
-  const userCategory = route.params.userCategory;
   return (
     <BottomTab.Navigator
       screenOptions={{
@@ -67,7 +66,6 @@ function BottomTabNavigator({ route, navigation }) {
         {
           tabBarIcon: ({ color, size }) => <Ionicons name='home' color={color} size={size} />
         }}
-        initialParams={{ userInfo }}
       />
       <BottomTab.Screen name="MyDo" component={DoScreen} options={
         { tabBarIcon: ({ color, size }) => <Ionicons name='list' color={color} size={size} /> }}
@@ -119,6 +117,7 @@ export default function App() {
       shouldSetBadge: true,
     }),
   });
+  AsyncStorage.clear();
   return (
     <SafeAreaView style={Style.droidSafeArea}>
       {/* <KeyboardAvoidingView style={Style.master_view} behavior='padding'> */}

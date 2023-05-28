@@ -18,12 +18,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 import { addAccessToken,addRefreshToken } from "../store/jwt-store";
 import Toast from "react-native-root-toast";
+import { addUserInfo } from "../store/user-store";
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({ navigation }) {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [checkNumber, setCheckNumber] = useState('');
     const accessToken = useSelector((state) => state.jwt.access_token);
     const refreshToken = useSelector((state) => state.jwt.refresh_token);
+    const userInfo = useSelector((state) => state.user);
     // console.log(accessToken);
     // console.log(refreshToken);
 
@@ -55,54 +57,32 @@ function UserVerifyScreen({ navigation }) {
         //전화번호를 통해 이미 가입된 유저인지 신규유저인지 판별하고 navigate함수 안 이동할 screen의 이름 분기 처리 해야함.
     }
     function MoveToNextScreen() {
-        // navigation.navigate('GenerateIDScreen', //유저 가입여부 확인 로직이 없어 일단은 회원가입 창으로 이동하게 함
-        //     {
-        //         phoneNumber, //가입 페이지로 이동 시 핸드폰 번호를 두번 입력하지 않도록 데이터를 넘겨줌
-        //     });
-        // return;
-        //유저 가입 확인 로직 추가
-        API.post("/api/users/check",{params:{}}).then((response) => {
-            const userInfo = {
-                address : "",
-                birth : "",
-                phoneNumber,
-                gender : 1,
-                nickname : "",
-            };
-            //제대로 된 응답 안에는 토큰이 포함됨
-            //토큰을 내부 저장소에 저장
-            //console.log(response.data);
-            dispatch(addAccessToken({ access_token : `${response.data.accessToken}`}));
-            dispatch(addRefreshToken({ refresh_token : `${response.data.refreshToken}`}));
-            navigation.navigate('BottomTabNavigatorScreen',{userInfo});
-        }).catch((response) => {
-            console.log(response);
-        });
-        return;
         API.post("/api/users/check-verification",{phoneNumber : phoneNumber,certNumber:checkNumber}).then((response) => {
             //제대로 된 응답 안에는 토큰이 포함됨
             //토큰을 내부 저장소에 저장
             //console.log(response.data);
             //유저 정보가 있을 때만 바로 다음 화면으로 넘어가도록 하고 없을 때는 유저 생성 화면으로 넘어가야 한다
             console.log(response.data);
+            dispatch(addAccessToken({ access_token : `${response.data.tokenInfo.accessToken}`}));
+            dispatch(addRefreshToken({ refresh_token : `${response.data.tokenInfo.refreshToken}`}));
             switch(response.status){
                 case HttpStatusCode.Ok:
                     //받아온 정보를 토대로 유저 정보 저장
                     const userInfo = {
-                        address : "",
-                        birth : "",
-                        phoneNumber,
-                        gender : 1,
-                        nickname : "",
+                        address : response.data.userdata.address,
+                        dateOfBirth : response.data.userdata.dateOfBirth,
+                        phoneNumber : response.data.userdata.phoneNumber,
+                        gender : response.data.userdata.gender,
+                        nickname : response.data.userdata.nickname,
+                        category : response.data.userdata.category,
+                        id : response.data.userdata.id,
                     };
-                    dispatch(addAccessToken({ access_token : `${response.data.accessToken}`}));
-                    dispatch(addRefreshToken({ refresh_token : `${response.data.refreshToken}`}));
-                    navigation.navigate('BottomTabNavigatorScreen',{userInfo});
+                    dispatch(addUserInfo({ data : userInfo }));
+                    navigation.navigate('BottomTabNavigatorScreen');
                     break;
+                    //유저 정보가 생성되었을 때는 유저 정보를 저장하고 정보 기입 화면으로 넘어가야 한다
                 case HttpStatusCode.Created:
-                    navigation.navigate('GenerateIDScreen',{
-                        phoneNumber, //가입 페이지로 이동 시 핸드폰 번호를 두번 입력하지 않도록 데이터를 넘겨줌
-                    });
+                    navigation.navigate('GenerateIDScreen',{phoneNumber : phoneNumber,id : response.data.userdata.id});
                     break;
                 default:
                     console.log("예상치 못한 에러 발생 from : UserVerifyScreen");

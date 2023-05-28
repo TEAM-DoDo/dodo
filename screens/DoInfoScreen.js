@@ -57,6 +57,13 @@ function DoInfoScreen({route, navigation}) {
         }).catch((error) => {
             console.log("data not found");
         });
+        //참여자인지 확인
+        // API.get(`/api/do/${route.params.id}/is-participant`,{params:{user_id:1}}).then((response) => {
+        //     setIsParticipant(response.data);
+        // }
+        // ).catch((error) => {
+        //     console.log(error);
+        // });
     };
     const getDoParticipantsNum = () => {
         return 3;
@@ -133,7 +140,7 @@ function DoInfoScreen({route, navigation}) {
         navigation.navigate("DoScheduleAddScreen",{id:route.params.id});
     }
     const handleShowAllParcitipants = () => {
-        navigation.navigate('UserListScreen',{id:route.params.id});
+        navigation.navigate('UserListScreen',{id:route.params.id , data:participants});
     }
     const handleShowNotice = () => {
         navigation.navigate("DoNoticeScreen",{id:route.params.id});
@@ -152,7 +159,8 @@ function DoInfoScreen({route, navigation}) {
         });
     }        
     return (
-        <ScrollView style={Style.container}>
+        <View style={Style.container}>
+        <ScrollView style={Style.scroll_container}>
             <Pressable style={Style.do_title_img} onPress={handleDoImagePress}>
                 <Image 
                     style={{
@@ -212,17 +220,24 @@ function DoInfoScreen({route, navigation}) {
                     <DoNotice doid={route.params.id} postid="last"/>
                 </Pressable>
             </View>
-            {   isParticipant?
-                    null:
-                    <FloatingButton onFloatingButtonPress={handleOnParticipatePress}/>
-            }
         </ScrollView>
+            {isParticipant?
+                    null:
+                    <Pressable style={Style.float_text_button} onPress={handleOnParticipatePress}>
+                        <Text style={Style.float_text}>참여하기</Text>
+                    </Pressable>
+            }
+        </View>
     );
 };
 const Style = StyleSheet.create({
     container: {
         flex: 1,
         //alignItems:'center'
+    },
+    scroll_container:{
+        flex:1,
+        alignSelf:'stretch',
     },
     do_title_img:{
         margin:10,
@@ -274,6 +289,20 @@ const Style = StyleSheet.create({
         fontSize:14,
         margin:3
     },
-
+    float_text_button:{
+        position:'absolute',
+        padding:15,
+        right: 15,
+        bottom: 15,
+        borderRadius:15,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:'#84004E'
+    },
+    float_text:{
+        fontFamily:'NanumGothic-ExtraBold',
+        fontSize:15,
+        color:'white'
+    }
 });
 export default DoInfoScreen;

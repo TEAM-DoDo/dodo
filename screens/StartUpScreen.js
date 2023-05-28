@@ -15,19 +15,28 @@ import PrimaryButton from "../components/psc/PrimaryButton";
 import Title from '../components/psc/Title';
 import LogoIconImage from "../components/psc/LogoIconImage";
 import { addAccessToken, addRefreshToken } from "../store/jwt-store";
+import { addUserInfo } from "../store/user-store";
 
 //Definition Component ---------------------------------------------------
 function StartUpScreen({navigation})
 {
     const introVideoPath = require('../assets/videos/Intro.mp4');
     const dispatch = useDispatch();
-    //기본 토큰 정보 로딩
+    //기본 토큰 정보 로딩 및 유저 정보 로딩
     useEffect(() => {
       AsyncStorage.getItem("access_token",(err,result) => {
-        dispatch(addAccessToken({ access_token : result}));
-      });
-      AsyncStorage.getItem("refresh_token",(err,result) => {
-        dispatch(addRefreshToken({ refresh_token : result}));
+        if(result != null){
+          dispatch(addAccessToken({ access_token : result}))
+          AsyncStorage.getItem("refresh_token",(err,result) => {
+            if(result != null) dispatch(addRefreshToken({ refresh_token : result}));
+          });
+          AsyncStorage.getItem("userInfo",(err,result) => {
+            if(result != null) {
+              dispatch(addUserInfo({ data : JSON.parse(result)}));
+              navigation.navigate("BottomTabNavigatorScreen");//저장된 유저 정보가 있고 토큰도 있으면 바로 메인 화면으로 이동
+            }
+          });
+        }
       });
     }, []);
 

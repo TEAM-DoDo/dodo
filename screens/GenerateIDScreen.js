@@ -17,8 +17,6 @@ import SmallToggleSwitch from "../components/psc/SmallToggleSwitch";
 //Definition Component ---------------------------------------------------
 function GenerateIDScreen({route, navigation})
 {
-    const phoneNumber = route.params.phoneNumber;
-    
     const [address, setAddress] = useState('');
     const [nickname, setNickname] = useState('');
     const [birthdate, setBirthdate] = useState(new Date());
@@ -39,11 +37,12 @@ function GenerateIDScreen({route, navigation})
     async function MoveToNextScreen()
     {
         const userInfo = {
-            address,
+            id : route.params.id,
+            address : address,
             dateOfBirth : koreaBirthFormat,
-            phoneNumber,
+            phoneNumber : route.params.phoneNumber,
             gender : currentSelectedGender,
-            nickname,
+            nickname : nickname,
         };
         console.log("post 호출됨");
         await API.post('/api/users', userInfo).then((response)=>console.log(response.data)).catch((error)=>console.log(error));

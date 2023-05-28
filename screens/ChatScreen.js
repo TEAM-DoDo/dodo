@@ -23,6 +23,7 @@ function ChatScreen ({navigation,route}){
     const [chatText, setChatText] = useState('');
     const [chatList, setChats] = useState([]);
     const accessToken = useSelector((state) => state.jwt.access_token);
+    const userInfo = useSelector((state) => state.user);
     useEffect(()=>{
         client = Stomp.over(() => {
             const sock = new SockJS(`http://${localIpAddress}:${portNumber}/api/chat`);
