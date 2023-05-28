@@ -1,12 +1,14 @@
-import { Image, StyleSheet, View, Dimensions, Pressable } from "react-native";
-
-function getUserImage(index){
-    return require('../../assets/images/user_img_dummy.png');
-}
-function CircleUserImage({index,mode,onPress,margin=0}){
+import { StyleSheet, View, Dimensions, Pressable } from "react-native";
+import { Image } from "expo-image";
+import { useSelector } from "react-redux";
+import { localIpAddress, portNumber } from "../../api/API";
+function CircleUserImage({id,mode,isImageExist = false,onPress,margin=0}){
+    const accessToken = useSelector(state => state.jwt.access_token);
     const handleUserImagePress = () => {
-        console.log(index + '번 유저 이미지가 클릭되었습니다.')
-        return onPress;
+        console.log(id + '번 유저 이미지가 클릭되었습니다.')
+        if(onPress){
+            onPress();
+        } 
     }
     var st = Style.standard;
     switch(mode){
@@ -27,7 +29,15 @@ function CircleUserImage({index,mode,onPress,margin=0}){
     }
     return (
         <Pressable margin={margin} onPress={handleUserImagePress}>
-            <Image style={st} source={getUserImage(index)} width={100}/>
+            <Image style={st} source={
+                !isImageExist?require('../../assets/images/user_img_dummy.png'):
+                {
+                    uri:`http://${localIpAddress}:${portNumber}/api/user/${id}/profile-image`,
+                    headers:{
+                        Authorization:`Bearer ${accessToken}`
+                    }
+                }
+            } width={100}/>
         </Pressable>
 
     );

@@ -32,26 +32,14 @@ function SelectCategoryScreen({ route, navigation }) {
     }
 
     function moveToSelectTrendCategoryScreen() {
-        const userCategory = {
-            selectedIcons
-        };
-        console.log("SelectCategoryScreen에서 다음 내용을 업데이트 함:", userInfo, userCategory);
         if (selectedIcons.length >= 2) {
-            navigation.navigate('SelectTrendCategoryScreen', {userInfo, userCategory});
+            userInfo.category = JSON.stringify(selectedIcons);
+            console.log("SelectCategoryScreen에서 다음 내용을 업데이트 함:", userInfo);
+            navigation.navigate('SelectTrendCategoryScreen', {userInfo : userInfo});
         } else {
             alert("키워드를 최소 2개 이상 선택해주세요.");
         }
     }
-
-    useEffect(()=>{
-        async function getUser()
-        {
-            console.log("getUser 호출됨");
-            await API.get(`/api/users/${userInfo.nickname}`).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
-        }
-        getUser();
-    }, []);
-
     const icons = [
         { name: 'airplane', title: '여행' },
         { name: 'brush', title: '공예' },

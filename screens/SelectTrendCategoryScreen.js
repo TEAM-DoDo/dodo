@@ -10,15 +10,17 @@ import { FontAwesome } from '@expo/vector-icons';
 
 // Components
 import PrimaryButton from "../components/psc/PrimaryButton";
+import API from "../api/API";
+import { useDispatch } from "react-redux";
+import { addUserInfo } from "../store/user-store";
 
 
 //Definition Component ---------------------------------------------------
 function SelectTrendCategoryScreen({ route, navigation }) {
-    const userCategory = route.params.userCategory;
     const userInfo = route.params.userInfo;
-    console.log("SelectTrendCategoryScreen에서 출력 : ", userInfo, userCategory);
     const [selectedTrendIcons, setSelectedTrendIcons] = useState([]);
 
+    const dispatch = useDispatch();
 
     function toggleIconSelection(iconName) {
         setSelectedTrendIcons((prevState) => {
@@ -29,14 +31,27 @@ function SelectTrendCategoryScreen({ route, navigation }) {
             }
         });
     }
-
     function moveToHomeScreen() {
-        const userTrendCategory = {
-            selectedTrendIcons
-        };
-        console.log("SelectTrendCategoryScreen에서 다음 내용을 업데이트 함:", userInfo, userCategory, userTrendCategory);
-
-        navigation.navigate('BottomTabNavigatorScreen', { selectedTrendIcons });
+        userInfo.trendCategory = JSON.stringify(selectedTrendIcons);
+        //생성된 유저 정보를 서버로 전송
+        API.post(`/api/users/${userInfo.id}/modify`, userInfo).then((response) => {
+            console.log(response.data);
+                //받아온 정보를 토대로 유저 정보 저장
+                const data = {
+                    address: response.data.address,
+                    dateOfBirth: response.data.dateOfBirth,
+                    phoneNumber: response.data.phoneNumber,
+                    gender: response.data.gender,
+                    nickname: response.data.nickname,
+                    category: response.data.category,
+                    id: userInfo.id
+                };
+                if (response.status == 200) {
+                    console.log("유저 정보 수정 성공");
+                    dispatch(addUserInfo({ data : data }));
+                    navigation.navigate('BottomTabNavigatorScreen');
+                }
+            });
     }
 
 
