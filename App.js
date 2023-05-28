@@ -36,6 +36,7 @@ import DoScheduleAddScreen from './screens/DoScheduleAddScreen';
 import DoNoticeScreen from './screens/DoNoticeScreen';
 import DoCreateScreen from './screens/DoCreateScreen';
 import SelectInterestScreen from './screens/SelectInterestScreen';
+import MyDoScreen from './screens/MyDoScreen';
 
 // Library
 import * as encoding from 'text-encoding';
@@ -68,7 +69,7 @@ function BottomTabNavigator({ route, navigation }) {
           tabBarIcon: ({ color, size }) => <Ionicons name='home' color={color} size={size} />
         }}
       />
-      <BottomTab.Screen name="MyDo" component={DoScreen} options={
+      <BottomTab.Screen name="MyDo" component={MyDoScreen} options={
         { tabBarIcon: ({ color, size }) => <Ionicons name='list' color={color} size={size} /> }}
       />
       <BottomTab.Screen name="Calender" component={CalendarScreen} options={
@@ -142,7 +143,7 @@ export default function App() {
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
           <Stack.Screen name='SelectInterestScreen' component={SelectInterestScreen}/>
           <Stack.Screen name='UserListScreen' component={UserListScreen}/>
-          <Stack.Screen name='ScheduleInfoScreen' component={SchduleInfoScreen}/>
+          <Stack.Screen name='DoScheduleInfoScreen' component={SchduleInfoScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
       </RootSiblingParent>

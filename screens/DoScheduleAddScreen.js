@@ -36,6 +36,8 @@ function DoScheduleAddScreen({navigation, route}) {
 
     // console.log(minDate);
     // console.log(startEndDate);
+
+    //스케줄 생성시 자기 자신도 스케줄에 참여하게 되므로 자기 자신의 id를 넣어준다. 아직 처리 필요
     
     //GoBack 버튼 눌렀을 때
     const onGoBackPressed = () =>{
