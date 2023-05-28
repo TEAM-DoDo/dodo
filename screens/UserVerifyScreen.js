@@ -58,11 +58,11 @@ function UserVerifyScreen({ navigation }) {
     }
     function MoveToNextScreen() {
         //임시로 넘기는 코드
-        navigation.navigate('GenerateIDScreen',
-            {
-                phoneNumber, //가입 페이지로 이동 시 핸드폰 번호를 두번 입력하지 않도록 데이터를 넘겨줌
-            });
-        return;
+        // navigation.navigate('GenerateIDScreen',
+        //     {
+        //         phoneNumber, //가입 페이지로 이동 시 핸드폰 번호를 두번 입력하지 않도록 데이터를 넘겨줌
+        //     });
+        // return;
         //구현이 완료됨 상단의 코드를 모두 주석 처리 하고 백엔드를 최신으로 업데이트 한 뒤 실행하면 사용 가능
         API.post("/api/users/check-verification",{phoneNumber : phoneNumber,certNumber:checkNumber}).then((response) => {
             //제대로 된 응답 안에는 토큰이 포함됨
