@@ -108,8 +108,8 @@ function UserVerifyScreen({ navigation }) {
         });
     }
     const dismissKeyboard = () => {
-        // console.log("dismiss keyboard");
-        // Keyboard.dismiss();
+        console.log("dismiss keyboard");
+        Keyboard.dismiss();
     };
     return (
         <Pressable style={styles.rootScreen} onPress={dismissKeyboard}>

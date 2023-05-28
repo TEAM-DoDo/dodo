@@ -3,42 +3,40 @@ import moment from 'moment';
 // 안써도 자동으로 한국 시간을 불러온다. 명확하게 하기 위해 import
 import 'moment/locale/ko';
 import CircleUserImage from "./CircleUserImage";
-function getName(index){
-    //닉네임을 쿼리해 가져오는 코드가 필요 일단 스위치 문으로 대체
-    var name = '이름';
-    switch(index){
-        case 1:
-            name = '우희준';
-            break;
-        case 2:
-            name = '심수민';
-            break;
-        case 3:
-            name = '박성찬';
-            break;
-        case 4:
-            name = '홍기표';
-            break;
-    }
-    return name;
-}
-function isMyIndex(index){
-    var num = Number(index);
-    return num !== 1;
-}
-function ChatBox({index=1,time, name, content}) {
-    var isOpponent = isMyIndex(index);
-    //console.log(index,context)
+import { useSelector } from "react-redux";
+import API from "../../api/API";
+import { useState,useEffect } from "react";
+let nameDict = {};
+function ChatBox({chatUserId,time, content}) {
+    const userId = useSelector(state => state.userInfo.id);
+    const [chatUserNickname,setChatUserNickname] = useState(nameDict[chatUserId]);
+    //console.log(nameDict);
+    useEffect(()=>{
+        if(chatUserNickname == undefined){
+            API.get(`/api/users/${chatUserId}`).then((response) => {
+                //console.log(response.data.user.nickname);
+                //console.log("name reloaded");
+                nameDict[chatUserId] = response.data.user.nickname;
+                setChatUserNickname(nameDict[chatUserId]);
+            }).catch((err)=>{
+                console.log(err);
+            });
+        }
+        return (() => {  
+            });
+    },[]);
+
+
     var d = new Date(0);
     d.setUTCSeconds(time);
-    if(isOpponent){
-        return (
+    if(chatUserId !== userId){
+        return ( 
             <View style={ChatStyle.chat}>
                 <View style={ChatStyle.image_holder}>
-                    <CircleUserImage mode='chat' index={index}/>
+                    <CircleUserImage mode='chat' index={chatUserId}/>
                 </View>
                 <View style={ChatStyle.chat_holder}>
-                    <Text style={[ChatStyle.chat_opponent_name]}>{name}</Text>
+                    <Text style={[ChatStyle.chat_opponent_name]}>{chatUserNickname}</Text>
                     <View style={ChatStyle.chat_box_holder} flexDirection='row'>
                         <Text style={[ChatStyle.chat_opponent_box,ChatStyle.chat_box_standard]}>{content}</Text>
                         <Text style={ChatStyle.time_text}>{moment(d).format('LT')}</Text>
@@ -94,6 +92,7 @@ const ChatStyle = StyleSheet.create({
     chat_box_standard:{
         padding:10,
         borderRadius:10,
+        overflow:'hidden',
         marginTop:10,
         maxWidth:'70%',
     },

@@ -20,7 +20,6 @@ function SelectCategoryScreen({ route, navigation }) {
     const userInfo = route.params.userInfo;
     console.log("SelectCategoryScreen에서 출력 : ", userInfo);
     const [selectedIcons, setSelectedIcons] = useState([]);
-
     function toggleIconSelection(iconName) {
         setSelectedIcons((prevState) => {
             if (prevState.includes(iconName)) {
@@ -34,6 +33,7 @@ function SelectCategoryScreen({ route, navigation }) {
     function moveToSelectTrendCategoryScreen() {
         if (selectedIcons.length >= 2) {
             userInfo.category = JSON.stringify(selectedIcons);
+            
             console.log("SelectCategoryScreen에서 다음 내용을 업데이트 함:", userInfo);
             navigation.navigate('SelectTrendCategoryScreen', {userInfo : userInfo});
         } else {

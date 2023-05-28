@@ -23,7 +23,7 @@ function ChatScreen ({navigation,route}){
     const [chatText, setChatText] = useState('');
     const [chatList, setChats] = useState([]);
     const accessToken = useSelector((state) => state.jwt.access_token);
-    const userInfo = useSelector((state) => state.user);
+    const userId = useSelector((state) => state.userInfo.id);
     useEffect(()=>{
         client = Stomp.over(() => {
             const sock = new SockJS(`http://${localIpAddress}:${portNumber}/api/chat`);
@@ -38,7 +38,7 @@ function ChatScreen ({navigation,route}){
             var data = JSON.parse(message.body);
             var chat = new Chat({
                 id:data.id,
-                username:data.username,
+                userId:data.userId,
                 content:data.content,
                 date: data.date
             });
@@ -68,7 +68,7 @@ function ChatScreen ({navigation,route}){
     }
     const handleSendChat = () => {
         let chat = new Chat({
-            username:"임시",
+            userId:userId,
             content:chatText
         });
         let data = JSON.stringify(chat);
@@ -88,7 +88,7 @@ function ChatScreen ({navigation,route}){
                 numColumns={1}
                 renderItem={({item}) =>
                 <ChatBox
-                    name={item.username}
+                    chatUserId={item.userId}
                     time={item.date}
                     content={item.content}
                 />}

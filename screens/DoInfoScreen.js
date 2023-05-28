@@ -39,6 +39,8 @@ function DoInfoScreen({route, navigation}) {
     const [doSchedule, setDoSchedule] = useState(null);
     const [isParticipant, setIsParticipant] = useState(false);
     const [participants, setParticipants] = useState([]);
+    //user에 대한 정보
+    const userId = useSelector((state) => state.userInfo.id);
 
     const updateData = () => {
         API.get(`/api/do/${route.params.id}`).then((response) => {
@@ -49,6 +51,12 @@ function DoInfoScreen({route, navigation}) {
         });
         API.get(`/api/do-of-user/${route.params.id}`).then((response) => {
             setParticipants(response.data);
+            for(let i=0;i<response.data.length;i++){
+                if(response.data[i].id === userId){
+                    setIsParticipant(true);
+                    break;
+                }
+            }
         }).catch((error) => {
             console.log(error);
         });
@@ -78,7 +86,7 @@ function DoInfoScreen({route, navigation}) {
         return(() => {
 
         });
-    });
+    },[]);
     //do image가 선택되었을 때 이벤트
     //타이틀 화면을 바꿀 수 있도록 한다
     const handleDoImagePress = async () => {
@@ -146,14 +154,14 @@ function DoInfoScreen({route, navigation}) {
         navigation.navigate("DoNoticeScreen",{id:route.params.id});
     }
     const handleOnParticipatePress = () => {
-        console.log("snffuTdma");
         let data = new DoOfUser({
             doId:route.params.id,
-            userId:2,
+            userId:userId,
         });
         API.post(`/api/do-of-user`,data).then((response) => {
             console.log(response.data);
             setIsParticipant(true);
+            updateData();
         }).catch((error) => {
             console.log(error);
         });
@@ -198,7 +206,7 @@ function DoInfoScreen({route, navigation}) {
             </View>
             <View style={Style.info_holder}>
                 <View flexDirection='row' alignItems='center'>
-                    <Text style={Style.info_title}>참여 멤버 ({getDoParticipantsNum(3)})</Text>
+                    <Text style={Style.info_title}>참여 멤버 ({participants.length})</Text>
                     <Pressable onPress={handleShowAllParcitipants}>
                         <AntDesign name="right" size={10} color="gray" padding={5}/>
                     </Pressable>

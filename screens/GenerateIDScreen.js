@@ -45,7 +45,7 @@ function GenerateIDScreen({route, navigation})
             nickname : nickname,
         };
         console.log("post 호출됨");
-        await API.post('/api/users', userInfo).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
+        //await API.post('/api/users', userInfo).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
         navigation.navigate('SelectCategoryScreen', {userInfo});
     }
 
@@ -151,7 +151,7 @@ function GenerateIDScreen({route, navigation})
             </View>
             <Modal visible={isModal}>
                     <Postcode
-                        style={{ width: Dimensions.get("window").width, height: Dimensions.get("window").h }}
+                        style={{ width: Dimensions.get("window").width, height: Dimensions.get("window").height }}
                         jsOptions={{ animation: true, hideMapBtn: true }}
                         onSelected={getAddressData}
                     />

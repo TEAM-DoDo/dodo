@@ -4,12 +4,14 @@ import TopBar from "../components/hgp/TopBar";
 import Postcode from "@actbase/react-daum-postcode";
 import API from "../api/API";
 import Toast from "react-native-root-toast";
+import { useSelector } from "react-redux";
 
 function DoCreateScreen({navigation}){
     const [isModal,setIsModal] = useState(false);
     const [address,setAddress] = useState("");
     const [name,setName] = useState("");
     const [des,setDes] = useState("");
+    const userId = useSelector(state => state.userInfo.id);
     const onGoBackPressed = () =>{
         navigation.goBack();
     }
@@ -37,7 +39,7 @@ function DoCreateScreen({navigation}){
             doName : name,
             description : des,
             place : address,
-            userId : 1
+            userId : userId
         }
         API.post("/api/do/create",data).then((response) => {
             Toast.show('Do가 생성되었습니다.', {
