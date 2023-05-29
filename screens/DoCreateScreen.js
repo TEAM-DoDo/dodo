@@ -14,7 +14,8 @@ function DoCreateScreen({navigation}){
     const [des,setDes] = useState("");
     const userId = useSelector(state => state.userInfo.id);
     const onGoBackPressed = () =>{
-        navigation.goBack();
+        dismissKeyboard();
+        setTimeout(() => {navigation.goBack();}, 50);
     }
     const getAddressData = (data) => {
         let defaultAddress = ''; // 기본주소

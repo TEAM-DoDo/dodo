@@ -43,7 +43,8 @@ function DoScheduleAddScreen({navigation, route}) {
     
     //GoBack 버튼 눌렀을 때
     const onGoBackPressed = () =>{
-        navigation.goBack();
+        dismissKeyboard();
+        setTimeout(() => {navigation.goBack();}, 50);
     }
     //날짜 설정 관련 함수
     const onPressStartDate = () => { // 시작하는 날짜 클릭 시

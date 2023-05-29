@@ -22,7 +22,7 @@ function DoSchedule({title,startDate,endDate,place,cost,isEmpty,onEmptySchedulep
     const end = new Date();
     end.setTime(endDate);
     const dday = moment(start).diff(moment(end),'days');
-    console.log(dday);
+    //console.log(dday);
     return(
         <Pressable style={Style.container} onPress={onSchedulePress}>
             <View style={Style.date_holder}>
@@ -69,12 +69,11 @@ const Style = StyleSheet.create({
     }
     ,
     do_date:{
-        fontFamily:'NanumGothic-Regular',
-        fontWeight:'bold',
+        fontFamily:'NanumGothic-ExtraBold',
         fontSize:18,
     },
     do_schedule_info_holder:{
-        flex:1,
+        //flex:1,
         marginStart:5,
         justifyContent:'space-around',
         //backgroundColor:'#dfdfdf',

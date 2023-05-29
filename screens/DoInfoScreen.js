@@ -221,7 +221,7 @@ function DoInfoScreen({route, navigation}) {
                     data={participants}
                     keyExtractor={(item) => item.id}
                     alignItems='center'
-                    renderItem={({item}) => <CircleUserImage mode='minimize' margin={5} index={item.profileImagePath}/>}
+                    renderItem={({item}) => <CircleUserImage mode='minimize' margin={5} index={item.id}/>}
                 />
             </View>
             <View style={Style.info_holder}>
@@ -245,6 +245,7 @@ function DoInfoScreen({route, navigation}) {
 const Style = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white',
         //alignItems:'center'
     },
     scroll_container:{
