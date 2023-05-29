@@ -1,13 +1,13 @@
-import { StyleSheet,View,Text } from "react-native";
+import { StyleSheet,View,Text,Pressable } from "react-native";
 import TopBar from "../components/hgp/TopBar";
 import moment from "moment";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import API from "../api/API";
+import { ScheduleEnter } from "../data/ScheduleEnter";
+import { useEffect } from "react";
 
 function SchduleInfoScreen({ navigation,route }) {
-    //console.log(route.params.data);
-    const startTime = new Date();
-    startTime.setTime(route.params.data.startTime);
-    const endTime = new Date(route.params.data.endTime);
-    endTime.setTime(route.params.data.endTime);
     const data = {
         cost : route.params.data.cost,
         title: route.params.data.title,
@@ -15,9 +15,60 @@ function SchduleInfoScreen({ navigation,route }) {
         detail : route.params.data.detail,
         id : route.params.data.id
     }
+    const [scheduleParticipants,setScheduleParticipants] = useState([]);
+    const [isParticipantOfSchedule,setIsParticipantOfSchedule] = useState(false);
+    const userId = useSelector(state => state.userInfo.id);
+    //console.log(route.params.data);
+    const startTime = new Date();
+    startTime.setTime(route.params.data.startTime);
+    const endTime = new Date(route.params.data.endTime);
+    endTime.setTime(route.params.data.endTime);
+    useEffect(() => {
+        updateData();
+    },[]);
+    //유저 참여 정보를 가져오는 함수
+    const updateData = () => {
+        API.get("/api/schedule-of-user/"+data.id).then(
+            res => {
+                //console.log(res.data);
+                setScheduleParticipants(res.data);
+                res.data.forEach(element => {
+                    if(element.id == userId){
+                        setIsParticipantOfSchedule(true);
+                    }
+                });
+            }).catch(err => {
+            //console.log(err);
+        });
+    }
+
     const onGoBackPressed = () => {
         navigation.goBack();
     }
+    const onScheduleParticipatePressed = () => {
+        //console.log("참여하기 버튼 눌림");
+        //console.log(scheduleParticipants);
+        var scheduleDTO = new ScheduleEnter({
+            userId : userId,
+            scheduleId : data.id
+        });
+        API.post("/api/schedule-of-user",scheduleDTO).then(
+            res => {
+                //console.log(res);
+                //setIsParticipantOfSchedule(true);
+                updateData();
+            }).catch(err => {
+                //console.log(err);
+            });
+    }
+    const onShowParticipantsPressed = () => {
+        //console.log("참여자 보기 버튼 눌림");
+        //console.log(scheduleParticipants);
+        navigation.navigate("UserListScreen",{
+            data : scheduleParticipants
+        });
+    }
+    
     /** 스케줄 정보를 보여주는 컴포넌트를 만들어야함
              * 1. route를 통해 받아온 스케줄 정보를 이용하여 만들어야함
              * 2. 스케줄에 참여할 수 있는 버튼을 absolute로 만들어야함
@@ -31,9 +82,11 @@ function SchduleInfoScreen({ navigation,route }) {
                 <Text style={Style.schedule_info}>{data.title}</Text>
                 <Text style={Style.schedule_info_title}>일정 기간</Text>
                 <View style={Style.horizontal_container}>
-                    <Text style={Style.time_holder}>{moment(startTime).format("YYYY-MM-DD LT")}</Text>
+                    <View style={Style.time_holder}>
+                    <Text style={Style.time_text}>{moment(startTime).format("YYYY-MM-DD LT")}</Text>
+                    </View>
                     <Text>~</Text>
-                    <Text style={Style.time_holder}>{moment(startTime).format("YYYY-MM-DD LT")}</Text>
+                    <Text style={Style.time_text}>{moment(startTime).format("YYYY-MM-DD LT")}</Text>
                 </View>
                 <Text style={Style.schedule_info_title}>일정 위치</Text>
                 <Text style={Style.schedule_info}>{data.place}</Text>
@@ -41,6 +94,9 @@ function SchduleInfoScreen({ navigation,route }) {
                 <Text style={Style.schedule_info}>{data.cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"}</Text>
                 <Text style={Style.schedule_info_title}>일정 상세</Text>
                 <Text style={Style.input_box}>{data.detail}</Text>
+                <Pressable style={Style.button_container} onPress={!isParticipantOfSchedule?onScheduleParticipatePressed:onShowParticipantsPressed}>
+                    <Text style={Style.button_text}>{!isParticipantOfSchedule?"일정 참여하기":"일정 참여 인원 보기"}</Text>
+                </Pressable>
             </View>
         </View>
     );
@@ -49,9 +105,11 @@ const Style = StyleSheet.create({
     container : {
         flex:1,
         alignItems:'center',
+        backgroundColor:'white',
     },
     inner_container:{
         flex:1,
+        alignSelf:'stretch',
         margin:10,
         justifyContent:'flex-start',
     },
@@ -70,21 +128,24 @@ const Style = StyleSheet.create({
         width:"30%",
     },
     time_holder : {
-        backgroundColor:'#E30A8B',
-        alignSelf:'stretch',
         justifyContent:'center',
+        borderRadius:15,
+        shadowOffset: { width: 0.5, height: 0.5 },
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
+    },
+    time_text : {
+        backgroundColor:'#E30A8B',
         color:'white',
         borderRadius:15,
+        overflow:'hidden',
         fontSize:13,
         textAlign:'center',
         textAlignVertical:'center',
         fontWeight:'bold',
         padding:10,
         elevation:3,
-        shadowOffset: { width: 0.5, height: 0.5 },
-        shadowColor: 'black',
-        shadowOpacity: 0.3,
-        elevation: 3,
+
     },
     schedule_info_title : {
         alignSelf : 'stretch',
@@ -116,6 +177,21 @@ const Style = StyleSheet.create({
         fontFamily : 'NanumGothic-Bold',
         textAlignVertical: 'top',
     },
-
+    button_container : {
+        height:60,
+        alignSelf : 'stretch',
+        justifyContent:'center',
+        alignItems:'center',
+        padding:10,
+        borderRadius : 20,
+        backgroundColor : '#E30A8B',
+        marginTop:10,
+        marginBottom:20,
+    },
+    button_text : {
+        color:'white',
+        fontSize:20,
+        fontFamily:'NanumGothic-ExtraBold',
+    },
 });
 export default SchduleInfoScreen;

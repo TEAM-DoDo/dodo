@@ -24,25 +24,25 @@ function StartUpScreen({navigation})
     const dispatch = useDispatch();
     //기본 토큰 정보 로딩 및 유저 정보 로딩
     
-    // useEffect(() => {
-    //   AsyncStorage.getItem("access_token",(err,result) => {
-    //     console.log(result);
-    //     if(result != null){
-    //       dispatch(addAccessToken({ access_token : result}))
-    //       AsyncStorage.getItem("refresh_token",(err,data) => {
-    //         console.log(data);
-    //         if(data != null) dispatch(addRefreshToken({ refresh_token : data}));
-    //       });
-    //       AsyncStorage.getItem("userInfo",(err,userdata) => {
-    //         console.log(userdata);
-    //         if(userdata != null) {
-    //           dispatch(addUserInfo({ data : JSON.parse(userdata)}));
-    //           navigation.navigate("BottomTabNavigatorScreen");//저장된 유저 정보가 있고 토큰도 있으면 바로 메인 화면으로 이동
-    //         }
-    //       });
-    //     }
-    //   });
-    // }, []);
+    useEffect(() => {
+      AsyncStorage.getItem("access_token",(err,result) => {
+        console.log(result);
+        if(result != null){
+          dispatch(addAccessToken({ access_token : result}))
+          AsyncStorage.getItem("refresh_token",(err,data) => {
+            console.log(data);
+            if(data != null) dispatch(addRefreshToken({ refresh_token : data}));
+          });
+          AsyncStorage.getItem("userInfo",(err,userdata) => {
+            console.log(userdata);
+            if(userdata != null) {
+              dispatch(addUserInfo({ data : JSON.parse(userdata)}));
+              navigation.navigate("BottomTabNavigatorScreen");//저장된 유저 정보가 있고 토큰도 있으면 바로 메인 화면으로 이동
+            }
+          });
+        }
+      });
+    }, []);
     
     function MoveToUserVerifyScreen()
     {

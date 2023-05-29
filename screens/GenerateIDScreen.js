@@ -13,6 +13,7 @@ import LogoIconImage from "../components/psc/LogoIconImage";
 import InputField from "../components/psc/InputField";
 import DatePicker from "../components/psc/DatePicker";
 import SmallToggleSwitch from "../components/psc/SmallToggleSwitch";
+import AddressModal from "../components/hgp/AddressModal";
 
 //Definition Component ---------------------------------------------------
 function GenerateIDScreen({route, navigation})
@@ -107,6 +108,7 @@ function GenerateIDScreen({route, navigation})
     return (
         <Pressable style={styles.rootScreen} onPress={dismissKeyboard}>
             <LogoIconImage/>
+            
             <View style={styles.comp_component}>
                 <InputField placeholder={"닉네임"} maxLength={11} value={nickname} onChangeText={nicknameHandler} />
                 <View style={styles.pickerContainer}>
@@ -125,15 +127,13 @@ function GenerateIDScreen({route, navigation})
                     <View style={styles.genderButtonsContainer}>
                         <SmallToggleSwitch
                             handler={SelectGenderHandler}
-                            selectedGender={currentSelectedGender}
-                            style = {currentSelectedGender === '남' ? [styles.maleButton, styles.activeButton] : styles.maleButton}>
+                            selectedGender={currentSelectedGender}>
                                 남
                                 </SmallToggleSwitch>
 
                         <SmallToggleSwitch 
                             handler={SelectGenderHandler}
-                            selectedGender={currentSelectedGender}
-                            style = {currentSelectedGender === '여' ? [styles.femaleButton, styles.activeButton] : styles.femaleButton}>
+                            selectedGender={currentSelectedGender}>
                                 여
                                 </SmallToggleSwitch>
                     </View>
@@ -152,13 +152,7 @@ function GenerateIDScreen({route, navigation})
                 <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
             </View>
             <View height="5%"/>
-            <Modal visible={isModal}>
-                <Postcode
-                    style={{ width: Dimensions.get("window").width, height: Dimensions.get("window").height }}
-                    jsOptions={{ animation: true, hideMapBtn: true }}
-                    onSelected={getAddressData}
-                />
-            </Modal>
+            <AddressModal isVisible={isModal} onAdressSelected={getAddressData} onCancel={()=>{setIsModal(false)}}/>
             <DatePicker dataMoveToScreen={onPressDatePickerConfirm} visible={visible} onCancel={onCancel} />
         </Pressable>
     );
@@ -188,8 +182,7 @@ const styles = StyleSheet.create({
         marginBottom : 20,
     },
     datePress : {
-        width: "60%",
-        // flex:1,
+        flex : 1,
     },
     textInput : {
         alignSelf:'stretch',
@@ -202,7 +195,6 @@ const styles = StyleSheet.create({
         fontFamily : 'NanumGothic-Bold',
     },
     genderButtonsContainer : {
-        alignSelf:'baseline',
         height : "100%",
         flexDirection : "row",
     },
