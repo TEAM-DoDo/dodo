@@ -2,7 +2,7 @@
 //  React
 import { useEffect, useState } from "react";
 import API from "../api/API";
-
+import {LinearGradient} from 'react-native-linear-gradient';
 
 
 //  Native
@@ -40,6 +40,7 @@ function SelectCategoryScreen({ route, navigation }) {
             alert("키워드를 최소 2개 이상 선택해주세요.");
         }
     }
+
     const icons = [
         { name: 'airplane', title: '여행' },
         { name: 'brush', title: '공예' },
@@ -55,6 +56,7 @@ function SelectCategoryScreen({ route, navigation }) {
         { name: 'ellipsis-horizontal', title: '기타' },
     ];
 
+
     function renderIcon({ item }) {
         const isSelected = selectedIcons.includes(item.name);
         return (
@@ -65,7 +67,7 @@ function SelectCategoryScreen({ route, navigation }) {
                 ]}
                 onPress={() => toggleIconSelection(item.name)}
             >
-                <Ionicons name={item.name} size={24} color={isSelected ? '#008D62' : '#E30A8B'} />
+                <Ionicons name={item.name} size={29} color={isSelected ? '#008D62' : '#E30A8B'} />
                 <Text style={[styles.buttonTitle, isSelected ? styles.selectedTitle : null]}>
                     {item.title}
                 </Text>
@@ -76,7 +78,6 @@ function SelectCategoryScreen({ route, navigation }) {
     return (
         <View style={styles.container}>
             <Text style={styles.titleText}>{"관심 키워드"}</Text>
-            {/* ✅ */}
             <FlatList
                 data={icons}
                 numColumns={4}
@@ -102,11 +103,11 @@ const styles = StyleSheet.create({
     titleText: {
         justifyContent : 'center',
         color: '#E30A8B',
-        fontSize: 30,
+        fontSize: 38,
         marginHorizontal: 16,
-        marginVertical: 8,
-        paddingVertical: 16,
-        paddingHorizontal: 16,
+        marginVertical: 20,
+        paddingVertical: 24,
+        paddingHorizontal: 2,
         fontFamily : 'NanumGothic-Bold',
     },
 
@@ -114,12 +115,19 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 4,
-        padding: 8,
-        borderRadius: 8,
+        margin: 7,
+        padding: 9,
+        borderRadius: 80,
         // borderRadius: 8,
-        borderWidth: 2,
+        borderWidth: 1,
         fontFamily : 'NanumGothic-Bold',
-        borderColor : '#c5c5c5',
+        borderColor : '#FBFBFB',
+        backgroundColor : '#FBFAF2',
+    },
+
+    buttonTitle: {
+        fontSize: 13,
+        paddingTop: 10,
+
     }
 });

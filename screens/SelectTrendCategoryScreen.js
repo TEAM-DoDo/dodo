@@ -95,7 +95,7 @@ function SelectTrendCategoryScreen({ route, navigation }) {
         </View>*/
 
         <View style={styles.container}>
-            <Text style={styles.titleText}>{"🔥 요즘뜨는 키워드"}</Text>
+            <Text style={styles.titleText}>{"🔥요즘뜨는 키워드"}</Text>
             <FlatList
                 data={ICONS}
                 numColumns={4}
@@ -118,20 +118,30 @@ const styles = StyleSheet.create({
     },
     titleText: {
         color: '#E30A8B',
-        fontSize: 30,
+        fontSize: 38,
         marginHorizontal: 16,
-        marginVertical: 8,
-        paddingVertical: 16,
-        paddingHorizontal: 16,
+        marginVertical: 20,
+        paddingVertical: 24,
+        paddingHorizontal: 1,
+        fontFamily : 'NanumGothic-Bold',
     },
     button: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 4,
-        padding: 8,
-        borderRadius: 8,
+        margin: 7,
+        padding: 9,
+        borderRadius: 80,
         borderWidth: 1,
+        fontFamily : 'NanumGothic-Bold',
+        borderColor : '#FBFBFB',
+        backgroundColor : '#FBFAF2',
+    },
+
+    buttonTitle: {
+        fontSize: 13,
+        paddingTop: 10,
+
     }
 
 });
