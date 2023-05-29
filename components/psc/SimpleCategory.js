@@ -13,8 +13,8 @@ export default SimpleCategory;
 const styles = StyleSheet.create({
     contentContainer : {
         backgroundColor : 'tomato',
-        width : 85,
-        height : 30,
+        width : 115,
+        height : 40,
         borderRadius : 10,
         justifyContent : 'center',
         alignItems : 'center',

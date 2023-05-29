@@ -18,47 +18,24 @@ import SimpleCategory from '../components/psc/SimpleCategory';
 
 import unknownImagePath from "../assets/images/Unknown_person.jpg";
 function ProfileScreen ({navigation, route}) {
-  //const [doList, setDoList] = useState([]); 
-  
+  const [loaded, setLoaded] = useState(false); 
+  const [tick, setTick] = useState(Date.now());
   //redux
   const userInfo = useSelector(state => state.userInfo);
+  console.log("profilescreen에서 호출 userinfo : ", userInfo);
   const myDoList = useSelector(state => state.myDoList.myDoList);
+  console.log("profilescreen에서 호출 do list : ", myDoList);
   const dispatch = useDispatch();
 
   function moveToSelectInterestScreen() { // 관심사 선택 화면 이동
     navigation.navigate('SelectInterestScreen');
   };
-
-  // const handleResponseError = (err) => {
-  //   Toast.show(err, 
-  //   {
-  //     duration: Toast.durations.SHORT,
-  //     position: Toast.positions.BOTTOM,
-  //     shadow: true,
-  //     animation: true,
-  //     hideOnPress: true,
-  //     delay: 0,
-  //   })
-  // }
-
-  // const updateMyDoList = ({data}) => 
-  // {
-  //   setDoList(data.doResponseDTOList);
-  // }
-
-  // const updateData = async () => {
-  //   await API.get(`api/users/doList`, {
-  //     params : {
-  //       id : userInfo.id,
-  //     }
-  //   }).then(updateMyDoList).catch(handleResponseError).finally(()=>console.log("Get Do list Axios 처리 끝"));
-  // }
   
-  // useEffect(()=>{
-  //   navigation.addListener("focus", ()=>{
-  //     updateData();
-  //   });
-  // }, []);
+  useEffect(()=>{
+    navigation.addListener("focus", ()=>{
+      setLoaded(current => !current);
+    });
+  }, []);
   
   const handleProfileImageUpload = async () =>
   {
@@ -109,7 +86,7 @@ function ProfileScreen ({navigation, route}) {
       API.post(
         `api/users/${userInfo.id}/profile-image`, formData,
         {headers:{"Content-Type": `multipart/form-data`}}
-      ).then(response => setIsInfoUpdated(current => !current)).catch(err => console.log(err));
+      ).then(response => setTick(Date.now())).catch(err => console.log(err));
   }
 
   return (
@@ -119,7 +96,7 @@ function ProfileScreen ({navigation, route}) {
           <Pressable onPress={handleProfileImageUpload} style={({pressed}) => [styles.avatarPressArea, pressed ? styles.pressedOpacity : null]} 
           android_ripple={{color : Colors.button.rippleColor}}>  
             <Image
-              source={userInfo.imagePath == null ? unknownImagePath : {uri:`http://${localIpAddress}:${portNumber}/api/users/${userInfo.id}/profile-image`}}
+              source={userInfo.imagePath == null ? unknownImagePath : {uri:`http://${localIpAddress}:${portNumber}/api/users/${userInfo.id}/profile-image?${tick}`}}
               style={styles.avatar}
             />
           </Pressable>

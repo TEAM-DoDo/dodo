@@ -19,7 +19,6 @@ import { useSelector } from "react-redux";
 //리스트 항목 부분
 //홈화면
 function HomeScreen({navigation}){
-    console.log(useSelector(state=>state.userInfo.id));
     var [doList,setDoList] = useState([]);
     const updateDoData = () => {
         API.get("/api/do/list").then((response) => {

@@ -193,8 +193,16 @@ function SelectInterestScreen({ navigation, route }) {
         userInfo.category = selectedSubjects;
         dispatch(addUserInfo({data : userInfo}));
         //갱신된 유저 정보 서버에 전송
-        const obj = userInfo;
-        obj.category = JSON.stringify(userInfo.category); //DTO에서 String으로 받으므로 JSON 문자열로 변환 후 전송 
+        const obj = {
+            id : userInfo.id,
+            phoneNumber : userInfo.phoneNumber,
+            nickname : userInfo.nickname,
+            dateOfBirth : userInfo.dateOfBirth,
+            address : userInfo.address,
+            gender : userInfo.gender,
+            category : JSON.stringify(selectedSubjects), //DTO에서 String으로 받으므로 JSON 문자열로 변환 후 전송 
+            imagePath : userInfo.imagePath,
+        };
         await API.post(`api/users/${userInfo.id}/modify`, obj).then((response)=>console.log(response.data)).catch((err) => console.log(err));
 
         // Logic to save selected subjects and navigate back to ProfileScreen

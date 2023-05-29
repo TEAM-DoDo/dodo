@@ -2,8 +2,10 @@ import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 import { localIpAddress, portNumber } from '../../api/API';
 import Colors from "../../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from 'react';
 
 const DoSimpleBanner = ({doInfo}) => {
+    const tick = Date.now();
     const navigation = useNavigation();
     const moveToDoScreen = () =>
     {
@@ -18,7 +20,7 @@ const DoSimpleBanner = ({doInfo}) => {
             <Pressable onPress={moveToDoScreen} style={({pressed}) => [styles.pressArea, pressed ? styles.pressOpacity : null]} android_ripple={{color : Colors.button.rippleColor}}>
                 <View style={styles.innerContainer}>
                     <View style={styles.avatarContainer}>
-                        <Image style={styles.avatar} source={{uri : `http://${localIpAddress}:${portNumber}/api/do/${doInfo.id}/title-image`}} />
+                        <Image style={styles.avatar} source={{uri : `http://${localIpAddress}:${portNumber}/api/do/${doInfo.id}/title-image?${tick}`}} />
                     </View>
                     <View style={styles.infoContainer}>
                         <View style={styles.titleContainer}>
