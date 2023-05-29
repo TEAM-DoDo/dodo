@@ -37,6 +37,7 @@ import DoNoticeScreen from './screens/DoNoticeScreen';
 import DoCreateScreen from './screens/DoCreateScreen';
 import SelectInterestScreen from './screens/SelectInterestScreen';
 import MyDoScreen from './screens/MyDoScreen';
+import SearchScreen from './screens/SearchScreen';
 
 // Library
 import * as encoding from 'text-encoding';
@@ -119,7 +120,7 @@ export default function App() {
       shouldSetBadge: true,
     }),
   });
-  AsyncStorage.clear();
+  //AsyncStorage.clear();
   return (
     <SafeAreaView style={Style.droidSafeArea}>
       <KeyboardAvoidingView style={Style.master_view} behavior={Platform.OS === "ios" ? "padding" : null}>
@@ -144,6 +145,7 @@ export default function App() {
           <Stack.Screen name='SelectInterestScreen' component={SelectInterestScreen}/>
           <Stack.Screen name='UserListScreen' component={UserListScreen}/>
           <Stack.Screen name='DoScheduleInfoScreen' component={SchduleInfoScreen}/>
+          <Stack.Screen name='SearchScreen' component={SearchScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
       </RootSiblingParent>
