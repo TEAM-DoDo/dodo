@@ -8,7 +8,10 @@ const DoSimpleBanner = ({doInfo}) => {
     const navigation = useNavigation();
     const moveToDoScreen = () =>
     {
-        navigation.navigate("DoScreen", {id : doInfo.id});
+        navigation.navigate("DoScreen", {
+            id : doInfo.id,
+            title : doInfo.name,
+        });
     }
 
     return(
@@ -36,8 +39,9 @@ export default DoSimpleBanner;
 
 const styles = StyleSheet.create({
     outerContainer : {
-        flex : 1,
         flexDirection : 'row',
+        height : 50,
+        width : '100%',
     },
     pressArea : {
         flex : 1,

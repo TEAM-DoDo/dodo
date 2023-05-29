@@ -85,6 +85,7 @@ function UserVerifyScreen({ navigation }) {
                         id : response.data.userdata.id,
                         imagePath : response.data.userdata.imagePath,
                     };
+                    userInfo.category = JSON.parse(userInfo.category);
                     if(userInfo.nickname === null){
                         navigation.navigate('GenerateIDScreen',{phoneNumber : phoneNumber,id : response.data.userdata.id});
                         break;

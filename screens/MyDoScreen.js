@@ -1,12 +1,14 @@
 import { ScrollView, View, Text, TextInput, Image, StyleSheet, Pressable } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUserInfo, removeUserInfo } from '../store/user-store';
 import DoSimpleBanner from '../components/psc/DoSimpleBanner';
+import API from '../api/API';
+import Toast from "react-native-root-toast";
 
-const MyDoScreen = (route, navigation) => {
+const MyDoScreen = ({route, navigation}) => {
     const [doList, setDoList] = useState([]); 
-    
+
     const userId = useSelector(state => state.userInfo.id);
     
     const handleResponseError = (err) => {
@@ -23,7 +25,9 @@ const MyDoScreen = (route, navigation) => {
 
     const updateMyDoList = ({data}) => 
     {
-      setDoList(current => data.doResponseDTOList);
+        console.log(data.doResponseDTOList);
+        console.log(typeof data.doResponseDTOList);
+        setDoList(current => data.doResponseDTOList);
     }
   
     const updateData = async () => {
@@ -41,13 +45,13 @@ const MyDoScreen = (route, navigation) => {
     });
 
     return(
-        <View>
+        <View style={{flex : 1}}>
             <View><Text>MyDo</Text></View>
-            <View>
+            <View style={{flex : 1}}>
                 <View>
                     <Text>가입한 Do</Text>
                 </View>
-                <View>
+                <View style={{flex:1}}>
                     {doList.map((aDo, i) => <DoSimpleBanner key={i} doInfo={aDo} />)}
                 </View>
             </View>

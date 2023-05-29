@@ -10,7 +10,7 @@ import { addUserInfo, removeUserInfo } from '../store/user-store';
 import API, { localIpAddress, portNumber } from '../api/API';
 import Toast from "react-native-root-toast";
 import * as ImagePicker from 'expo-image-picker';
-//  Colors
+
 import Colors from "../constants/Colors";
 import mime from 'mime';
 import DoSimpleBanner from '../components/psc/DoSimpleBanner';
@@ -20,18 +20,21 @@ import unknownImagePath from "../assets/images/Unknown_person.jpg";
 function ProfileScreen ({navigation, route}) {
   
   const [intro, setIntro] = useState('Input the Text');
-  // const [myDo, setMyDo] = useState('Input the Text');
+  const [isInfoUpdated, setIsInfoUpdated] = useState(false);
+  const [myDo, setMyDo] = useState('Input the Text');
   const [interests, setInterests] = useState('Input the Text');
+
+
   const [userInfo, setUserInfo] = useState(useSelector(state => state.userInfo));
   const [doList, setDoList] = useState([]); 
-  const [isInfoUpdated, setIsInfoUpdated] = useState(false);
+
   function moveToSelectInterestScreen() { // 관심사 선택 화면 이동
     navigation.navigate('SelectInterestScreen');
   };
 
   //redux
   const dispatch = useDispatch();
-  console.log("리덕스 업데이트 되는지 여부 : ", useSelector(state => state.userInfo));
+
   const userId = useSelector(state => state.userInfo.id); //만약 업로드한 이미지가 없다면 어떻게 처리?
 
   const handleResponseError = (err) => {
@@ -46,19 +49,12 @@ function ProfileScreen ({navigation, route}) {
     })
   }
 
-  const updateUserInfo = ({data}) =>
-  {
-    setUserInfo(data.user);
-  }
-
   const updateMyDoList = ({data}) => 
   {
-    console.log("axios로 가져온 do 리스트 : ", data);
     setDoList(data.doResponseDTOList);
   }
 
   const updateData = async () => {
-    //await API.get(`api/users/${userId}`).then(updateUserInfo).catch(handleResponseError).finally(()=>console.log("Get 유저 정보 Axios 처리 끝"));
     await API.get(`api/users/doList`, {
       params : {
         id : userId,
@@ -123,7 +119,7 @@ function ProfileScreen ({navigation, route}) {
         {headers:{"Content-Type": `multipart/form-data`}}
       ).then(response => setIsInfoUpdated(current => !current)).catch(err => console.log(err));
   }
-  console.log(typeof JSON.parse(userInfo.category));
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.avatarContainer}>
@@ -156,18 +152,29 @@ function ProfileScreen ({navigation, route}) {
         }
       </View>
       <View style={styles.infoContainer}>
-        <Text style={styles.infoLabel}>내 관심사</Text>
-        {/* <Pressable onPress={moveToSelectInterestScreen} style={styles.editButton}>
-        <AntDesign name="pluscircleo" size={20} color="black" />
-        </Pressable> */}
-        {/* <Text style={styles.infoValue}>Input the Text</Text> */}
-        <View>
-          {JSON.parse(userInfo.category).map((item, i) => <SimpleCategory key={i} text={item} />)}
+        <View style={{width : 100, height : 100, backgroundColor : 'red'}}>
+          <Pressable onPress={moveToSelectInterestScreen} style={styles.editButton}>
+            <Text style={styles.infoLabel}>내 관심사</Text>
+            <AntDesign name="pluscircleo" size={20} color="black" />
+          </Pressable>
         </View>
+        <View>
+          {userInfo.category.map((item, i) => <SimpleCategory key={i} text={item} />)}
+        </View>
+        {/* 
+        <View>
+          <Pressable onPress={moveToSelectInterestScreen} style={styles.editButton}>
+            <AntDesign name="pluscircleo" size={20} color="black" />
+          </Pressable>
+          <Text style={styles.infoValue}>Input the Text</Text>
+        </View> 
+        */}
       </View>
     </ScrollView>
   );
 };
+
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -213,6 +220,3 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-
-export default ProfileScreen;
-

@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Button, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import Toast from "react-native-root-toast";
+import { addUserInfo } from "../store/user-store";
+import API from "../api/API";
 
-
-function SelectInterestScreen({ navigation }) {
+function SelectInterestScreen({ navigation, route }) {
     const [selectedSubjects, setSelectedSubjects] = useState([]);
+
+    const userInfo = useSelector(state => state.userInfo);
+    const dispatch = useDispatch();
 
     function toggleSubjectSelection(iconName) {
         setSelectedSubjects((prevState) => {
@@ -14,6 +20,10 @@ function SelectInterestScreen({ navigation }) {
             }
         });
     }
+
+    useEffect(()=>{
+        setSelectedSubjects(userInfo.category);
+    }, [])
 
     const countrySubjects = [
         { name: "America", title: "미국🇺🇸" },
@@ -161,13 +171,39 @@ function SelectInterestScreen({ navigation }) {
         ));
     }
 
-    function saveSelectedSubjects() {
+    async function saveSelectedSubjects() {
+        //아무것도 선택하지 않았다면
+        if(selectedSubjects.length <= 0)
+        {
+            const message = "아무것도 선택하지 않으셨습니다."
+            Toast.show(message, 
+            {
+                duration: Toast.durations.SHORT,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+                delay: 0,
+            })
+            navigation.goBack();
+            return;
+        }
+
+        //리덕스 유저 정보에 저장
+        userInfo.category = selectedSubjects;
+        dispatch(addUserInfo({data : userInfo}));
+        //갱신된 유저 정보 서버에 전송
+        const obj = userInfo;
+        obj.category = JSON.stringify(userInfo.category); //DTO에서 String으로 받으므로 JSON 문자열로 변환 후 전송 
+        await API.post(`api/users/${userInfo.id}/modify`, obj).then((response)=>console.log(response.data)).catch((err) => console.log(err));
+
         // Logic to save selected subjects and navigate back to ProfileScreen
         // You can pass the selectedSubjects to ProfileScreen using navigation or other state management approach
         navigation.goBack(); // Example: Navigating back to ProfileScreen
     }
 
-    return (
+
+    return(
         <ScrollView style={styles.container}>
             <View>
                 <Text style={styles.titleText}>{"관심사❤️‍🔥"}</Text>

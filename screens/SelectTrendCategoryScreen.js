@@ -47,6 +47,7 @@ function SelectTrendCategoryScreen({ route, navigation }) {
                     imagePath : null,
                     id: userInfo.id,
                 };
+                data.category = JSON.parse(data.category);
                 if (response.status == 200) {
                     console.log("유저 정보 수정 성공");
                     dispatch(addUserInfo({ data : data }));
