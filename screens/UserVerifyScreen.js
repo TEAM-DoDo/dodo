@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addAccessToken,addRefreshToken } from "../store/jwt-store";
 import Toast from "react-native-root-toast";
 import { addUserInfo } from "../store/user-store";
+import { updateMyDoList } from "../store/myDoList-store";
+
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({ navigation }) {
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -92,6 +94,11 @@ function UserVerifyScreen({ navigation }) {
                         break;
                     }
                     dispatch(addUserInfo({ data : userInfo }));
+                    //유저가 속한 do list 받아와서 리덕스에 저장
+                    API.get("api/users/doList", {params : {id : userInfo.id}}).then(response => {
+                        const list = response.data.doResponseDTOList;
+                        dispatch(updateMyDoList({data : list}));
+                    }).catch(err => console.log("do list가져오는데 실패했습니다.")).finally(()=>console.log("do list get 처리 끝"));
                     navigation.navigate('BottomTabNavigatorScreen');
                     break;
                     //유저 정보가 생성되었을 때는 유저 정보를 저장하고 정보 기입 화면으로 넘어가야 한다

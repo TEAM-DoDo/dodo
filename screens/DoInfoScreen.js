@@ -22,9 +22,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import mime from "mime";
 import Toast from "react-native-root-toast";
 import DoNotice from "../components/hgp/DoNotice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import FloatingButton from "../components/hgp/FloatingButton";
 import { DoOfUser } from "../data/DoOfUser";
+
+import { addNewDo } from "../store/myDoList-store";
 
 function DoInfoScreen({route, navigation}) {
     //console.log("from do info screen : " + route.params.id);
@@ -41,6 +43,7 @@ function DoInfoScreen({route, navigation}) {
     const [participants, setParticipants] = useState([]);
     //user에 대한 정보
     const userId = useSelector((state) => state.userInfo.id);
+    const dispatch = useDispatch();
 
     const updateData = () => {
         API.get(`/api/do/${route.params.id}`).then((response) => {
@@ -168,6 +171,11 @@ function DoInfoScreen({route, navigation}) {
         }).catch((error) => {
             console.log(error);
         });
+        API.get(`api/do/${route.params.id}`).then(response => {
+            const newDo = response.data;
+            console.log("방금 참가한 do의 정보 : ", newDo);
+            dispatch(addNewDo({data : newDo}));
+        }).catch(err => console.log("DoInfoScreen.js에서 발생. do 참가 후 get do에 실패했습니다."))
     }        
     return (
         <View style={Style.container}>

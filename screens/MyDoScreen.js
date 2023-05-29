@@ -7,56 +7,94 @@ import API from '../api/API';
 import Toast from "react-native-root-toast";
 
 const MyDoScreen = ({route, navigation}) => {
-    const [doList, setDoList] = useState([]); 
+    //const [doList, setDoList] = useState([]); 
 
     const userId = useSelector(state => state.userInfo.id);
-    
-    const handleResponseError = (err) => {
-        Toast.show(err,
-        {
-          duration : Toast.durations.SHORT,
-          position : Toast.positions.BOTTOM,
-          shadow : true,
-          animation : true,
-          hideOnPress : true,
-          delay : 0,
-        });
-      }
+    const myDoList = useSelector(state => state.myDoList.myDoList);
 
-    const updateMyDoList = ({data}) => 
-    {
-        console.log(data.doResponseDTOList);
-        console.log(typeof data.doResponseDTOList);
-        setDoList(current => data.doResponseDTOList);
-    }
+    // const handleResponseError = (err) => {
+    //     Toast.show(err,
+    //     {
+    //       duration : Toast.durations.SHORT,
+    //       position : Toast.positions.BOTTOM,
+    //       shadow : true,
+    //       animation : true,
+    //       hideOnPress : true,
+    //       delay : 0,
+    //     });
+    //   }
+
+    // const updateMyDoList = ({data}) => 
+    // {
+    //     setDoList(current => data.doResponseDTOList);
+    // }
   
-    const updateData = async () => {
-      await API.get(`api/users/doList`, {
-        params : {
-          id : userId,
-        }
-      }).then(updateMyDoList).catch(handleResponseError).finally(()=>console.log("Get Do list Axios 처리 끝"));
-    }
+    // const updateData = async () => {
+    //   await API.get(`api/users/doList`, {
+    //     params : {
+    //       id : userId,
+    //     }
+    //   }).then(updateMyDoList).catch(handleResponseError).finally(()=>console.log("Get Do list Axios 처리 끝"));
+    // }
     
-    useEffect(()=>{
-      navigation.addListener("focus", ()=>{
-        updateData();
-      });
-    });
+    // useEffect(()=>{
+    //   navigation.addListener("focus", ()=>{
+    //     updateData();
+    //   });
+    // }, []);
 
     return(
-        <View style={{flex : 1}}>
-            <View><Text>MyDo</Text></View>
-            <View style={{flex : 1}}>
-                <View>
-                    <Text>가입한 Do</Text>
+        <ScrollView style={styles.rootContainer}>
+            <View style={styles.pageTitleContainer}>
+              <Text style={styles.pageTitle}>MyDo</Text>
+            </View>
+            <View style={styles.doContainer}>
+                <View style={styles.doTitleContainer}>
+                    <Text style={styles.doTitle}>가입한 Do</Text>
                 </View>
-                <View style={{flex:1}}>
-                    {doList.map((aDo, i) => <DoSimpleBanner key={i} doInfo={aDo} />)}
+                <View style={styles.doListContainer}>
+                    {myDoList.map((aDo, i) => <DoSimpleBanner key={i} doInfo={aDo} />)}
                 </View>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
 export default MyDoScreen;
+
+const styles = StyleSheet.create({
+  rootContainer : {
+    flex : 1,
+    padding : 20,
+  },
+  pageTitleContainer : {
+    width : '100%',
+    height : 50,
+    backgroundColor : 'tomato',
+    justifyContent : 'center',
+    alignItems : 'center',
+    paddingHorizontal : 5,
+    marginBottom : 20,
+  },
+  pageTitle : {
+    fontSize : 30,
+    fontWeight : 'bold',
+    fontFamily:'NanumGothic-Regular',
+    color : 'pink',
+  },
+  doContainer : {
+    flex : 1,
+    marginBottom : 100,
+  },
+  doTitleContainer : {
+    flex : 1,
+    marginBottom : 10,
+  },
+  doTitle : {
+    fontSize : 20,
+    fontWeight : 'bold',
+  },
+  doListContainer : {
+    flex : 1,
+  },
+});

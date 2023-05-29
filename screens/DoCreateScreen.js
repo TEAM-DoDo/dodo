@@ -4,7 +4,8 @@ import TopBar from "../components/hgp/TopBar";
 import Postcode from "@actbase/react-daum-postcode";
 import API from "../api/API";
 import Toast from "react-native-root-toast";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addNewDo } from "../store/myDoList-store";
 
 function DoCreateScreen({navigation}){
     const [isModal,setIsModal] = useState(false);
@@ -12,6 +13,7 @@ function DoCreateScreen({navigation}){
     const [name,setName] = useState("");
     const [des,setDes] = useState("");
     const userId = useSelector(state => state.userInfo.id);
+    const dispatch = useDispatch();
     const onGoBackPressed = () =>{
         navigation.goBack();
     }
@@ -50,6 +52,9 @@ function DoCreateScreen({navigation}){
                 hideOnPress: true,
                 delay: 0,
             });
+            const createdDoInfo = response.data;
+            console.log("post response로 받은 do info : ", createdDoInfo);
+            dispatch(addNewDo({data : createdDoInfo}))
             navigation.goBack();
         }).catch((err)=>{
             Toast.show('Do가 생성되지 않았습니다.', {

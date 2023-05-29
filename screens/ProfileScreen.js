@@ -18,55 +18,47 @@ import SimpleCategory from '../components/psc/SimpleCategory';
 
 import unknownImagePath from "../assets/images/Unknown_person.jpg";
 function ProfileScreen ({navigation, route}) {
+  //const [doList, setDoList] = useState([]); 
   
-  const [intro, setIntro] = useState('Input the Text');
-  const [isInfoUpdated, setIsInfoUpdated] = useState(false);
-  const [myDo, setMyDo] = useState('Input the Text');
-  const [interests, setInterests] = useState('Input the Text');
-
-
-  const [userInfo, setUserInfo] = useState(useSelector(state => state.userInfo));
-  const [doList, setDoList] = useState([]); 
+  //redux
+  const userInfo = useSelector(state => state.userInfo);
+  const myDoList = useSelector(state => state.myDoList.myDoList);
+  const dispatch = useDispatch();
 
   function moveToSelectInterestScreen() { // 관심사 선택 화면 이동
     navigation.navigate('SelectInterestScreen');
   };
 
-  //redux
-  const dispatch = useDispatch();
+  // const handleResponseError = (err) => {
+  //   Toast.show(err, 
+  //   {
+  //     duration: Toast.durations.SHORT,
+  //     position: Toast.positions.BOTTOM,
+  //     shadow: true,
+  //     animation: true,
+  //     hideOnPress: true,
+  //     delay: 0,
+  //   })
+  // }
 
-  const userId = useSelector(state => state.userInfo.id); //만약 업로드한 이미지가 없다면 어떻게 처리?
+  // const updateMyDoList = ({data}) => 
+  // {
+  //   setDoList(data.doResponseDTOList);
+  // }
 
-  const handleResponseError = (err) => {
-    Toast.show(err, 
-    {
-      duration: Toast.durations.SHORT,
-      position: Toast.positions.BOTTOM,
-      shadow: true,
-      animation: true,
-      hideOnPress: true,
-      delay: 0,
-    })
-  }
-
-  const updateMyDoList = ({data}) => 
-  {
-    setDoList(data.doResponseDTOList);
-  }
-
-  const updateData = async () => {
-    await API.get(`api/users/doList`, {
-      params : {
-        id : userId,
-      }
-    }).then(updateMyDoList).catch(handleResponseError).finally(()=>console.log("Get Do list Axios 처리 끝"));
-  }
+  // const updateData = async () => {
+  //   await API.get(`api/users/doList`, {
+  //     params : {
+  //       id : userInfo.id,
+  //     }
+  //   }).then(updateMyDoList).catch(handleResponseError).finally(()=>console.log("Get Do list Axios 처리 끝"));
+  // }
   
-  useEffect(()=>{
-    navigation.addListener("focus", ()=>{
-      updateData();
-    });
-  });
+  // useEffect(()=>{
+  //   navigation.addListener("focus", ()=>{
+  //     updateData();
+  //   });
+  // }, []);
   
   const handleProfileImageUpload = async () =>
   {
@@ -115,60 +107,50 @@ function ProfileScreen ({navigation, route}) {
       userInfo.imagePath = image.name;
       dispatch(addUserInfo({data : userInfo}));
       API.post(
-        `api/users/${userId}/profile-image`, formData,
+        `api/users/${userInfo.id}/profile-image`, formData,
         {headers:{"Content-Type": `multipart/form-data`}}
       ).then(response => setIsInfoUpdated(current => !current)).catch(err => console.log(err));
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.avatarContainer}>
-        <Pressable onPress={handleProfileImageUpload} style={({pressed}) => [styles.avatarPressArea, pressed ? styles.pressedOpacity : null]} 
-        android_ripple={{color : Colors.button.rippleColor}}>  
-          <Image
-            source={userInfo.imagePath == null ? unknownImagePath : {uri:`http://${localIpAddress}:${portNumber}/api/users/${userId}/profile-image`}} // TO DO : add profile edit function
-            style={styles.avatar}
-          />
-        </Pressable>
-        <Text>{userInfo.id}</Text>
-        <Text style={styles.name}>{userInfo.nickname}</Text>
-        <Text style={styles.infoValue}>{userInfo.address}</Text>
+    <ScrollView style={styles.rootContainer}>
+      <View style={styles.avatarOuterContainer}>
+        <View style={styles.avatarInnerContainer}>
+          <Pressable onPress={handleProfileImageUpload} style={({pressed}) => [styles.avatarPressArea, pressed ? styles.pressedOpacity : null]} 
+          android_ripple={{color : Colors.button.rippleColor}}>  
+            <Image
+              source={userInfo.imagePath == null ? unknownImagePath : {uri:`http://${localIpAddress}:${portNumber}/api/users/${userInfo.id}/profile-image`}}
+              style={styles.avatar}
+            />
+          </Pressable>
+        </View>
+        <View style={styles.profileInfoContainer}>
+          <Text style={styles.infoValue}>유저 아이디:{userInfo.id}</Text>
+          <Text style={styles.name}>{userInfo.nickname}</Text>
+          <Text style={styles.infoValue}>{userInfo.address.split("로").shift()}</Text>
+        </View>
       </View>
-      {/* <View style={styles.infoContainer}>
-        <Text style={styles.infoLabel}>{userInfo.level}</Text>
-        <TextInput
-          style={styles.infoValue}
-          value={intro}
-          onChangeText={(text) => setIntro(text)}
-          editable={true}
-        />
-      </View> */}
       <View style={styles.infoContainer}>
-        <View>
+        <View style={styles.titleContainer}>
           <Text style={styles.infoLabel}>가입한 Do</Text> 
         </View>
-        {
-          doList.map((aDo, i)=> <DoSimpleBanner key={i} doInfo={aDo} />)
-        }
+        <View style={styles.doListContainer}>
+          {
+            myDoList.map((aDo, i)=> <DoSimpleBanner key={i} doInfo={aDo} />)
+          }
+        </View>
       </View>
-      <View style={styles.infoContainer}>
-        <View style={{width : 100, height : 100, backgroundColor : 'red'}}>
-          <Pressable onPress={moveToSelectInterestScreen} style={styles.editButton}>
+      <View style={styles.interestContainer}>
+        <View style={styles.interestTobContainer}>
+          <Pressable onPress={moveToSelectInterestScreen} style={({pressed}) => [styles.interestTobContainerPressArea, pressed ? styles.pressedOpacity : null]} 
+          android_ripple={{color : Colors.button.rippleColor}}>
             <Text style={styles.infoLabel}>내 관심사</Text>
             <AntDesign name="pluscircleo" size={20} color="black" />
           </Pressable>
         </View>
-        <View>
+        <View style={styles.categoryContainer}>
           {userInfo.category.map((item, i) => <SimpleCategory key={i} text={item} />)}
         </View>
-        {/* 
-        <View>
-          <Pressable onPress={moveToSelectInterestScreen} style={styles.editButton}>
-            <AntDesign name="pluscircleo" size={20} color="black" />
-          </Pressable>
-          <Text style={styles.infoValue}>Input the Text</Text>
-        </View> 
-        */}
       </View>
     </ScrollView>
   );
@@ -177,46 +159,78 @@ function ProfileScreen ({navigation, route}) {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  rootContainer: {
     flex: 1,
     backgroundColor: '#fff',
     padding: 20,
   },
-  pressedOpacity : {
-    opacity : 0.5,
-  },
-  avatarContainer: {
+  avatarOuterContainer: {
     alignItems: 'center',
     marginTop: 20,
+  },
+  avatarInnerContainer : {
+    width : 200,
+    height : 200,
+    borderRadius: 100,
+    overflow : 'hidden',
+    marginBottom : 20,
   },
   avatarPressArea : {
     flex : 1,
   },
+  pressedOpacity : {
+    opacity : 0.5,
+  },
   avatar: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
+    width: '100%',
+    height: '100%',
+  },
+  profileInfoContainer : {
+    alignItems : 'center',
   },
   name: {
     fontSize: 35,
     fontWeight: 'bold',
     marginTop: 10,
   },
-  infoContainer: {
-    marginTop: 50,
-  },
-  infoLabel: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
   infoValue: {
     fontSize: 15,
     marginTop: 5,
   },
-  editButton: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    padding: 10,
+  infoContainer: {
+    marginTop : 20,
   },
+  titleContainer : {
+    marginBottom : 10,
+  },
+  infoLabel: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginRight : 5,
+  },
+  doListContainer : {
+    flex : 1,
+  },
+  interestContainer : {
+    width : '100%',
+    flex : 1,
+    marginTop : 20,
+    marginBottom : 100,
+  },
+  interestTobContainer : {
+    width : '100%',
+    marginBottom : 10,
+  },
+  interestTobContainerPressArea : {
+    flex : 1,
+    flexDirection : 'row',
+    alignItems : 'center',
+  },
+  categoryContainer : {
+    flex : 1,
+    flexDirection : 'row',
+    flexWrap : 'wrap',
+    gap : 3
+  },
+
 });

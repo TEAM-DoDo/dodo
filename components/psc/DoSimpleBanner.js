@@ -4,7 +4,6 @@ import Colors from "../../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 
 const DoSimpleBanner = ({doInfo}) => {
-    console.log("do simple banner 정보 : ", doInfo);
     const navigation = useNavigation();
     const moveToDoScreen = () =>
     {
@@ -17,17 +16,19 @@ const DoSimpleBanner = ({doInfo}) => {
     return(
         <View style={styles.outerContainer}>
             <Pressable onPress={moveToDoScreen} style={({pressed}) => [styles.pressArea, pressed ? styles.pressOpacity : null]} android_ripple={{color : Colors.button.rippleColor}}>
-                <View style={styles.avatarContainer}>
-                    <Image style={styles.avatar} source={{uri : `http://${localIpAddress}:${portNumber}/api/do/${doInfo.id}/title-image`}} />
-                </View>
                 <View style={styles.innerContainer}>
-                    <View>
-                        <Text>{doInfo.name}</Text>
+                    <View style={styles.avatarContainer}>
+                        <Image style={styles.avatar} source={{uri : `http://${localIpAddress}:${portNumber}/api/do/${doInfo.id}/title-image`}} />
                     </View>
                     <View style={styles.infoContainer}>
-                        <Text style={styles.title}>{doInfo.place}</Text>
-                        <Text>|</Text>
-                        <Text>{doInfo.description}</Text>
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.title}>{doInfo.name}</Text>
+                        </View>
+                        <View style={styles.detailContainer}>
+                            <Text style={styles.text}>{doInfo.place.split("로").shift()}</Text>
+                            <Text style={[styles.text, styles.bar]}>|</Text>
+                            <Text style={styles.text}>{doInfo.description.length >= 10 ? doInfo.description.substr(0, 7) + "..." : doInfo.description}</Text>
+                        </View>
                     </View>
                 </View>
             </Pressable>
@@ -39,9 +40,11 @@ export default DoSimpleBanner;
 
 const styles = StyleSheet.create({
     outerContainer : {
-        flexDirection : 'row',
-        height : 50,
         width : '100%',
+        height : 120,
+        backgroundColor : 'pink',
+        borderRadius : 20,
+        marginVertical : 5,
     },
     pressArea : {
         flex : 1,
@@ -49,24 +52,46 @@ const styles = StyleSheet.create({
     pressOpacity : {
         opacity : 0.5,
     },
+    innerContainer : {
+        width : '100%',
+        height : '100%',
+        flexDirection : 'row',
+        alignItems : 'center',
+        paddingHorizontal : 15,
+        paddingVertical : 15,
+    },
     avatarContainer: {
-        alignItems: 'center',
-        marginTop: 20,
+        width : 100,
+        height : 100,
+        borderRadius : 50,
+        overflow : 'hidden',  
     },
     avatar: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
-    },
-    innerContainer : {
-
-    },
-    title : {
-        fontSize : 30,
-        fontFamily:'NanumGothic-Regular',
+        width: '100%',
+        height: '100%',
     },
     infoContainer : {
-        flexDirection : "row",
-        justifyContent : 'space-between',
+        flex : 1,
     },
+    titleContainer : {
+        alignItems : 'center',
+        marginBottom : 10,
+    },
+    title : {
+        fontSize : 20,
+        fontFamily:'NanumGothic-Regular',
+        fontWeight : 'bold'
+    },
+    detailContainer : {
+        flexDirection : "row",
+        justifyContent : 'center',
+    },
+    text : {
+        fontSize : 15,
+        fontWeight : 'bold',
+    },
+    bar : {
+        marginHorizontal : 10,
+    },
+
 });
