@@ -16,6 +16,7 @@ import Title from '../components/psc/Title';
 import LogoIconImage from "../components/psc/LogoIconImage";
 import { addAccessToken, addRefreshToken } from "../store/jwt-store";
 import { addUserInfo } from "../store/user-store";
+import { updateMyDoList } from "../store/myDoList-store";
 
 //Definition Component ---------------------------------------------------
 function StartUpScreen({navigation})
@@ -35,8 +36,12 @@ function StartUpScreen({navigation})
           });
           AsyncStorage.getItem("userInfo",(err,userdata) => {
             console.log(userdata);
+            AsyncStorage.getItem("myDoListInfo",(err,myDoData) => {
+              console.log(myDoData);
+              if(myDoData != null) dispatch(updateMyDoList({ data : JSON.parse(myDoData)}));
+            });
             if(userdata != null) {
-              dispatch(addUserInfo({ data : JSON.parse(userdata)}));
+              dispatch(updateMyDoList({ data : JSON.parse(userdata)}));
               navigation.navigate("BottomTabNavigatorScreen");//저장된 유저 정보가 있고 토큰도 있으면 바로 메인 화면으로 이동
             }
           });
