@@ -1,10 +1,11 @@
-import { View,StyleSheet,Dimensions,Modal,Pressable,TextInput,Text,Keyboard } from "react-native";
+import { View,StyleSheet,Dimensions,Modal,Pressable,TextInput,Text,Keyboard,SafeAreaView } from "react-native";
 import { useState } from "react";
 import TopBar from "../components/hgp/TopBar";
 import Postcode from "@actbase/react-daum-postcode";
 import API from "../api/API";
 import Toast from "react-native-root-toast";
 import { useSelector } from "react-redux";
+import AddressModal from "../components/hgp/AddressModal";
 
 function DoCreateScreen({navigation}){
     const [isModal,setIsModal] = useState(false);
@@ -75,13 +76,7 @@ function DoCreateScreen({navigation}){
             <Pressable style={Style.create_button} onPress={onCreateButtonPressed}>
                 <Text style={Style.create_button_text}>만들기</Text>
             </Pressable>
-            <Modal visible={isModal}>
-                <Postcode
-                    style={{ width: Dimensions.get('window').width, height:  Dimensions.get('window').height}}
-                    jsOptions={{ animation: true, hideMapBtn: true }}
-                    onSelected={getAddressData}
-                    />
-            </Modal>
+            <AddressModal isVisible={isModal} onAdressSelected={getAddressData} onCancel={()=>{setIsModal(false)}}/>
         </Pressable>
     );
 }
