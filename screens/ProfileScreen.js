@@ -18,7 +18,6 @@ import SimpleCategory from '../components/psc/SimpleCategory';
 
 import unknownImagePath from "../assets/images/Unknown_person.jpg";
 function ProfileScreen ({navigation, route}) {
-  const [loaded, setLoaded] = useState(false); 
   const [tick, setTick] = useState(Date.now());
   //redux
   const userInfo = useSelector(state => state.userInfo);
@@ -33,7 +32,7 @@ function ProfileScreen ({navigation, route}) {
   
   useEffect(()=>{
     navigation.addListener("focus", ()=>{
-      setLoaded(current => !current);
+      setTick(Date.now());
     });
   }, []);
   
@@ -89,6 +88,9 @@ function ProfileScreen ({navigation, route}) {
       ).then(response => setTick(Date.now())).catch(err => console.log(err));
   }
 
+  const splitAddress = userInfo.address.split(" ");
+  const address = splitAddress[0] + " " + splitAddress[1];
+
   return (
     <ScrollView style={styles.rootContainer}>
       <View style={styles.avatarOuterContainer}>
@@ -104,7 +106,7 @@ function ProfileScreen ({navigation, route}) {
         <View style={styles.profileInfoContainer}>
           <Text style={styles.infoValue}>유저 아이디:{userInfo.id}</Text>
           <Text style={styles.name}>{userInfo.nickname}</Text>
-          <Text style={styles.infoValue}>{userInfo.address.split("로").shift()}</Text>
+          <Text style={styles.infoValue}>{address}</Text>
         </View>
       </View>
       <View style={styles.infoContainer}>
@@ -113,7 +115,7 @@ function ProfileScreen ({navigation, route}) {
         </View>
         <View style={styles.doListContainer}>
           {
-            myDoList.map((aDo, i)=> <DoSimpleBanner key={i} doInfo={aDo} />)
+            myDoList.map((aDo, i)=> <DoSimpleBanner key={i} doInfo={aDo} tick={tick} />)
           }
         </View>
       </View>

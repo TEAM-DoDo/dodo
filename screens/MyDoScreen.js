@@ -7,41 +7,16 @@ import API from '../api/API';
 import Toast from "react-native-root-toast";
 
 const MyDoScreen = ({route, navigation}) => {
-    //const [doList, setDoList] = useState([]); 
+    const [tick, setTick] = useState(Date.now()); 
 
     const userId = useSelector(state => state.userInfo.id);
     const myDoList = useSelector(state => state.myDoList.myDoList);
 
-    // const handleResponseError = (err) => {
-    //     Toast.show(err,
-    //     {
-    //       duration : Toast.durations.SHORT,
-    //       position : Toast.positions.BOTTOM,
-    //       shadow : true,
-    //       animation : true,
-    //       hideOnPress : true,
-    //       delay : 0,
-    //     });
-    //   }
-
-    // const updateMyDoList = ({data}) => 
-    // {
-    //     setDoList(current => data.doResponseDTOList);
-    // }
-  
-    // const updateData = async () => {
-    //   await API.get(`api/users/doList`, {
-    //     params : {
-    //       id : userId,
-    //     }
-    //   }).then(updateMyDoList).catch(handleResponseError).finally(()=>console.log("Get Do list Axios 처리 끝"));
-    // }
-    
-    // useEffect(()=>{
-    //   navigation.addListener("focus", ()=>{
-    //     updateData();
-    //   });
-    // }, []);
+    useEffect(()=>{
+      navigation.addListener("focus", ()=>{
+        setTick(Date.now());
+      });
+    }, []);
 
     return(
         <ScrollView style={styles.rootContainer}>
@@ -53,7 +28,7 @@ const MyDoScreen = ({route, navigation}) => {
                     <Text style={styles.doTitle}>가입한 Do</Text>
                 </View>
                 <View style={styles.doListContainer}>
-                    {myDoList.map((aDo, i) => <DoSimpleBanner key={i} doInfo={aDo} />)}
+                    {myDoList.map((aDo, i) => <DoSimpleBanner key={i} doInfo={aDo} tick={tick} />)}
                 </View>
             </View>
         </ScrollView>

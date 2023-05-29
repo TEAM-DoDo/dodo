@@ -4,8 +4,8 @@ import Colors from "../../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from 'react';
 
-const DoSimpleBanner = ({doInfo}) => {
-    const tick = Date.now();
+const DoSimpleBanner = ({doInfo, tick}) => {
+    // const tick = Date.now();
     const navigation = useNavigation();
     const moveToDoScreen = () =>
     {
@@ -14,6 +14,10 @@ const DoSimpleBanner = ({doInfo}) => {
             title : doInfo.name,
         });
     }
+
+    const title = doInfo.name.length >= 10 ? doInfo.name.substr(0, 15) + "..." : doInfo.name;
+    const place = doInfo.place.length >= 10 ? doInfo.place.substr(0, 15) + "..." : doInfo.place;
+    const description = doInfo.description.length >= 10 ? doInfo.description.substr(0, 15) + "..." : doInfo.description;
 
     return(
         <View style={styles.outerContainer}>
@@ -24,12 +28,11 @@ const DoSimpleBanner = ({doInfo}) => {
                     </View>
                     <View style={styles.infoContainer}>
                         <View style={styles.titleContainer}>
-                            <Text style={styles.title}>{doInfo.name}</Text>
+                            <Text style={styles.title}>{title}</Text>
                         </View>
                         <View style={styles.detailContainer}>
-                            <Text style={styles.text}>{doInfo.place.split("로").shift()}</Text>
-                            <Text style={[styles.text, styles.bar]}>|</Text>
-                            <Text style={styles.text}>{doInfo.description.length >= 10 ? doInfo.description.substr(0, 7) + "..." : doInfo.description}</Text>
+                            <Text style={styles.place}>{place}</Text>
+                            <Text style={styles.description}>{description}</Text>
                         </View>
                     </View>
                 </View>
@@ -74,26 +77,27 @@ const styles = StyleSheet.create({
     },
     infoContainer : {
         flex : 1,
+        marginLeft : 15,
+        justifyContent : 'center',
     },
     titleContainer : {
-        alignItems : 'center',
         marginBottom : 10,
+        justifyContent : 'center',
     },
     title : {
-        fontSize : 20,
+        fontSize : 25,
         fontFamily:'NanumGothic-Regular',
         fontWeight : 'bold'
     },
     detailContainer : {
-        flexDirection : "row",
-        justifyContent : 'center',
+        
     },
-    text : {
-        fontSize : 15,
+    place : {
+        fontSize : 17,
         fontWeight : 'bold',
     },
-    bar : {
-        marginHorizontal : 10,
-    },
-
+    description : {
+        fontSize : 13,
+        marginTop : 3,
+    }
 });
