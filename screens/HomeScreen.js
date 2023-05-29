@@ -38,7 +38,7 @@ function HomeScreen({navigation}){
 
     }
     const handleSearchButton = () => {
-
+        navigation.navigate("SearchScreen");
     }
     const handleFloatingButton = async () => {
         navigation.navigate("DoCreateScreen");
@@ -81,9 +81,9 @@ function HomeScreen({navigation}){
                     <Pressable style={Style.icon_button} onPress={handleSearchButton}>
                         <FontAwesome name="search" size={34} color='black'/>
                     </Pressable>
-                    <Pressable style={Style.icon_button} onPress={handleAlarmButton}>
+                    {/* <Pressable style={Style.icon_button} onPress={handleAlarmButton}>
                         <MaterialCommunityIcons name="alarm-light-outline" size={36} color='black'/>
-                    </Pressable>
+                    </Pressable> */}
                 </View>
 
             </View>
