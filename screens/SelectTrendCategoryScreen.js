@@ -131,11 +131,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 7,
         padding: 9,
-        borderRadius: 80,
+        borderRadius: 10,
         borderWidth: 1,
         fontFamily : 'NanumGothic-Bold',
         borderColor : '#FBFBFB',
         backgroundColor : '#FBFAF2',
+        shadowColor : 'black',
+        shadowOffset : { width: 0.1, height: 0.1, },
+        shadowOpacity : 0.2,
+        elevation : 6,
     },
 
     buttonTitle: {

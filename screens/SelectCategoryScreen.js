@@ -67,7 +67,7 @@ function SelectCategoryScreen({ route, navigation }) {
                 ]}
                 onPress={() => toggleIconSelection(item.name)}
             >
-                <Ionicons name={item.name} size={29} color={isSelected ? '#008D62' : '#E30A8B'} />
+                <Ionicons name={item.name} size={32} color={isSelected ? '#008D62' : '#E30A8B'} />
                 <Text style={[styles.buttonTitle, isSelected ? styles.selectedTitle : null]}>
                     {item.title}
                 </Text>
@@ -117,12 +117,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 7,
         padding: 9,
-        borderRadius: 80,
+        borderRadius: 10,
         // borderRadius: 8,
         borderWidth: 1,
         fontFamily : 'NanumGothic-Bold',
         borderColor : '#FBFBFB',
         backgroundColor : '#FBFAF2',
+        shadowColor : 'black',
+        shadowOffset : { width: 0.1, height: 0.1, },
+        shadowOpacity : 0.2,
+        elevation : 6,
+
     },
 
     buttonTitle: {

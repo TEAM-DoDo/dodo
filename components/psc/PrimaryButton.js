@@ -23,7 +23,7 @@ export default PrimaryButton;
 //Style ---------------------------------------------------
 const styles = StyleSheet.create({
     outerContainer : {
-        width : '100%',
+        width : '80%',
         alignSelf : 'center',
         elevation : 8, //only work for android
         shadowColor : 'black', //only work for ios
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
         shadowOpacity : 0.25, //only work for ios
         shadowRadius : 6, //only work for ios
         marginTop : '-5%',
+        marginBottom : '16%',
     },
     innerContainer : {
         backgroundColor : Colors.button.mainBackgroundColor,
