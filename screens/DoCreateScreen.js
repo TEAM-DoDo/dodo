@@ -1,4 +1,4 @@
-import { View,StyleSheet,Dimensions,Modal,Pressable,TextInput,Text } from "react-native";
+import { View,StyleSheet,Dimensions,Modal,Pressable,TextInput,Text,Keyboard } from "react-native";
 import { useState } from "react";
 import TopBar from "../components/hgp/TopBar";
 import Postcode from "@actbase/react-daum-postcode";
@@ -62,8 +62,11 @@ function DoCreateScreen({navigation}){
             });
         });
     }
+    const dismissKeyboard = () => {
+        Keyboard.dismiss();
+    }
     return(
-        <View style={Style.container}>
+        <Pressable style={Style.container} onPress={dismissKeyboard}>
             <TopBar title="Do 만들기" onGoBackPressed={onGoBackPressed} enableAlarmButton={false}/>
             <TextInput style={Style.input_container} placeholder={"Do 이름"} placeholderTextColor={'gray'} onChangeText={setName} value={name} />
             <TextInput style={Style.input_container} placeholder={"Do 지역"} placeholderTextColor={'gray'} onChangeText={setAddress} value={address} onPressIn={onAddressPartSelected}/>
@@ -79,7 +82,7 @@ function DoCreateScreen({navigation}){
                     onSelected={getAddressData}
                     />
             </Modal>
-        </View>
+        </Pressable>
     );
 }
 const Style = StyleSheet.create({
@@ -95,7 +98,7 @@ const Style = StyleSheet.create({
         fontSize:20
     },
     input_box : {
-        height:Dimensions.get('window').height * 0.48,
+        flex:1,
         alignSelf : 'stretch',
         padding: 10,
         marginHorizontal:20,
@@ -122,16 +125,16 @@ const Style = StyleSheet.create({
         fontFamily : 'NanumGothic-Bold',
     },
     create_button:{
-        flex:Dimensions.get('window').height * 0.1,
-        borderRadius:30,
+        height:60,
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:15,
         margin:15,
         backgroundColor:'#E30A8B'
     },
     create_button_text:{
         fontFamily:'NanumGothic-ExtraBold',
         fontSize:20,
-        width:"100%",
-        height:"100%",
         textAlign:'center',
         textAlignVertical:'center',
         color:'white',

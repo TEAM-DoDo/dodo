@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View,Keyboard } from "react-native";
 import { useState,useEffect } from "react";
 import axios from 'axios';
 import { ChatDummy, ChatParticipantsDummy } from "../components/hgp/DummyData";
@@ -25,6 +25,7 @@ function ChatScreen ({navigation,route}){
     const accessToken = useSelector((state) => state.jwt.access_token);
     const userId = useSelector((state) => state.userInfo.id);
     useEffect(()=>{
+        //채팅 스크린이 사라졌을 때 키보드가 내려가도록 설정
         client = Stomp.over(() => {
             const sock = new SockJS(`http://${localIpAddress}:${portNumber}/api/chat`);
             return sock;
@@ -79,8 +80,11 @@ function ChatScreen ({navigation,route}){
           });
         setChatText('');
     }
+    const dismissKeyboard = () => {
+        Keyboard.dismiss();
+    }
     return (
-        <View style={ChatScreenStyle.container}>
+        <Pressable style={ChatScreenStyle.container} onPress={dismissKeyboard}>
             <FlatList
                 inverted={true}
                 data={chatList}
@@ -115,7 +119,7 @@ function ChatScreen ({navigation,route}){
                     <Feather name="send" size={24} color="white" />
                 </Pressable>
             </View>
-        </View>
+        </Pressable>
     );
 }
 const ChatScreenStyle = StyleSheet.create({

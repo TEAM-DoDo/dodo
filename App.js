@@ -9,7 +9,7 @@ import { store } from './store/redux-store';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaView,StyleSheet } from 'react-native';
+import { SafeAreaView,StyleSheet,Platform } from 'react-native';
 //  Expo
 import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
@@ -122,7 +122,7 @@ export default function App() {
   AsyncStorage.clear();
   return (
     <SafeAreaView style={Style.droidSafeArea}>
-      {/* <KeyboardAvoidingView style={Style.master_view} behavior='padding'> */}
+      <KeyboardAvoidingView style={Style.master_view} behavior={Platform.OS === "ios" ? "padding" : null}>
       <Provider store={store}>
       <RootSiblingParent>
       <StatusBar style='dark' />
@@ -148,7 +148,7 @@ export default function App() {
       </NavigationContainer>
       </RootSiblingParent>
       </Provider>
-      {/* </KeyboardAvoidingView> */}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
