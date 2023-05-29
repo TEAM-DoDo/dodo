@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         marginBottom : 20,
     },
     datePress : {
-        width: "60%",
+        flex : 1,
     },
     textInput : {
         alignSelf:'stretch',
@@ -195,7 +195,6 @@ const styles = StyleSheet.create({
         fontFamily : 'NanumGothic-Bold',
     },
     genderButtonsContainer : {
-        alignSelf:'baseline',
         height : "100%",
         flexDirection : "row",
     },
