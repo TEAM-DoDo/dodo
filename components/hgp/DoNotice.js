@@ -16,7 +16,7 @@ function DoNotice({doid = -1,postid = -1}){
     return (
     <View style={Style.container}>
         {/* 향후 해당 부분은 컴포넌트화 하여 유저 리스트 표시창 제작시 사용할 예정 유저 정보를 받아서 표시하는 부분 컴포넌트로 분화해야함 */}
-        <View flexDirection='row' alignItems='center' marginVertical={10}>
+        <View flexDirection='row' alignItems='center' marginBottom={10}>
             <CircleUserImage mode='minimize' index={1}/>
             <Text style={Style.notice_writer}>공지사항 작성자</Text>
         </View>
@@ -40,9 +40,13 @@ function DoNotice({doid = -1,postid = -1}){
 const Style = StyleSheet.create({
     container:{
         backgroundColor:'#e6e6e6',
-        padding:5,
+        padding:10,
         borderRadius:20,
         marginVertical:5,
+        elevation:3,
+        shadowOffset: { width: 0.5, height: 0.5 },
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
     }
 });
 export default DoNotice;

@@ -57,6 +57,7 @@ function UserVerifyScreen({ navigation }) {
         //전화번호를 통해 이미 가입된 유저인지 신규유저인지 판별하고 navigate함수 안 이동할 screen의 이름 분기 처리 해야함.
     }
     function MoveToNextScreen() {
+        dismissKeyboard();//키보드를 내리도록 설정
         //임시로 넘기는 코드
         // navigation.navigate('GenerateIDScreen',
         //     {
@@ -119,17 +120,16 @@ function UserVerifyScreen({ navigation }) {
     };
     return (
         <Pressable style={styles.rootScreen} onPress={dismissKeyboard}>
-            <LogoIconImage style={styles.logoIcon} />
-            <View style={styles.buttonContainer}>
-                <Pressable onPress={sendVerificationCode} style={styles.button}>
+            <LogoIconImage/>
+            <View style={styles.input_container}>
+                <Pressable onPress={sendVerificationCode} style={styles.cert_button}>
                     <Text style={styles.buttonText}>인증번호발급</Text>
                 </Pressable>
-            </View>
-            <View style={styles.textInputContainer}>
                 <InputField placeholder={"전화번호"} maxLength={11} onChangeText={PhoneNumberInputHandler} keyboardType='number-pad' />
                 <InputField placeholder={"인증번호"} maxLength={6} onChangeText={CheckNumberInputHandler} keyboardType='number-pad' />
+                <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
             </View>
-            <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
+            <View/>
         </Pressable>
     );
 }
@@ -141,29 +141,23 @@ const styles = StyleSheet.create({
     rootScreen: {
         flex: 1,
         alignItems: 'center',
+        justifyContent:'space-around',
     },
-    logoIcon: {
-        marginTop: '20%',
-        marginBottom: 50,
-    },
-    textInputContainer: {
+    input_container: {
         width: '80%',
         marginBottom: '20%',
-    },
-    buttonContainer: {
-        alignItems: 'flex-end',
-        width: '78%',
-    
+        alignItems:'flex-end',
     },
     buttonText: {
         color: 'white',
         textDecorationLine: 'underline',
     },
-    button: {
+    cert_button: {
         alignItems: 'flex-end',
         backgroundColor: '#E30A8B',
         paddingVertical: 8,
         paddingHorizontal: 12,
+        marginBottom: 8,
         borderRadius: 4,
     },
 });

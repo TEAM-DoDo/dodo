@@ -5,7 +5,7 @@ import Postcode from '@actbase/react-daum-postcode';
 import API from "../api/API";
 
 //  Native
-import { View, StyleSheet, Pressable, TextInput, Modal,Dimensions } from "react-native";
+import { View, StyleSheet, Pressable, TextInput, Modal,Dimensions,Keyboard } from "react-native";
 
 //  Components
 import PrimaryButton from "../components/psc/PrimaryButton";
@@ -20,7 +20,7 @@ function GenerateIDScreen({route, navigation})
     const [address, setAddress] = useState('');
     const [nickname, setNickname] = useState('');
     const [birthdate, setBirthdate] = useState(new Date());
-    const [currentSelectedGender, setCurrentSelectedGender] = useState('');
+    const [currentSelectedGender, setCurrentSelectedGender] = useState("남");
     
     const [visible, setVisible] = useState(false); // 날짜 피커 모달 노출 여부
     const [isModal, setIsModal] = useState(false); // 주소 모달 노출 여부
@@ -97,19 +97,22 @@ function GenerateIDScreen({route, navigation})
         setAddress(data.address + ' ' + defaultAddress);
     };
 
-    function AddressModalHandler()
+    const AddressModalHandler = () =>
     {
         setIsModal(true);
     }
-
+    const dismissKeyboard = () => {
+        Keyboard.dismiss();
+    };
     return (
-        <View style={styles.rootScreen}>
-            <LogoIconImage style={styles.logoIcon} />
+        <Pressable style={styles.rootScreen} onPress={dismissKeyboard}>
+            <LogoIconImage/>
             <View style={styles.comp_component}>
-            <InputField placeholder={"닉네임"} maxLength={11} value={nickname} onChangeText={nicknameHandler} />
-            <View style={styles.pickerContainer}>
+                <InputField placeholder={"닉네임"} maxLength={11} value={nickname} onChangeText={nicknameHandler} />
+                <View style={styles.pickerContainer}>
                     <Pressable onPress={onPressDate} style={styles.datePress}>
                         <TextInput
+                          width="100%"
                           pointerEvents="none"
                           style={styles.textInput}
                           placeholder={'생년월일'}
@@ -119,7 +122,6 @@ function GenerateIDScreen({route, navigation})
                           value={koreaBirthFormat}
                         />
                     </Pressable>
-                    <DatePicker dataMoveToScreen={onPressDatePickerConfirm} visible={visible} onCancel={onCancel} />
                     <View style={styles.genderButtonsContainer}>
                         <SmallToggleSwitch
                             handler={SelectGenderHandler}
@@ -149,14 +151,16 @@ function GenerateIDScreen({route, navigation})
                 </Pressable>
                 <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
             </View>
+            <View height="5%"/>
             <Modal visible={isModal}>
-                    <Postcode
-                        style={{ width: Dimensions.get("window").width, height: Dimensions.get("window").height }}
-                        jsOptions={{ animation: true, hideMapBtn: true }}
-                        onSelected={getAddressData}
-                    />
-                </Modal>
-        </View>
+                <Postcode
+                    style={{ width: Dimensions.get("window").width, height: Dimensions.get("window").height }}
+                    jsOptions={{ animation: true, hideMapBtn: true }}
+                    onSelected={getAddressData}
+                />
+            </Modal>
+            <DatePicker dataMoveToScreen={onPressDatePickerConfirm} visible={visible} onCancel={onCancel} />
+        </Pressable>
     );
 }
 
@@ -167,13 +171,10 @@ const styles = StyleSheet.create({
     rootScreen : {
         flex : 1,
         alignItems : 'center',
+        justifyContent : 'space-around',
     },
     comp_component:{
         width:"90%",
-    },
-    logoIcon : {
-        marginTop : '10%',
-        marginBottom : 30,
     },
     textInputContainer : {
         flexDirection : 'column', 
@@ -181,18 +182,17 @@ const styles = StyleSheet.create({
         alignSelf:'stretch',
     },
     pickerContainer : {
-        width:"100%",
+        justifyContent : 'space-between',
         flexDirection : "row",
-        justifyContent:'space-between',
         height: 60,
         marginBottom : 20,
     },
     datePress : {
-        alignSelf:'stretch',
-        marginRight : 5,
+        width: "60%",
+        // flex:1,
     },
     textInput : {
-        width:"100%",
+        alignSelf:'stretch',
         paddingVertical : 17,
         borderRadius : 16,
         paddingHorizontal : 16,
@@ -207,9 +207,7 @@ const styles = StyleSheet.create({
         flexDirection : "row",
     },
     address_container : {
-        flexDirection : "row",
-        justifyContent : 'space-between',
-        alignSelf:'stretch',
+        width:"100%",
         height: 60,
         alignSelf : 'center',
         marginBottom : 30,

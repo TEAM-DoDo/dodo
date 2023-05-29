@@ -23,10 +23,8 @@ export default PrimaryButton;
 //Style ---------------------------------------------------
 const styles = StyleSheet.create({
     outerContainer : {
-        borderRadius : 20,
-        width : '70%',
+        width : '100%',
         alignSelf : 'center',
-        overflow : 'hidden',
         elevation : 8, //only work for android
         shadowColor : 'black', //only work for ios
         shadowOffset : {width : 2, height : 2}, //only work for ios
@@ -36,6 +34,7 @@ const styles = StyleSheet.create({
     },
     innerContainer : {
         backgroundColor : Colors.button.mainBackgroundColor,
+        borderRadius : 20,
         paddingVertical : 16,
     },
     text : {

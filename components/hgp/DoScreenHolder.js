@@ -4,7 +4,7 @@ import DoInfoScreen from "../../screens/DoInfoScreen";
 import DoPicturesScreen from "../../screens/DoPicturesScreen";
 const TabBar = createMaterialTopTabNavigator();
 function DoScreenHolder({doId}){
-    console.log("from do screen holder : " + doId);
+    // console.log("from do screen holder : " + doId);
     return(
         <TabBar.Navigator flex={1}
          screenOptions={{
