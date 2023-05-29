@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         marginBottom : 20,
     },
     datePress : {
-        flex:1,
+        width: "60%",
     },
     textInput : {
         alignSelf:'stretch',
