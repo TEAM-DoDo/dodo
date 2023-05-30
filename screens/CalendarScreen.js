@@ -1,68 +1,57 @@
-//npm install --save react-native-calendars
-//yarn add react-native-calendars
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, Modal, Button } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, FlatList } from 'react-native';
+import ScheduleTextBox from '../components/ssm/ScheduleTextBox';
+import { useSelector } from "react-redux";
+import API from '../api/API';
 
-const App = () => {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+function CalenderScreen() {
+  const userId = useSelector(state => state.userInfo.id);
 
-  const handleDayPress = (day) => {
-    setSelectedDate(day.dateString);
-  };
+  // schduleSelector
+  const mySchedule = useSelector(state => state.mySchedule);
+
+  const [userSchedule, setUserSchedule] = useState('');
+
+
+  const getSchedule = () => {
+    API.get(`/api/schedule-of-user/user/${userId}`).then((response) => { // query 미구현 : schedule_of_user
+      console.log(response.data);
+      setUserSchedule(response.data);
+    }).catch((error) => {
+      console.log("schedule not found");
+    });
+  }
+  useEffect(() => {
+    getSchedule();
+    return (() => {
+
+    });
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Do Calendar</Text>
-      <Calendar
-        onDayPress={handleDayPress}
-        markedDates={{ [selectedDate]: { selected: true } }}
+    <View styles={styles.container} >
+      <FlatList
+        data={mySchedule}
+        keyExtractor={(item) => item.id}
+        renderItem={(item) => {
+          console.log(item);
+          return (<ScheduleTextBox address={item.place} time={item.startTime} title={item.title} />);
+        }}
       />
-      <Text style={styles.selectedDate} onPress={() => setModalVisible(true)}>
-        {selectedDate}
-      </Text>
-      <Modal visible={modalVisible} animationType="slide">
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>Selected Date</Text>
-          <Text style={styles.modalText}>{selectedDate}</Text>
-          <Button title="Close" onPress={() => setModalVisible(false)} />
-        </View>
-      </Modal>
     </View>
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
+    width:"100%",
+    height:"100%",
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  selectedDate: {
-    marginTop: 20,
-    fontSize: 18,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  modalText: {
-    fontSize: 18,
-    marginBottom: 20,
+    backgroundColor: 'black',
   },
 });
 
-export default App;
+export default CalenderScreen;

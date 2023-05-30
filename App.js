@@ -27,7 +27,6 @@ import ChatScreen from './screens/ChatScreen';
 import AlarmScreen from './screens/AlarmScreen';
 import DoInfoScreen from './screens/DoInfoScreen';
 import DoScreen from './screens/DoScreen';
-import CalendarScreen from './screens/CalendarScreen';
 import HomeScreen from './screens/HomeScreen'
 import ProfileScreen from './screens/ProfileScreen';
 import SelectTrendCategoryScreen from './screens/SelectTrendCategoryScreen';
@@ -45,6 +44,7 @@ import { KeyboardAvoidingView } from 'react-native';
 import UserListScreen from './screens/UserListScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SchduleInfoScreen from './screens/ScheduleInfoScreen';
+import CalenderScreen from './screens/CalendarScreen';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -73,7 +73,7 @@ function BottomTabNavigator({ route, navigation }) {
       <BottomTab.Screen name="MyDo" component={MyDoScreen} options={
         { tabBarIcon: ({ color, size }) => <Ionicons name='list' color={color} size={size} /> }}
       />
-      <BottomTab.Screen name="Calender" component={CalendarScreen} options={
+      <BottomTab.Screen name="Calender" component={CalenderScreen} options={
         { tabBarIcon: ({ color, size }) => <Ionicons name='calendar' color={color} size={size} /> }}
       />
       <BottomTab.Screen name="Profile" component={ProfileScreen} options={
