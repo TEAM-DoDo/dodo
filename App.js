@@ -50,7 +50,7 @@ function BottomTabNavigator({ route, navigation }) {
     <BottomTab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: 'blue',
+        tabBarActiveTintColor: '#E30A8B',
         tabBarInactiveTintColor: 'black',
         tabBarShowLabel: false,
       }}
@@ -113,6 +113,10 @@ export default function App() {
       shouldSetBadge: true,
     }),
   });
+<<<<<<< Updated upstream
+=======
+  // AsyncStorage.clear();
+>>>>>>> Stashed changes
   return (
     <SafeAreaView style={SafeAreaStyle.droidSafeArea}>
       <RootSiblingParent>
