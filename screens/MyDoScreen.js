@@ -32,7 +32,7 @@ const MyDoScreen = ({route, navigation}) => {
                   <FlatList
                     data={myDoList}
                     keyExtractor={(item)=>item.id}
-                    renderItem={(item)=>{
+                    renderItem={({item})=>{
                       console.log(item);
                       return(<DoSimpleBanner key={item.id} doInfo={item} tick={tick} />);
                     }}
