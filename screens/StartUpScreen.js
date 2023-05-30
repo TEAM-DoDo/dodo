@@ -36,12 +36,12 @@ function StartUpScreen({navigation})
           });
           AsyncStorage.getItem("userInfo",(err,userdata) => {
             console.log(userdata);
-            AsyncStorage.getItem("myDoListInfo",(err,myDoData) => {
-              console.log(myDoData);
-              if(myDoData != null) dispatch(updateMyDoList({ data : JSON.parse(myDoData)}));
-            });
             if(userdata != null) {
-              dispatch(updateMyDoList({ data : JSON.parse(userdata)}));
+              dispatch(addUserInfo({ data : JSON.parse(userdata)}));
+              AsyncStorage.getItem("myDoListInfo",(err,myDoData) => {
+                console.log(myDoData);
+                if(myDoData != null) dispatch(updateMyDoList({ data : JSON.parse(myDoData)}));
+              });
               navigation.navigate("BottomTabNavigatorScreen");//저장된 유저 정보가 있고 토큰도 있으면 바로 메인 화면으로 이동
             }
           });
