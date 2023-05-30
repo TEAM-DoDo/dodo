@@ -21,7 +21,8 @@ const Style = StyleSheet.create({
         justifyContent:'space-between',
         alignItems:'center',
         alignSelf:'stretch',
-        marginHorizontal:10,
+        // marginHorizontal:10,
+        backgroundColor:'white',
         //backgroundColor:'gray'
     },
     back_button:{

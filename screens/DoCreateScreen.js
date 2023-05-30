@@ -90,37 +90,44 @@ const Style = StyleSheet.create({
     container:{
         flex:1,
     },
+    TopBar: {
+        fontFamily:'NanumGothic-ExtraBold',
+        color: '#E30A8B',
+        fontSize: 50,
+
+    },
     conatiner_horizontal:{
         flexDirection:'row'
     },
     input_title:{
         marginHorizontal:20,
         fontFamily:'NanumGothic-ExtraBold',
-        fontSize:20
+        fontSize:25,
+        padding : 8,
     },
     input_box : {
         flex:1,
         alignSelf : 'stretch',
-        padding: 10,
+        padding: 15,
         marginHorizontal:20,
         overflow:'scroll',
-        marginVertical:10,
+        marginVertical:7,
         borderRadius : 20,
-        borderColor : 'grey',
+        borderColor : '#c5c5c5',
         borderWidth : 1,
         fontSize : 15,
         fontFamily : 'NanumGothic-Bold',
         textAlignVertical: 'top',
     },
     input_container : {
-        height : 70,
+        height : 60,
         alignSelf : 'stretch',
         padding: 10,
         marginHorizontal:20,
         overflow:'scroll',
-        marginVertical:10,
+        marginVertical:6,
         borderRadius : 20,
-        borderColor : 'grey',
+        borderColor : '#c5c5c5',
         borderWidth : 1,
         fontSize : 15,
         fontFamily : 'NanumGothic-Bold',
