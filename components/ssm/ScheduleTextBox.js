@@ -1,17 +1,22 @@
+import moment from 'moment';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 const ScheduleTextBox = ({ address, time, title }) => {
+  console.log( address, time, title )
+  const date = new Date();
+  date.setTime(time);
   return (
     <View style={styles.container}>
       <Text style={styles.addressText}>{address}</Text>
       <View style={styles.timeTitleContainer}>
-        <Text style={styles.timeText}>{time}</Text>
+        <Text style={styles.timeText}>{moment(date).format("MM-DD")}</Text>
         <Text style={styles.titleText}>{title}</Text>
       </View>
     </View>
   );
 };
+ /*YYYY-MM-DD LT */
 
 const styles = StyleSheet.create({
   container: {
@@ -36,6 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 40,
     borderColor: '#E30A8B',
+    color: 'black',
     borderWidth: 3,
     paddingHorizontal: 10,
     marginRight: 8,
@@ -46,6 +52,7 @@ const styles = StyleSheet.create({
     flex: 2,
     height: 40,
     borderColor: '#E30A8B',
+    color: 'black',
     borderWidth: 3,
     paddingHorizontal: 10,
     textAlignVertical: 'center',

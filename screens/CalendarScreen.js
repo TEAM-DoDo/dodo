@@ -15,7 +15,6 @@ function CalenderScreen() {
 
   const getSchedule = () => {
     API.get(`/api/schedule-of-user/user/${userId}`).then((response) => { // query 미구현 : schedule_of_user
-      console.log(response.data);
       setUserSchedule(response.data);
     }).catch((error) => {
       console.log("schedule not found");
@@ -29,11 +28,12 @@ function CalenderScreen() {
   }, []);
 
   return (
-    <View styles={styles.container} >
+    <View style={styles.container}>
       <FlatList
-        data={mySchedule}
+        alignSelf = 'stretch'
+        data={userSchedule}
         keyExtractor={(item) => item.id}
-        renderItem={(item) => {
+        renderItem={({item}) => {
           console.log(item);
           return (<ScheduleTextBox address={item.place} time={item.startTime} title={item.title} />);
         }}
@@ -45,12 +45,10 @@ function CalenderScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    width:"100%",
-    height:"100%",
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
+    backgroundColor: 'white',
   },
 });
 
