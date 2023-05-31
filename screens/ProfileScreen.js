@@ -114,7 +114,6 @@ function ProfileScreen ({navigation, route}) {
           </Pressable>
         </View>
         <View style={styles.profileInfoContainer}>
-          
           <Text style={styles.name}>{userInfo.nickname}</Text>
           <Text style={styles.infoValue}>{address}</Text>
         </View>
