@@ -86,7 +86,8 @@ const ChatStyle = StyleSheet.create({
     //색상지정
     chat_opponent_box:{
         // backgroundColor:'#FBFAF2',
-        backgroundColor:'#D9D9D9',
+        // backgroundColor:'#D9D9D9',
+        backgroundColor:'#FAEBD7',
         alignSelf:'flex-start',
         // IOS shadow
         shadowColor : '#c5c5c5',
@@ -102,6 +103,7 @@ const ChatStyle = StyleSheet.create({
     chat_my_box:{
         backgroundColor:'#FBFAF2',
         // backgroundColor:'#E3A1A1',
+        fontFamily:'NanumGothic-Bold',
         alignSelf:'flex-end',
         // IOS shadow
         shadowColor : '#c5c5c5',
@@ -109,6 +111,7 @@ const ChatStyle = StyleSheet.create({
         shadowOpacity : 1,
         // Android shadow
         elevation : 20,
+        
     },
     //형태지정
     chat_box_standard:{
