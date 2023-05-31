@@ -28,7 +28,7 @@ const Style = StyleSheet.create({
 
         // IOS shadow
         shadowColor : '#c5c5c5',
-        shadowOffset : { height : 10, },
+        shadowOffset : { height : 5, },
         shadowOpacity : 1,
         // Android shadow
         elevation : 20,
