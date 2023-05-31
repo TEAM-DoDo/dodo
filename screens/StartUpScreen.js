@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { Video } from 'expo-av';
 
 //  Redux Storage
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //  Components
@@ -23,6 +23,7 @@ import API from "../api/API";
 function StartUpScreen({navigation})
 {
     const introVideoPath = require('../assets/videos/Intro.mp4');
+    const userId = useSelector((state) => state.userInfo.id);
     const dispatch = useDispatch();
     //기본 토큰 정보 로딩 및 유저 정보 로딩
     //토큰 유효성 검사
@@ -51,13 +52,14 @@ function StartUpScreen({navigation})
           phoneNumber : JSON.parse(userInfo).phoneNumber,
         }
         API.post('/api/auth/refresh', authData).then((res) => {
-          console.log("토큰 재발급" + res.data);
+          console.log(res.data);
           if (res.status == 200) {
             //토큰이 유효하면 받은 토큰으로 기존 토큰을 교체한다.
             dispatch(addAccessToken({ access_token : res.data.accessToken}));
             dispatch(addRefreshToken({ refresh_token : res.data.refreshToken}));
             dispatch(addUserInfo({ data : JSON.parse(userInfo)}));
-            API.get("api/users/doList", {params : {id : userInfo.id}}).then(response => {
+            API.get(`/api/users/doList?id=${(JSON.parse(userInfo)).id}`).then(response => {
+              console.log(response.data);
               const list = response.data.doResponseDTOList;
               dispatch(updateMyDoList({data : list}));
             }).catch(err => console.log("do list가져오는데 실패했습니다.")).finally(()=>console.log("do list get 처리 끝"));

@@ -12,7 +12,7 @@ const MyDoScreen = ({route, navigation}) => {
 
     const userId = useSelector(state => state.userInfo.id);
     const myDoList = useSelector(state => state.myDoList.myDoList);
-
+    //console.log(myDoList);
     useEffect(()=>{
       navigation.addListener("focus", ()=>{
         setTick(Date.now());
@@ -20,7 +20,7 @@ const MyDoScreen = ({route, navigation}) => {
     }, []);
 
     return(
-        <ScrollView style={styles.rootContainer}>
+        <View style={styles.rootContainer}>
             <View style={styles.pageTitleContainer}>
               <Text style={styles.pageTitle}>MyDo</Text>
             </View>
@@ -33,13 +33,12 @@ const MyDoScreen = ({route, navigation}) => {
                     data={myDoList}
                     keyExtractor={(item)=>item.id}
                     renderItem={({item})=>{
-                      console.log(item);
+                      //console.log(item);
                       return(<DoSimpleBanner doInfo={item} tick={tick} />);
                     }}/>
-                    {/* {myDoList.map((aDo, i) => <DoSimpleBanner key={i} doInfo={aDo} tick={tick} />)} */}
                 </View>
             </View>
-        </ScrollView>
+        </View>
     )
 }
 
@@ -77,12 +76,10 @@ const styles = StyleSheet.create({
   },
   doContainer : {
     flex : 1,
-    marginBottom : 100,
     padding:20,
   },
   doTitleContainer : {
-    flex : 1,
-    marginBottom : 10,
+    
   },
   doTitle : {
     fontSize : 23,
