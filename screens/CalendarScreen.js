@@ -14,8 +14,9 @@ function CalenderScreen() {
 
 
   const getSchedule = () => {
-    API.get(`/api/schedule-of-user/user/${userId}`).then((response) => { // query 미구현 : schedule_of_user
-      setUserSchedule(response.data);
+    API.get(`/api/users/scheduleList?id=${userId}`).then((response) => {
+      setUserSchedule(response.data.scheduleList);
+      console.log(response.data.scheduleList);
     }).catch((error) => {
       console.log("schedule not found");
     });
