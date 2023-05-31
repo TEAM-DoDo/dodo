@@ -57,14 +57,22 @@ const styles = StyleSheet.create({
     alignItems : 'center',
     paddingHorizontal : 5,
     paddingBottom : 20,
+    // IOS shadow
+    shadowColor : '#c5c5c5',
+    shadowOffset : { height : 10, },
+    shadowOpacity : 1,
+    // Android shadow
+    elevation : 20,
 
   },
   pageTitle : {
-    fontSize : 38,
+    fontSize : 25,
     fontWeight : 'bold',
     fontFamily:'NanumGothic-Bold',
     color : '#E30A8B',
     // color : 'pink',
+    paddingTop : 11,
+
     
   },
   doContainer : {
