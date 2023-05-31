@@ -3,6 +3,7 @@ import TopBar from "../components/hgp/TopBar";
 import DoButton from "../components/hgp/DoButton";
 import { useState } from "react";
 import API from "../api/API";
+import { MultipleSelectList } from "react-native-dropdown-select-list";
 
 function SearchScreen({ navigation }){
     const [doList, setDoList] = useState([]);
@@ -10,7 +11,13 @@ function SearchScreen({ navigation }){
     const [searchDescription, setSearchDescriptionText] = useState("");
     const [searchPlace, setSearchPlaceText] = useState("");
     const [searchCategory, setSearchCategoryText] = useState("");
-    
+    const [selected, setSelected] = useState([]);
+    console.log(selected);
+    const data = [
+        {key:'1', value:'이름'},
+        {key:'2', value:'설명'},
+        {key:'3', value:'지역'},
+    ]
     const onGoBackPressed = () => {
         dismissKeyboard();
         setTimeout(() => {navigation.goBack();}, 50);
@@ -32,11 +39,19 @@ function SearchScreen({ navigation }){
         <View style={Style.container}>
             <TopBar title="검색" onGoBackPressed={onGoBackPressed} enableAlarmButton={false}/>
             <View style={Style.search_holder}>
-                <TextInput style={Style.search_textfield} placeholder="검색어를 입력하세요." value={searchName} onChangeText={setSearchNameText}/>
+                <View style={Style.search_box_holder}>
+                    <TextInput style={Style.search_textfield} placeholder="검색어를 입력하세요." value={searchName} onChangeText={setSearchNameText}/>
+                </View>
                 <Pressable style={Style.search_button} onPress={onPressSearch}>
                     <Text style={Style.search_button_text}>검색</Text>
                 </Pressable>
             </View>
+            {/* <MultipleSelectList
+                    setSelected={(val) => setSelected(val)}
+                    data={data}
+                    save="value"
+                    onSelect={() => {}}
+                    label="Categories"/> */}
             <FlatList
                 style={Style.list_holder}
                 data={doList}
@@ -64,16 +79,20 @@ const Style = StyleSheet.create({
         marginBottom:10,
         //backgroundColor: 'grey',
     },
-    search_textfield : {
+    search_box_holder:{
         flex:8,
-        height:"100%",
-        alignSelf : 'stretch',
-        textAlignVertical:'center',
-        padding:8,
-        marginBottom:10,
         borderRadius : 20,
         borderColor : '#c5c5c5',
         borderWidth : 1,
+        flexDirection:'row',
+        alignItems:'center',
+        //backgroundColor: 'grey',
+    },
+    search_textfield : {
+        flex:1,
+        textAlignVertical:'center',
+        //backgroundColor:'grey',
+        padding:8,
         fontSize : 14,
         fontFamily : 'NanumGothic-Bold',
     },

@@ -237,8 +237,8 @@ function DoScheduleAddScreen({navigation, route}) {
     };
     return (
         <Pressable style={Style.conatiner} onPress={dismissKeyboard}>
-            <View style={Style.inner_container}>
             <TopBar title="Do 일정 만들기" enableAlarmButton={false} onGoBackPressed={onGoBackPressed}/>
+            <View style={Style.inner_container}>
             <ScrollView flex={1} width="100%">
             <TextInput style={Style.input_container} placeholder={"일정 이름"} placeholderTextColor={'gray'} onChangeText={setName} value={name}/>
             <View style={Style.horizontal_container}>
@@ -268,12 +268,11 @@ function DoScheduleAddScreen({navigation, route}) {
             <Text style={Style.input_title}>소개하는 말</Text>
             <TextInput style={Style.input_box} multiline={true} placeholder={"소개하는 말을 적어주세요."} placeholderTextColor={'gray'} onChangeText={setDes} value={des}/>
             </ScrollView>
-            {/* <Pressable style={Style.button} onPress={createSchedule} height="10%" marginVertical={10}>
+            <Pressable style={Style.button} onPress={createSchedule} height={60} marginVertical={10}>
                 <Text style={Style.create_button}>
                     일정 만들기
                 </Text>
-            </Pressable> */}
-            <PrimaryButton onPress={createSchedule}>일정 만들기</PrimaryButton>
+            </Pressable>
             <AddressModal isVisible={isModal} onAdressSelected={getAddressData} onCancel={()=>{setIsModal(false)}}/>
             <DateTimePicker 
                 isVisible={datePickerIsVisible}
@@ -298,8 +297,8 @@ const Style = StyleSheet.create({
     },
     inner_container:{
         flex:1,
-        width:"90%",
-        marginBottom:10,
+        width:"100%",
+        padding:10,
         alignItems:'center',
         justifyContent:'flex-start',
     },

@@ -68,13 +68,6 @@ function DoInfoScreen({route, navigation}) {
         }).catch((error) => {
             console.log("data not found");
         });
-        //참여자인지 확인
-        // API.get(`/api/do/${route.params.id}/is-participant`,{params:{user_id:1}}).then((response) => {
-        //     setIsParticipant(response.data);
-        // }
-        // ).catch((error) => {
-        //     console.log(error);
-        // });
     };
     const getDoParticipantsNum = () => {
         return 3;

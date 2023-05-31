@@ -40,6 +40,7 @@
     "react-native": "0.71.4",
     "react-native-calendars": "^1.1294.0",
     "react-native-date-picker": "^4.2.13",
+    "react-native-dropdown-select-list": "^2.0.4",
     "react-native-elements": "^3.4.3",
     "react-native-exit-app": "^1.1.0",
     "react-native-geolocation-service": "^5.3.1",
