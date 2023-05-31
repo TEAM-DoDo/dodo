@@ -129,7 +129,7 @@ function ProfileScreen ({navigation, route}) {
           <Pressable onPress={moveToSelectInterestScreen} style={({pressed}) => [styles.interestTobContainerPressArea, pressed ? styles.pressedOpacity : null]} 
           android_ripple={{color : Colors.button.rippleColor}}>
             <Text style={styles.infoLabel}>내 관심사</Text>
-            <AntDesign name="pluscircleo" size={20} color="black" />
+            <AntDesign name="pluscircleo" size={18} color="black" />
           </Pressable>
         </View>
         <View style={styles.categoryContainer}>
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   interestContainer : {
     width : '100%',
     flex : 1,
-    marginTop : 20,
+    marginTop : 30,
     marginBottom : 100,
   },
   interestTobContainer : {
