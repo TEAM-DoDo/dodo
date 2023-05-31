@@ -24,6 +24,15 @@ const Style = StyleSheet.create({
         // marginHorizontal:10,
         backgroundColor:'white',
         //backgroundColor:'gray'
+        
+
+        // IOS shadow
+        shadowColor : '#c5c5c5',
+        shadowOffset : { height : 5, },
+        shadowOpacity : 1,
+        // Android shadow
+        elevation : 20,
+
     },
     back_button:{
         padding:10,

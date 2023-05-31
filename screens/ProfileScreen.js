@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { ScrollView, View, Text, TextInput, Image, StyleSheet, Pressable,FlatList } from 'react-native';
+import { ScrollView, View, Text, TextInput, StyleSheet, Pressable,FlatList } from 'react-native';
+import {Image} from 'expo-image';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -94,7 +95,7 @@ function ProfileScreen ({navigation, route}) {
   const address = splitAddress[0] + " " + splitAddress[1];
 
   return (
-    <View style={styles.rootContainer}>
+    <ScrollView style={styles.rootContainer}>
       <View style={styles.avatarOuterContainer}>
         <View style={styles.avatarInnerContainer}>
           <Pressable onPress={handleProfileImageUpload} style={({pressed}) => [styles.avatarPressArea, pressed ? styles.pressedOpacity : null]} 
@@ -122,13 +123,7 @@ function ProfileScreen ({navigation, route}) {
         <View style={styles.titleContainer}>
           <Text style={styles.infoLabel}>가입한 Do</Text> 
         </View>
-        <FlatList
-                    data={myDoList}
-                    keyExtractor={(item)=>item.id}
-                    renderItem={({item})=>{
-                      //console.log(item);
-                      return(<DoSimpleBanner doInfo={item} tick={tick} />);
-                    }}/>
+        {myDoList.map((item) => <DoSimpleBanner doInfo={item} tick={tick} />)}
       </View>
       <View style={styles.interestContainer}>
         <View style={styles.interestTobContainer}>
@@ -142,7 +137,7 @@ function ProfileScreen ({navigation, route}) {
           {userInfo.category.map((item, i) => <SimpleCategory key={i} text={item} />)}
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

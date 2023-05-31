@@ -59,8 +59,8 @@ export default DoSimpleBanner;
 const styles = StyleSheet.create({
     outerContainer : {
         width : '100%',
-        height : 120,
-        backgroundColor : 'pink',
+        height : 95,
+        backgroundColor : 'white',
         borderRadius : 20,
         marginVertical : 5,
     },
@@ -79,9 +79,9 @@ const styles = StyleSheet.create({
         paddingVertical : 7,
     },
     avatarContainer: {
-        height : "100%",
+        height : "90%",
         aspectRatio : 1,
-        borderRadius : 15,
+        borderRadius : 60,
         overflow : 'hidden',  
     },
     avatar: {
@@ -100,19 +100,31 @@ const styles = StyleSheet.create({
         justifyContent : 'center',
     },
     title : {
-        fontSize : 18,
-        fontFamily:'NanumGothic-Regular',
-        fontWeight : 'bold'
+        fontSize : 19,
+        fontFamily:'NanumGothic-ExtraBold',
+        fontWeight : 'bold',
+        marginLeft : 7,
+        marginTop : 2,
+        padding : 3,
+        
     },
     detailContainer : {
         overflow : 'hidden',
     },
     place : {
-        fontSize : 15,
+        fontSize : 14,
         fontWeight : 'bold',
+        fontFamily:'NanumGothic-Bold',
+        marginLeft : 5,
+        // marginTop : 8,
+        padding : 4,
+        
     },
     description : {
-        fontSize : 13,
-        marginTop : 3,
+        fontSize : 14,
+        fontFamily:'NanumGothic-Regular',
+        marginLeft : 4,
+        // marginTop : 4,
+        padding : 5,
     }
 });

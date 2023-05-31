@@ -89,11 +89,12 @@ function DoCreateScreen({navigation}){
 const Style = StyleSheet.create({
     container:{
         flex:1,
+    
     },
     TopBar: {
         fontFamily:'NanumGothic-ExtraBold',
         color: '#E30A8B',
-        fontSize: 50,
+        fontSize: 30,
 
     },
     conatiner_horizontal:{
@@ -120,17 +121,18 @@ const Style = StyleSheet.create({
         textAlignVertical: 'top',
     },
     input_container : {
-        height : 60,
+        height : 55,
         alignSelf : 'stretch',
-        padding: 10,
+        padding: 11,
         marginHorizontal:20,
         overflow:'scroll',
-        marginVertical:6,
+        marginVertical:13,
         borderRadius : 20,
         borderColor : '#c5c5c5',
         borderWidth : 1,
         fontSize : 15,
         fontFamily : 'NanumGothic-Bold',
+    
     },
     create_button:{
         height:60,

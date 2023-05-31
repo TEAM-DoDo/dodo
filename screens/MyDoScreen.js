@@ -47,6 +47,12 @@ export default MyDoScreen;
 const styles = StyleSheet.create({
   rootContainer : {
     flex : 1,
+    // IOS shadow
+    shadowColor : '#c5c5c5',
+    shadowOffset : { height : 5, },
+    shadowOpacity : 1,
+    // Android shadow
+    elevation : 20,
   },
 
   pageTitleContainer : {
@@ -56,14 +62,22 @@ const styles = StyleSheet.create({
     alignItems : 'center',
     paddingHorizontal : 5,
     paddingBottom : 20,
+    // IOS shadow
+    shadowColor : '#c5c5c5',
+    shadowOffset : { height : 5, },
+    shadowOpacity : 1,
+    // Android shadow
+    elevation : 20,
 
   },
   pageTitle : {
-    fontSize : 38,
+    fontSize : 25,
     fontWeight : 'bold',
     fontFamily:'NanumGothic-Bold',
     color : '#E30A8B',
     // color : 'pink',
+    paddingTop : 11,
+
     
   },
   doContainer : {
@@ -71,12 +85,14 @@ const styles = StyleSheet.create({
     padding:20,
   },
   doTitleContainer : {
+
     
   },
   doTitle : {
-    fontSize : 23,
+    fontSize : 22,
     fontWeight : 'bold',
-    // padding : 7,
+    fontFamily:'NanumGothic-Bold',
+    padding : 7,
   },
   doListContainer : {
     flex : 1,
