@@ -125,7 +125,7 @@ function DoPicturesScreen({navigation,route}){
 const Style = StyleSheet.create({
     conatiner:{
         flex:1,
-        backgroundColor:'white',
+        backgroundColor:'#f2f2f2',
         justifyContent:'center',
     },
     do_image:{

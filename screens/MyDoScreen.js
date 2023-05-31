@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   pageTitle : {
     fontSize : 25,
     fontWeight : 'bold',
-    fontFamily:'NanumGothic-Bold',
+    fontFamily:'NanumGothic-ExtraBold',
     color : '#E30A8B',
     // color : 'pink',
     paddingTop : 11,

@@ -129,7 +129,7 @@ function ChatScreen ({navigation,route}){
                     </Pressable> */}
                 </View>
                 <Pressable style={ChatScreenStyle.send_button} onPress={handleSendChat}>
-                    <Feather name="send" size={24} color="white" />
+                    <Feather name="send" size={24} color="black" />
                 </Pressable>
             </View>
         </Pressable>
@@ -139,7 +139,7 @@ const ChatScreenStyle = StyleSheet.create({
     container:{
         flexDirection:'column',
         flex:1,
-        backgroundColor:'white'
+        backgroundColor:'#f2f2f2'
     },
     participants_holder:{
         margin:10,
@@ -175,7 +175,8 @@ const ChatScreenStyle = StyleSheet.create({
     ,
     send_button:{
         marginStart:10,
-        backgroundColor:'#DF5C5C',
+        backgroundColor:'#FBFAF2',
+        // backgroundColor:'#DF5C5C',
         width:50,
         borderRadius:15,
         justifyContent:"center",

@@ -82,8 +82,8 @@ const ChatStyle = StyleSheet.create({
     },
     chat_opponent_name:{
         alignSelf:'flex-start'
-    }
-    ,
+    },
+    //색상지정
     chat_opponent_box:{
         backgroundColor:'#D9D9D9',
         alignSelf:'flex-start',
@@ -96,6 +96,7 @@ const ChatStyle = StyleSheet.create({
         backgroundColor:'#E3A1A1',
         alignSelf:'flex-end',
     },
+    //형태지정
     chat_box_standard:{
         padding:10,
         borderRadius:10,

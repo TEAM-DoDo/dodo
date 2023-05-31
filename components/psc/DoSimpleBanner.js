@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     avatar: {
         width: '100%',
         height: '100%',
-        backgroundColor : 'grey',
+        backgroundColor : '#c5c5c5',
     },
     infoContainer : {
         flex : 1,
@@ -100,11 +100,11 @@ const styles = StyleSheet.create({
         justifyContent : 'center',
     },
     title : {
-        fontSize : 19,
+        fontSize : 16,
         fontFamily:'NanumGothic-ExtraBold',
         fontWeight : 'bold',
         marginLeft : 7,
-        marginTop : 2,
+        marginTop : 7,
         padding : 3,
         
     },
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         overflow : 'hidden',
     },
     place : {
-        fontSize : 14,
+        fontSize : 12,
         fontWeight : 'bold',
         fontFamily:'NanumGothic-Bold',
         marginLeft : 5,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         
     },
     description : {
-        fontSize : 14,
+        fontSize : 12,
         fontFamily:'NanumGothic-Regular',
         marginLeft : 4,
         // marginTop : 4,
