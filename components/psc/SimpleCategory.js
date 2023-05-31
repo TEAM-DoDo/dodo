@@ -1,9 +1,10 @@
 import { ScrollView, View, Text, TextInput, Image, StyleSheet, Pressable } from 'react-native';
+import { IconData } from '../../data/IconData';
 
 const SimpleCategory = ({text}) => {
     return(
         <View style={styles.contentContainer}>
-            <Text style={styles.content}>{text}</Text>
+            <Text style={styles.content}>{text in IconData?IconData[text]:text}</Text>
         </View>
     );
 }
