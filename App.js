@@ -120,7 +120,7 @@ export default function App() {
       shouldSetBadge: true,
     }),
   });
-  AsyncStorage.clear();
+  //AsyncStorage.clear();
   return (
     <SafeAreaView style={Style.droidSafeArea}>
       <KeyboardAvoidingView style={Style.master_view} behavior={Platform.OS === "ios" ? "padding" : null}>
