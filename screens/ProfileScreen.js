@@ -115,7 +115,7 @@ function ProfileScreen ({navigation, route}) {
         </View>
         <View style={styles.doListContainer}>
           {
-            myDoList.map((aDo, i)=> <DoSimpleBanner key={i} doInfo={aDo} tick={tick} />)
+            myDoList.map(({aDo, i})=> <DoSimpleBanner key={i} doInfo={aDo} tick={tick} />)
           }
         </View>
       </View>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, Text } from 'react-native';
 import ScheduleTextBox from '../components/ssm/ScheduleTextBox';
 import { useSelector } from "react-redux";
 import API from '../api/API';
@@ -29,11 +29,14 @@ function CalenderScreen() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.pageTitleContainer}>
+        <Text style={styles.pageTitle}>Do 일정</Text>
+      </View>
       <FlatList
-        alignSelf = 'stretch'
+        alignSelf='stretch'
         data={userSchedule}
         keyExtractor={(item) => item.id}
-        renderItem={({item}) => {
+        renderItem={({ item }) => {
           console.log(item);
           return (<ScheduleTextBox address={item.place} time={item.startTime} title={item.title} />);
         }}
@@ -49,6 +52,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
+  },
+  pageTitleContainer: {
+    width: '100%',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 5,
+    paddingBottom: 20,
+
+  },
+  pageTitle: {
+    fontSize: 38,
+    fontWeight: 'bold',
+    fontFamily: 'NanumGothic-Bold',
+    color: '#E30A8B',
+    // color : 'pink',
+
   },
 });
 
