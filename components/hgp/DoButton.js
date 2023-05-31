@@ -70,7 +70,7 @@ const DoButtonStyle = StyleSheet.create({
         width:"100%",
         aspectRatio:2,
         backgroundColor:'white',
-        marginVertical:10,
+        marginVertical:15,
         borderRadius:30,
         flex:1,
         flexDirection:'row',

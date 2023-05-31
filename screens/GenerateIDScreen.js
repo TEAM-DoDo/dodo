@@ -5,7 +5,7 @@ import Postcode from '@actbase/react-daum-postcode';
 import API from "../api/API";
 
 //  Native
-import { View, StyleSheet, Pressable, TextInput, Modal } from "react-native";
+import { View, StyleSheet, Pressable, TextInput, Modal,Dimensions,Keyboard } from "react-native";
 
 //  Components
 import PrimaryButton from "../components/psc/PrimaryButton";
@@ -13,6 +13,7 @@ import LogoIconImage from "../components/psc/LogoIconImage";
 import InputField from "../components/psc/InputField";
 import DatePicker from "../components/psc/DatePicker";
 import SmallToggleSwitch from "../components/psc/SmallToggleSwitch";
+import AddressModal from "../components/hgp/AddressModal";
 
 //Definition Component ---------------------------------------------------
 function GenerateIDScreen({route, navigation})
@@ -20,7 +21,7 @@ function GenerateIDScreen({route, navigation})
     const [address, setAddress] = useState('');
     const [nickname, setNickname] = useState('');
     const [birthdate, setBirthdate] = useState(new Date());
-    const [currentSelectedGender, setCurrentSelectedGender] = useState('');
+    const [currentSelectedGender, setCurrentSelectedGender] = useState("남");
     
     const [visible, setVisible] = useState(false); // 날짜 피커 모달 노출 여부
     const [isModal, setIsModal] = useState(false); // 주소 모달 노출 여부
@@ -45,7 +46,7 @@ function GenerateIDScreen({route, navigation})
             nickname : nickname,
         };
         console.log("post 호출됨");
-        await API.post('/api/users', userInfo).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
+        //await API.post('/api/users', userInfo).then((response)=>console.log(response.data)).catch((error)=>console.log(error));
         navigation.navigate('SelectCategoryScreen', {userInfo});
     }
 
@@ -97,19 +98,23 @@ function GenerateIDScreen({route, navigation})
         setAddress(data.address + ' ' + defaultAddress);
     };
 
-    function AddressModalHandler()
+    const AddressModalHandler = () =>
     {
         setIsModal(true);
     }
-
+    const dismissKeyboard = () => {
+        Keyboard.dismiss();
+    };
     return (
-        <View style={styles.rootScreen}>
-            <LogoIconImage style={styles.logoIcon} />
-            <View style={styles.textInputContainer}>
+        <Pressable style={styles.rootScreen} onPress={dismissKeyboard}>
+            <LogoIconImage/>
+            
+            <View style={styles.comp_component}>
                 <InputField placeholder={"닉네임"} maxLength={11} value={nickname} onChangeText={nicknameHandler} />
                 <View style={styles.pickerContainer}>
                     <Pressable onPress={onPressDate} style={styles.datePress}>
                         <TextInput
+                          width="100%"
                           pointerEvents="none"
                           style={styles.textInput}
                           placeholder={'생년월일'}
@@ -119,34 +124,24 @@ function GenerateIDScreen({route, navigation})
                           value={koreaBirthFormat}
                         />
                     </Pressable>
-                    <DatePicker dataMoveToScreen={onPressDatePickerConfirm} visible={visible} onCancel={onCancel} />
                     <View style={styles.genderButtonsContainer}>
                         <SmallToggleSwitch
                             handler={SelectGenderHandler}
-                            selectedGender={currentSelectedGender}
-                            style = {currentSelectedGender === '남' ? [styles.maleButton, styles.activeButton] : styles.maleButton}>
+                            selectedGender={currentSelectedGender}>
                                 남
                                 </SmallToggleSwitch>
 
                         <SmallToggleSwitch 
                             handler={SelectGenderHandler}
-                            selectedGender={currentSelectedGender}
-                            style = {currentSelectedGender === '여' ? [styles.femaleButton, styles.activeButton] : styles.femaleButton}>
+                            selectedGender={currentSelectedGender}>
                                 여
                                 </SmallToggleSwitch>
                     </View>
                 </View>
-                <Modal visible={isModal}>
-                    <Postcode
-                        style={{ width: 320, height: 320 }}
-                        jsOptions={{ animation: true, hideMapBtn: true }}
-                        onSelected={getAddressData}
-                    />
-                </Modal>
-                <Pressable onPress={AddressModalHandler} style={styles.datePress}>
+                <Pressable onPress={AddressModalHandler} style={styles.address_container}>
                     <TextInput
                       pointerEvents="none"
-                      style={styles.textInputAdress}
+                      style={styles.textInput}
                       placeholder={'주소'}
                       placeholderTextColor="grey"
                       underlineColorAndroid="transparent"
@@ -154,9 +149,12 @@ function GenerateIDScreen({route, navigation})
                       value={address}
                     />
                 </Pressable>
+                <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
             </View>
-            <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
-        </View>
+            <View height="5%"/>
+            <AddressModal isVisible={isModal} onAdressSelected={getAddressData} onCancel={()=>{setIsModal(false)}}/>
+            <DatePicker dataMoveToScreen={onPressDatePickerConfirm} visible={visible} onCancel={onCancel} />
+        </Pressable>
     );
 }
 
@@ -167,30 +165,27 @@ const styles = StyleSheet.create({
     rootScreen : {
         flex : 1,
         alignItems : 'center',
+        justifyContent : 'space-around',
     },
-    logoIcon : {
-        marginTop : '10%',
-        marginBottom : 30,
+    comp_component:{
+        width:"90%",
     },
     textInputContainer : {
         flexDirection : 'column', 
         alignItems : 'center',
-        width : '115%',
-        marginBottom : '10%',
+        alignSelf:'stretch',
     },
     pickerContainer : {
-        flexDirection : "row",
         justifyContent : 'space-between',
-        width : '90%',
-        alignSelf : 'center',
+        flexDirection : "row",
+        height: 60,
         marginBottom : 20,
-        marginLeft : 50,
     },
     datePress : {
-        width : '60%',
-        marginRight : 5,
+        flex : 1,
     },
     textInput : {
+        alignSelf:'stretch',
         paddingVertical : 17,
         borderRadius : 16,
         paddingHorizontal : 16,
@@ -199,20 +194,14 @@ const styles = StyleSheet.create({
         fontSize : 23,
         fontFamily : 'NanumGothic-Bold',
     },
-    textInputAdress : {
-        paddingVertical : 17,
-        borderRadius : 16,
-        paddingHorizontal : 16,
-        borderColor : '#c5c5c5',
-        borderWidth : 1,
-        width : '130%',
-        fontSize : 23,
-        fontFamily : 'NanumGothic-Bold', 
-        alignSelf : 'center',
-        
-    },
     genderButtonsContainer : {
-        width : '100%',
+        height : "100%",
         flexDirection : "row",
+    },
+    address_container : {
+        width:"100%",
+        height: 60,
+        alignSelf : 'center',
+        marginBottom : 30,
     },
 });

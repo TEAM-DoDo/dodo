@@ -22,9 +22,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import mime from "mime";
 import Toast from "react-native-root-toast";
 import DoNotice from "../components/hgp/DoNotice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import FloatingButton from "../components/hgp/FloatingButton";
 import { DoOfUser } from "../data/DoOfUser";
+
+import { addNewDo } from "../store/myDoList-store";
 
 function DoInfoScreen({route, navigation}) {
     //console.log("from do info screen : " + route.params.id);
@@ -39,6 +41,9 @@ function DoInfoScreen({route, navigation}) {
     const [doSchedule, setDoSchedule] = useState(null);
     const [isParticipant, setIsParticipant] = useState(false);
     const [participants, setParticipants] = useState([]);
+    //user에 대한 정보
+    const userId = useSelector((state) => state.userInfo.id);
+    const dispatch = useDispatch();
 
     const updateData = () => {
         API.get(`/api/do/${route.params.id}`).then((response) => {
@@ -49,6 +54,12 @@ function DoInfoScreen({route, navigation}) {
         });
         API.get(`/api/do-of-user/${route.params.id}`).then((response) => {
             setParticipants(response.data);
+            for(let i=0;i<response.data.length;i++){
+                if(response.data[i].id === userId){
+                    setIsParticipant(true);
+                    break;
+                }
+            }
         }).catch((error) => {
             console.log(error);
         });
@@ -57,13 +68,6 @@ function DoInfoScreen({route, navigation}) {
         }).catch((error) => {
             console.log("data not found");
         });
-        //참여자인지 확인
-        // API.get(`/api/do/${route.params.id}/is-participant`,{params:{user_id:1}}).then((response) => {
-        //     setIsParticipant(response.data);
-        // }
-        // ).catch((error) => {
-        //     console.log(error);
-        // });
     };
     const getDoParticipantsNum = () => {
         return 3;
@@ -78,7 +82,7 @@ function DoInfoScreen({route, navigation}) {
         return(() => {
 
         });
-    });
+    },[]);
     //do image가 선택되었을 때 이벤트
     //타이틀 화면을 바꿀 수 있도록 한다
     const handleDoImagePress = async () => {
@@ -145,18 +149,26 @@ function DoInfoScreen({route, navigation}) {
     const handleShowNotice = () => {
         navigation.navigate("DoNoticeScreen",{id:route.params.id});
     }
+    const handleOnSchedulePress = () => {
+        navigation.navigate("DoScheduleInfoScreen",{data : doSchedule});
+    }
     const handleOnParticipatePress = () => {
-        console.log("snffuTdma");
         let data = new DoOfUser({
             doId:route.params.id,
-            userId:2,
+            userId:userId,
         });
         API.post(`/api/do-of-user`,data).then((response) => {
             console.log(response.data);
             setIsParticipant(true);
+            updateData();
         }).catch((error) => {
             console.log(error);
         });
+        API.get(`api/do/${route.params.id}`).then(response => {
+            const newDo = response.data;
+            console.log("방금 참가한 do의 정보 : ", newDo);
+            dispatch(addNewDo({data : newDo}));
+        }).catch(err => console.log("DoInfoScreen.js에서 발생. do 참가 후 get do에 실패했습니다."))
     }        
     return (
         <View style={Style.container}>
@@ -191,6 +203,7 @@ function DoInfoScreen({route, navigation}) {
                 </View>
                 <DoSchedule 
                     isEmpty={(doSchedule==null)} onEmptySchedulepress={handleEmptyShedulePress}
+                    onSchedulePress={handleOnSchedulePress}
                     startDate={doSchedule?.startTime} endDate={doSchedule?.endTime}
                     title={doSchedule?.title} description={doSchedule?.detail}
                     cost={doSchedule?.cost} place={doSchedule?.place}
@@ -198,7 +211,7 @@ function DoInfoScreen({route, navigation}) {
             </View>
             <View style={Style.info_holder}>
                 <View flexDirection='row' alignItems='center'>
-                    <Text style={Style.info_title}>참여 멤버 ({getDoParticipantsNum(3)})</Text>
+                    <Text style={Style.info_title}>참여 멤버 ({participants.length})</Text>
                     <Pressable onPress={handleShowAllParcitipants}>
                         <AntDesign name="right" size={10} color="gray" padding={5}/>
                     </Pressable>
@@ -209,7 +222,7 @@ function DoInfoScreen({route, navigation}) {
                     data={participants}
                     keyExtractor={(item) => item.id}
                     alignItems='center'
-                    renderItem={({item}) => <CircleUserImage mode='minimize' margin={5} index={item.profileImagePath}/>}
+                    renderItem={({item}) => <CircleUserImage mode='minimize' margin={5} index={item.id}/>}
                 />
             </View>
             <View style={Style.info_holder}>
@@ -233,6 +246,7 @@ function DoInfoScreen({route, navigation}) {
 const Style = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white',
         //alignItems:'center'
     },
     scroll_container:{

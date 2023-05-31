@@ -10,6 +10,7 @@ import { useState,useEffect } from "react";
 import API, { localIpAddress, portNumber } from "../api/API";
 import FloatingButton from "../components/hgp/FloatingButton";
 import DoButton from "../components/hgp/DoButton";
+import { useSelector } from "react-redux";
 /***
  * 화면 : 홈 화면
  * 제작자 :홍기표
@@ -37,7 +38,7 @@ function HomeScreen({navigation}){
 
     }
     const handleSearchButton = () => {
-
+        navigation.navigate("SearchScreen");
     }
     const handleFloatingButton = async () => {
         navigation.navigate("DoCreateScreen");
@@ -80,9 +81,9 @@ function HomeScreen({navigation}){
                     <Pressable style={Style.icon_button} onPress={handleSearchButton}>
                         <FontAwesome name="search" size={34} color='black'/>
                     </Pressable>
-                    <Pressable style={Style.icon_button} onPress={handleAlarmButton}>
+                    {/* <Pressable style={Style.icon_button} onPress={handleAlarmButton}>
                         <MaterialCommunityIcons name="alarm-light-outline" size={36} color='black'/>
-                    </Pressable>
+                    </Pressable> */}
                 </View>
 
             </View>

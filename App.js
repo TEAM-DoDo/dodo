@@ -9,7 +9,7 @@ import { store } from './store/redux-store';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaView,StyleSheet } from 'react-native';
+import { SafeAreaView,StyleSheet,Platform } from 'react-native';
 //  Expo
 import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
@@ -27,7 +27,6 @@ import ChatScreen from './screens/ChatScreen';
 import AlarmScreen from './screens/AlarmScreen';
 import DoInfoScreen from './screens/DoInfoScreen';
 import DoScreen from './screens/DoScreen';
-import CalendarScreen from './screens/CalendarScreen';
 import HomeScreen from './screens/HomeScreen'
 import ProfileScreen from './screens/ProfileScreen';
 import SelectTrendCategoryScreen from './screens/SelectTrendCategoryScreen';
@@ -36,12 +35,16 @@ import DoScheduleAddScreen from './screens/DoScheduleAddScreen';
 import DoNoticeScreen from './screens/DoNoticeScreen';
 import DoCreateScreen from './screens/DoCreateScreen';
 import SelectInterestScreen from './screens/SelectInterestScreen';
+import MyDoScreen from './screens/MyDoScreen';
+import SearchScreen from './screens/SearchScreen';
 
 // Library
 import * as encoding from 'text-encoding';
 import { KeyboardAvoidingView } from 'react-native';
 import UserListScreen from './screens/UserListScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SchduleInfoScreen from './screens/ScheduleInfoScreen';
+import CalenderScreen from './screens/CalendarScreen';
 
 //Create Navigation
 const Stack = createNativeStackNavigator();
@@ -57,7 +60,7 @@ function BottomTabNavigator({ route, navigation }) {
     <BottomTab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: 'blue',
+        tabBarActiveTintColor: '#E30A8B',
         tabBarInactiveTintColor: 'black',
         tabBarShowLabel: false,
       }}
@@ -67,10 +70,10 @@ function BottomTabNavigator({ route, navigation }) {
           tabBarIcon: ({ color, size }) => <Ionicons name='home' color={color} size={size} />
         }}
       />
-      <BottomTab.Screen name="MyDo" component={DoScreen} options={
+      <BottomTab.Screen name="MyDo" component={MyDoScreen} options={
         { tabBarIcon: ({ color, size }) => <Ionicons name='list' color={color} size={size} /> }}
       />
-      <BottomTab.Screen name="Calender" component={CalendarScreen} options={
+      <BottomTab.Screen name="Calender" component={CalenderScreen} options={
         { tabBarIcon: ({ color, size }) => <Ionicons name='calendar' color={color} size={size} /> }}
       />
       <BottomTab.Screen name="Profile" component={ProfileScreen} options={
@@ -120,7 +123,7 @@ export default function App() {
   //AsyncStorage.clear();
   return (
     <SafeAreaView style={Style.droidSafeArea}>
-      {/* <KeyboardAvoidingView style={Style.master_view} behavior='padding'> */}
+      <KeyboardAvoidingView style={Style.master_view} behavior={Platform.OS === "ios" ? "padding" : null}>
       <Provider store={store}>
       <RootSiblingParent>
       <StatusBar style='dark' />
@@ -141,11 +144,13 @@ export default function App() {
           <Stack.Screen name='AlarmScreen' component={AlarmScreen}/>
           <Stack.Screen name='SelectInterestScreen' component={SelectInterestScreen}/>
           <Stack.Screen name='UserListScreen' component={UserListScreen}/>
+          <Stack.Screen name='DoScheduleInfoScreen' component={SchduleInfoScreen}/>
+          <Stack.Screen name='SearchScreen' component={SearchScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
       </RootSiblingParent>
       </Provider>
-      {/* </KeyboardAvoidingView> */}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

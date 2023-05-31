@@ -20,7 +20,7 @@ export default InputField;
 //Style ---------------------------------------------------
 const styles = StyleSheet.create({
     container : {
-        width : '99%',
+        width : '100%',
         paddingBottom : 6,
         overflow : 'hidden',
         marginBottom : 20,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         
     },
     input : {
-        width : '80%',
+        width : '100%',
         height : 65,
         alignSelf : 'center',
         paddingHorizontal : 16,

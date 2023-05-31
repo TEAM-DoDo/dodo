@@ -21,12 +21,13 @@ function DoSchedule({title,startDate,endDate,place,cost,isEmpty,onEmptySchedulep
     start.setTime(startDate);
     const end = new Date();
     end.setTime(endDate);
-    console.log();
+    const dday = moment(start).diff(moment(end),'days');
+    //console.log(dday);
     return(
         <Pressable style={Style.container} onPress={onSchedulePress}>
             <View style={Style.date_holder}>
                 <Text style={Style.do_date}>{moment(start).format('dd') + "요일"}</Text>
-                <Text style={Style.do_date}>{"D" + moment(start).diff(moment(end),'days')}</Text>
+                <Text style={Style.do_date}>{"D" + (dday == 0?"-Day": dday)}</Text>
             </View>
             <View style={Style.do_schedule_info_holder}>
                 <Text>{title}</Text>
@@ -68,12 +69,11 @@ const Style = StyleSheet.create({
     }
     ,
     do_date:{
-        fontFamily:'NanumGothic-Regular',
-        fontWeight:'bold',
+        fontFamily:'NanumGothic-ExtraBold',
         fontSize:18,
     },
     do_schedule_info_holder:{
-        flex:1,
+        //flex:1,
         marginStart:5,
         justifyContent:'space-around',
         //backgroundColor:'#dfdfdf',

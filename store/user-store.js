@@ -10,6 +10,7 @@ const userSlice = createSlice({
         address : null,
         gender : null,
         category : null,
+        imagePath : null,
     },
     reducers:{
         addUserInfo : (state,action) => {
@@ -21,6 +22,7 @@ const userSlice = createSlice({
             state.address = data.address;
             state.gender = data.gender;
             state.category = data.category;
+            state.imagePath = data.imagePath;
             AsyncStorage.setItem("userInfo",JSON.stringify(data));
         },
         removeUserInfo : (state) => {
@@ -31,8 +33,9 @@ const userSlice = createSlice({
             state.address = null;
             state.gender = null;
             state.category = null;
+            state.imagePath = null;
             AsyncStorage.removeItem("userInfo");
-        }
+        },
     },
 });
 export const addUserInfo = userSlice.actions.addUserInfo;

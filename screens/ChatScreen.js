@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View,Keyboard,BackHandler } from "react-native";
 import { useState,useEffect } from "react";
 import axios from 'axios';
 import { ChatDummy, ChatParticipantsDummy } from "../components/hgp/DummyData";
@@ -18,57 +18,71 @@ import { Client, Message, Stomp } from '@stomp/stompjs';
 import SockJS from "sockjs-client";
 import { Chat } from "../data/Chat";
 import moment from "moment";
+import RNExitApp from "react-native-exit-app";
 var client;
 function ChatScreen ({navigation,route}){
     const [chatText, setChatText] = useState('');
     const [chatList, setChats] = useState([]);
     const accessToken = useSelector((state) => state.jwt.access_token);
-    const userInfo = useSelector((state) => state.user);
+    const userId = useSelector((state) => state.userInfo.id);
     useEffect(()=>{
+        //채팅 스크린이 사라졌을 때 키보드가 내려가도록 설정
         client = Stomp.over(() => {
             const sock = new SockJS(`http://${localIpAddress}:${portNumber}/api/chat`);
             return sock;
         });
-        client.connect({
-            Authorization: `Bearer ${accessToken}`
-        },null);
+        client.configure({
+            connectHeaders: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            onConnect: () => {
+                console.log("connected");
+                client.subscribe(`/app/${route.params.id}/enter`, (message) => {
+                    //console.log(message.body);
+                    setChats(JSON.parse(message.body));
+                });
+                const messageCallback = function (message) {
+                    // called when the client receives a STOMP message from the server
+                    var data = JSON.parse(message.body);
+                    var chat = new Chat(
+                        {id: data.id, userId: data.userId, content: data.content, date: data.date}
+                    );
+                    setChats(chatList => [
+                        chat, ...chatList
+                    ]);
+                };
+                client.subscribe(`/topic/room/${route.params.id}`, messageCallback);
+            },
+            onDisconnect: () => {
+                console.log("disconnected");
+            },
+            onStompError: () => {
+                console.log("token invalid or expired please login again");
+                //앱 종료
+                BackHandler.exitApp();
+            },
+            reconnectDelay: 5000,
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000
+        });
         client.debug = (str) => {return;};
-        const messageCallback = function (message) {
-            // called when the client receives a STOMP message from the server
-            var data = JSON.parse(message.body);
-            var chat = new Chat({
-                id:data.id,
-                username:data.username,
-                content:data.content,
-                date: data.date
-            });
-            setChats(chatList => [chat,...chatList]);
-          };
-        client.onConnect = (frame) => {
-            //console.log("connected");
-            client.subscribe(`/app/${route.params.id}/enter`,(message) => {
-                //console.log(message.body);
-                setChats(JSON.parse(message.body));
-            });
-            client.subscribe(`/topic/room/${route.params.id}`,messageCallback);
-        };
         client.activate();
         return () => {
-            
+            client.deactivate();
         };
     }, []);
-    const handleClip = () =>{
-        //클립 버튼을 눌렀을 때 이벤트
-    }
-    const handleEmoji = () => {
-        //이모티콘 버튼을 눌렀을 때 이벤트
-    }
-    const handleCamera = () => {
-        //카메라 버튼을 눌렀을 때 이벤트
-    }
+    // const handleClip = () =>{
+    //     //클립 버튼을 눌렀을 때 이벤트
+    // }
+    // const handleEmoji = () => {
+    //     //이모티콘 버튼을 눌렀을 때 이벤트
+    // }
+    // const handleCamera = () => {
+    //     //카메라 버튼을 눌렀을 때 이벤트
+    // }
     const handleSendChat = () => {
         let chat = new Chat({
-            username:"임시",
+            userId:userId,
             content:chatText
         });
         let data = JSON.stringify(chat);
@@ -79,8 +93,11 @@ function ChatScreen ({navigation,route}){
           });
         setChatText('');
     }
+    const dismissKeyboard = () => {
+        Keyboard.dismiss();
+    }
     return (
-        <View style={ChatScreenStyle.container}>
+        <Pressable style={ChatScreenStyle.container} onPress={dismissKeyboard}>
             <FlatList
                 inverted={true}
                 data={chatList}
@@ -88,34 +105,34 @@ function ChatScreen ({navigation,route}){
                 numColumns={1}
                 renderItem={({item}) =>
                 <ChatBox
-                    name={item.username}
+                    chatUserId={item.userId}
                     time={item.date}
                     content={item.content}
                 />}
             />
             <View style={ChatScreenStyle.chat_input_holder}>
                 <View style={ChatScreenStyle.input_holder}>
-                    <Pressable style={ChatScreenStyle.button_style} onPress={handleClip}>
+                    {/* <Pressable style={ChatScreenStyle.button_style} onPress={handleClip}>
                         <SimpleLineIcons name="paper-clip" size={20} color="black" />
-                    </Pressable>
+                    </Pressable> */}
                     <TextInput
                         style={ChatScreenStyle.chat_text_input_style}
                         placeholderTextColor="#545454"
                         placeholder="메세지를 입력하세요"
                         onChangeText={text => setChatText(text)}
                         value={chatText}/>
-                    <Pressable style={ChatScreenStyle.button_style} onPress={handleEmoji}>
+                    {/* <Pressable style={ChatScreenStyle.button_style} onPress={handleEmoji}>
                         <FontAwesome5 name="laugh-beam" size={20} color="black" />
                     </Pressable>
                     <Pressable style={ChatScreenStyle.button_style} onPress={handleCamera}>
                         <AntDesign name="camerao" size={20} color="black" />
-                    </Pressable>
+                    </Pressable> */}
                 </View>
                 <Pressable style={ChatScreenStyle.send_button} onPress={handleSendChat}>
                     <Feather name="send" size={24} color="white" />
                 </Pressable>
             </View>
-        </View>
+        </Pressable>
     );
 }
 const ChatScreenStyle = StyleSheet.create({

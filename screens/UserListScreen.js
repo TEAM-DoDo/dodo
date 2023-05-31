@@ -68,7 +68,6 @@ const UserItemStlye = StyleSheet.create({
         margin:10,
     },
     username_text: {
-        height:"100%",
         fontSize: 16,
         marginHorizontal: 10,
         textAlignVertical:'center',

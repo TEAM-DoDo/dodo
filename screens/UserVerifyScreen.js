@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addAccessToken,addRefreshToken } from "../store/jwt-store";
 import Toast from "react-native-root-toast";
 import { addUserInfo } from "../store/user-store";
+import { updateMyDoList } from "../store/myDoList-store";
+
 //Definition Component ---------------------------------------------------
 function UserVerifyScreen({ navigation }) {
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -57,6 +59,14 @@ function UserVerifyScreen({ navigation }) {
         //전화번호를 통해 이미 가입된 유저인지 신규유저인지 판별하고 navigate함수 안 이동할 screen의 이름 분기 처리 해야함.
     }
     function MoveToNextScreen() {
+        dismissKeyboard();//키보드를 내리도록 설정
+        //임시로 넘기는 코드
+        // navigation.navigate('GenerateIDScreen',
+        //     {
+        //         phoneNumber, //가입 페이지로 이동 시 핸드폰 번호를 두번 입력하지 않도록 데이터를 넘겨줌
+        //     });
+        // return;
+        //구현이 완료됨 상단의 코드를 모두 주석 처리 하고 백엔드를 최신으로 업데이트 한 뒤 실행하면 사용 가능
         API.post("/api/users/check-verification",{phoneNumber : phoneNumber,certNumber:checkNumber}).then((response) => {
             //제대로 된 응답 안에는 토큰이 포함됨
             //토큰을 내부 저장소에 저장
@@ -76,8 +86,19 @@ function UserVerifyScreen({ navigation }) {
                         nickname : response.data.userdata.nickname,
                         category : response.data.userdata.category,
                         id : response.data.userdata.id,
+                        imagePath : response.data.userdata.imagePath,
                     };
+                    userInfo.category = JSON.parse(userInfo.category);
+                    if(userInfo.nickname === null){
+                        navigation.navigate('GenerateIDScreen',{phoneNumber : phoneNumber,id : response.data.userdata.id});
+                        break;
+                    }
                     dispatch(addUserInfo({ data : userInfo }));
+                    //유저가 속한 do list 받아와서 리덕스에 저장
+                    API.get(`api/users/doList?id=${userInfo.id}`).then(response => {
+                        const list = response.data.doResponseDTOList;
+                        dispatch(updateMyDoList({data : list}));
+                    }).catch(err => console.log("do list가져오는데 실패했습니다.")).finally(()=>console.log("do list get 처리 끝"));
                     navigation.navigate('BottomTabNavigatorScreen');
                     break;
                     //유저 정보가 생성되었을 때는 유저 정보를 저장하고 정보 기입 화면으로 넘어가야 한다
@@ -101,22 +122,21 @@ function UserVerifyScreen({ navigation }) {
         });
     }
     const dismissKeyboard = () => {
-        // console.log("dismiss keyboard");
-        // Keyboard.dismiss();
+        console.log("dismiss keyboard");
+        Keyboard.dismiss();
     };
     return (
         <Pressable style={styles.rootScreen} onPress={dismissKeyboard}>
-            <LogoIconImage style={styles.logoIcon} />
-            <View style={styles.buttonContainer}>
-                <Pressable onPress={sendVerificationCode} style={styles.button}>
+            <LogoIconImage/>
+            <View style={styles.input_container}>
+                <Pressable onPress={sendVerificationCode} style={styles.cert_button}>
                     <Text style={styles.buttonText}>인증번호발급</Text>
                 </Pressable>
-            </View>
-            <View style={styles.textInputContainer}>
                 <InputField placeholder={"전화번호"} maxLength={11} onChangeText={PhoneNumberInputHandler} keyboardType='number-pad' />
                 <InputField placeholder={"인증번호"} maxLength={6} onChangeText={CheckNumberInputHandler} keyboardType='number-pad' />
+                <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
             </View>
-            <PrimaryButton onPress={MoveToNextScreen}>다음으로</PrimaryButton>
+            <View/>
         </Pressable>
     );
 }
@@ -128,29 +148,23 @@ const styles = StyleSheet.create({
     rootScreen: {
         flex: 1,
         alignItems: 'center',
+        justifyContent:'space-around',
     },
-    logoIcon: {
-        marginTop: '20%',
-        marginBottom: 50,
-    },
-    textInputContainer: {
-        width: '100%',
+    input_container: {
+        width: '80%',
         marginBottom: '20%',
-    },
-    buttonContainer: {
-        alignItems: 'flex-end',
-        width: '78%',
-    
+        alignItems:'flex-end',
     },
     buttonText: {
         color: 'white',
         textDecorationLine: 'underline',
     },
-    button: {
+    cert_button: {
         alignItems: 'flex-end',
         backgroundColor: '#E30A8B',
         paddingVertical: 8,
         paddingHorizontal: 12,
+        marginBottom: 8,
         borderRadius: 4,
     },
 });
