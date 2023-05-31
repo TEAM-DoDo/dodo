@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { ScrollView, View, Text, TextInput, Image, StyleSheet, Pressable } from 'react-native';
+import { ScrollView, View, Text, TextInput, Image, StyleSheet, Pressable,FlatList } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -25,6 +25,8 @@ function ProfileScreen ({navigation, route}) {
   const myDoList = useSelector(state => state.myDoList.myDoList);
   console.log("profilescreen에서 호출 do list : ", myDoList);
   const dispatch = useDispatch();
+
+  const accessToken = useSelector(state => state.jwt.access_token);
 
   function moveToSelectInterestScreen() { // 관심사 선택 화면 이동
     navigation.navigate('SelectInterestScreen');
@@ -92,13 +94,20 @@ function ProfileScreen ({navigation, route}) {
   const address = splitAddress[0] + " " + splitAddress[1];
 
   return (
-    <ScrollView style={styles.rootContainer}>
+    <View style={styles.rootContainer}>
       <View style={styles.avatarOuterContainer}>
         <View style={styles.avatarInnerContainer}>
           <Pressable onPress={handleProfileImageUpload} style={({pressed}) => [styles.avatarPressArea, pressed ? styles.pressedOpacity : null]} 
           android_ripple={{color : Colors.button.rippleColor}}>  
             <Image
-              source={userInfo.imagePath == null ? unknownImagePath : {uri:`http://${localIpAddress}:${portNumber}/api/users/${userInfo.id}/profile-image?${tick}`}}
+              source={userInfo.imagePath == null ? unknownImagePath : 
+                {
+                  uri:`http://${localIpAddress}:${portNumber}/api/users/${userInfo.id}/profile-image?${tick}`,
+                  headers : {
+                    Authorization : `Bearer ${accessToken}`
+                  }
+                }
+              }
               style={styles.avatar}
             />
           </Pressable>
@@ -113,11 +122,13 @@ function ProfileScreen ({navigation, route}) {
         <View style={styles.titleContainer}>
           <Text style={styles.infoLabel}>가입한 Do</Text> 
         </View>
-        <View style={styles.doListContainer}>
-          {
-            myDoList.map(({aDo, i})=> <DoSimpleBanner key={i} doInfo={aDo} tick={tick} />)
-          }
-        </View>
+        <FlatList
+                    data={myDoList}
+                    keyExtractor={(item)=>item.id}
+                    renderItem={({item})=>{
+                      //console.log(item);
+                      return(<DoSimpleBanner doInfo={item} tick={tick} />);
+                    }}/>
       </View>
       <View style={styles.interestContainer}>
         <View style={styles.interestTobContainer}>
@@ -131,7 +142,7 @@ function ProfileScreen ({navigation, route}) {
           {userInfo.category.map((item, i) => <SimpleCategory key={i} text={item} />)}
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

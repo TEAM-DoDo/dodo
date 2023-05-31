@@ -10,15 +10,15 @@ const myDoListSlice = createSlice({
         updateMyDoList : (state, action) => {
             var data = action.payload.data;
             state.myDoList = data;
-            AsyncStorage.setItem("myDoListInfo", JSON.stringify(data));
+            AsyncStorage.setItem("myDoListInfo", JSON.stringify(state.myDoList));
         },
         initializeMyDoList : (state) => {
             state.myDoList = [];
         },
         addNewDo : (state, action) => {
             var data = action.payload.data;
-            state.myDoList.push(data);
-            AsyncStorage.setItem("myDoListInfo", JSON.stringify(data)); //같은 key를 가지면 알아서 업데이트 되는지?
+            state.myDoList = [...state.myDoList, data];
+            AsyncStorage.setItem("myDoListInfo", JSON.stringify(state.myDoList)); //같은 key를 가지면 알아서 업데이트 되는지?
         }
     },
 })

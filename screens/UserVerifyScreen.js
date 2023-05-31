@@ -95,7 +95,7 @@ function UserVerifyScreen({ navigation }) {
                     }
                     dispatch(addUserInfo({ data : userInfo }));
                     //유저가 속한 do list 받아와서 리덕스에 저장
-                    API.get("api/users/doList", {params : {id : userInfo.id}}).then(response => {
+                    API.get(`api/users/doList?id=${userInfo.id}`).then(response => {
                         const list = response.data.doResponseDTOList;
                         dispatch(updateMyDoList({data : list}));
                     }).catch(err => console.log("do list가져오는데 실패했습니다.")).finally(()=>console.log("do list get 처리 끝"));
