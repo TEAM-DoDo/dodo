@@ -30,10 +30,19 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "useNextNotificationsApi" : true
+      "useNextNotificationsApi": true,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.postive12.DoDo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f480ee40-0ddd-493a-9400-c747e4ca0056"
+      }
     }
   }
 }
