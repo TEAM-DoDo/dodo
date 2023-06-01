@@ -113,7 +113,7 @@ const Style = StyleSheet.create({
         alignItems:'center',
         alignSelf:'stretch',
         // marginHorizontal:10,
-        height:60,
+        height:55,
         width : '100%',
         backgroundColor:'white',
         // IOS shadow
@@ -121,7 +121,8 @@ const Style = StyleSheet.create({
         shadowOffset : { height : 5, },
         shadowOpacity : 1,
         // Android shadow
-        elevation : 20,
+        elevation : 10,
+        marginBottom : 10,
     },
     list_holder:{
         padding:15,
@@ -148,9 +149,9 @@ const Style = StyleSheet.create({
     },
     icon_button:{
         position:'absolute',
-        right:10,
-        marginBottom : 22,
-        margin : 8,
+        right:5,
+        // marginBottom : 22,
+        margin : 11,
     }
 });
 export default HomeScreen;
