@@ -70,7 +70,7 @@ const DoButtonStyle = StyleSheet.create({
         width:"100%",
         aspectRatio:2.9,
         backgroundColor:'white',
-        marginVertical:15,
+        marginBottom:25,
         borderRadius:30,
         flex:1,
         flexDirection:'row',
@@ -78,7 +78,7 @@ const DoButtonStyle = StyleSheet.create({
         shadowOffset: { width: 0.5, height: 0.5 },
         shadowColor: 'black',
         shadowOpacity: 0.3,
-        elevation: 3,
+        elevation: 10,
         // background color must be set
     },
     do_image:{

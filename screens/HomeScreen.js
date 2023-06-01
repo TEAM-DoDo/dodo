@@ -126,7 +126,7 @@ const Style = StyleSheet.create({
         elevation : 20,
     },
     list_holder:{
-        padding:20,
+        padding:15,
     },
 
     // pos_show_button:{
