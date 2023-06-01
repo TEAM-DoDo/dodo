@@ -13,17 +13,15 @@ function ChatBox({chatUserId,time, content}) {
     const [userImage,setUserImage] = useState(null);
     //console.log(nameDict);
     useEffect(()=>{
-        if(chatUserNickname == undefined){
-            API.get(`/api/users/${chatUserId}`).then((response) => {
-                //console.log(response.data.user.nickname);
-                //console.log("name reloaded");
-                nameDict[chatUserId] = response.data.user.nickname;
-                setUserImage(response.data.user.profileImagePath);
-                setChatUserNickname(nameDict[chatUserId]);
-            }).catch((err)=>{
-                console.log(err);
-            });
-        }
+        API.get(`/api/users/${chatUserId}`).then((response) => {
+            //console.log(response.data.user.nickname);
+            //console.log("name reloaded");
+            nameDict[chatUserId] = response.data.user.nickname;
+            setUserImage(response.data.user.profileImagePath);
+            setChatUserNickname(nameDict[chatUserId]);
+        }).catch((err)=>{
+            console.log(err);
+        });
         return (() => {  
             });
     },[]);
