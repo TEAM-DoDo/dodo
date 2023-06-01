@@ -44,15 +44,15 @@ function DoButton({navigation,doId = 0}){
 
             <View style={DoButtonStyle.do_info_holder}>
                 <Text style={DoButtonStyle.do_title}>{name}</Text>
-                <Text style={DoButtonStyle.do_small_info}>카테고리 : {category}</Text>
-                <View>
-                    <Text style={DoButtonStyle.do_small_info}>참여자</Text>
-                    <FlatList
+                {/* <Text style={DoButtonStyle.do_small_info}>카테고리 : {category}</Text> */}
+                {/* <View> */}
+                    {/* <Text style={DoButtonStyle.do_small_info}>참여자</Text> */}
+                    {/* <FlatList
                         horizontal={true}
                         data={[0]}
                         keyExtractor={(item) => item}
-                        renderItem={({item}) => <CircleUserImage mode='tiny' margin={2} index={item}/>}/>
-                </View>
+                        renderItem={({item}) => <CircleUserImage mode='tiny' margin={2} index={item}/>}/> */}
+                {/* </View> */}
 
                 <View style={DoButtonStyle.do_pos_date_holder}>
                     <View flexDirection='row' alignItems='center'>
@@ -68,9 +68,9 @@ function DoButton({navigation,doId = 0}){
 const DoButtonStyle = StyleSheet.create({
     container:{
         width:"100%",
-        aspectRatio:2,
+        aspectRatio:2.9,
         backgroundColor:'white',
-        marginVertical:15,
+        marginBottom:25,
         borderRadius:30,
         flex:1,
         flexDirection:'row',
@@ -78,11 +78,11 @@ const DoButtonStyle = StyleSheet.create({
         shadowOffset: { width: 0.5, height: 0.5 },
         shadowColor: 'black',
         shadowOpacity: 0.3,
-        elevation: 3,
+        elevation: 10,
         // background color must be set
     },
     do_image:{
-        backgroundColor:'gray',
+        backgroundColor:'#c5c5c5',
         width:'40%',
         height:'100%',
         overflow:'hidden',
@@ -91,18 +91,21 @@ const DoButtonStyle = StyleSheet.create({
     },
     do_info_holder:{
         flex:1,
-        padding:10,
-        justifyContent:'space-between'
+        padding:14,
+        justifyContent:'space-around'
     },
     do_title:{
         fontFamily:'NanumGothic-ExtraBold',
-        color:'#969696',
-        fontSize:16
+        color:'black',
+        fontSize:18
     },
     do_small_info:{
+        flex : 1,
         fontFamily:'NanumGothic-Bold',
-        color:'#969696',
-        fontSize:14,
+        flexWrap: "wrap",
+        color : 'black',
+        // color:'#969696',
+        fontSize:12,
         paddingVertical:2,
     },
     do_pos_date_holder:{

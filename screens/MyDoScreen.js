@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
     paddingBottom : 20,
     // IOS shadow
     shadowColor : '#c5c5c5',
-    shadowOffset : { height : 5, },
-    shadowOpacity : 1,
+    shadowOffset : { height : 1, },
+    shadowOpacity : 0.1,
     // Android shadow
     elevation : 20,
 
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   pageTitle : {
     fontSize : 25,
     fontWeight : 'bold',
-    fontFamily:'NanumGothic-Bold',
+    fontFamily:'NanumGothic-ExtraBold',
     color : '#E30A8B',
     // color : 'pink',
     paddingTop : 11,

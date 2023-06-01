@@ -129,7 +129,7 @@ function ChatScreen ({navigation,route}){
                     </Pressable> */}
                 </View>
                 <Pressable style={ChatScreenStyle.send_button} onPress={handleSendChat}>
-                    <Feather name="send" size={24} color="white" />
+                    <Feather name="send" size={24} color="black" />
                 </Pressable>
             </View>
         </Pressable>
@@ -139,7 +139,7 @@ const ChatScreenStyle = StyleSheet.create({
     container:{
         flexDirection:'column',
         flex:1,
-        backgroundColor:'white'
+        backgroundColor:'#f2f2f2'
     },
     participants_holder:{
         margin:10,
@@ -160,26 +160,40 @@ const ChatScreenStyle = StyleSheet.create({
     },
     input_holder:{
         padding:5,
-        backgroundColor:'#E3A1A1',
+        backgroundColor:'#FBFAF2',
+        // backgroundColor:'#E3A1A1',
         width:'80%',
         flexDirection:"row",
         alignItems:"center",
         borderRadius:15,
+        // IOS shadow
+        shadowColor : '#c5c5c5',
+        shadowOffset : { height : 1, },
+        shadowOpacity : 1,
+        // Android shadow
+        elevation : 20,
     },
     chat_text_input_style:{
         flex:1,
         minHeight:50,
-        fontSize:16,
+        fontSize:15,
         fontFamily:'NanumGothic-Bold',
-    }
-    ,
+        padding:10,
+    },
     send_button:{
         marginStart:10,
-        backgroundColor:'#DF5C5C',
+        backgroundColor:'#FBFAF2',
+        // backgroundColor:'#DF5C5C',
         width:50,
         borderRadius:15,
         justifyContent:"center",
         alignItems:'center',
+        // IOS shadow
+        shadowColor : '#c5c5c5',
+        shadowOffset : { height : 1, },
+        shadowOpacity : 1,
+        // Android shadow
+        elevation : 20,
     },
     send_button_icon:{
         width:'50%',

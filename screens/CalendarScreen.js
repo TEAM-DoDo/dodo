@@ -52,11 +52,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#f2f2f2',
+
   },
+  //Do 일정
   pageTitleContainer: {
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: '#f2f2f2',
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 5,
@@ -64,11 +66,24 @@ const styles = StyleSheet.create({
 
   },
   pageTitle: {
-    fontSize: 38,
+    width : '100%',
+    fontSize: 25,
     fontWeight: 'bold',
-    fontFamily: 'NanumGothic-Bold',
+    fontFamily: 'NanumGothic-ExtraBold',
     color: '#E30A8B',
-    // color : 'pink',
+    height:60,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'stretch',
+    alignSelf:'stretch',
+    backgroundColor:'white',
+    
+    // IOS shadow
+    shadowColor : '#c5c5c5',
+    shadowOffset : { height : 5, },
+    shadowOpacity : 1,
+    // Android shadow
+    elevation : 20,
 
   },
 });

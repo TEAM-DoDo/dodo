@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
         shadowOffset : { width: 0.1, height: 0.1, },
         shadowOpacity : 0.2,
         elevation : 6,
-
     },
 
     buttonTitle: {

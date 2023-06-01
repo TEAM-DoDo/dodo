@@ -25,7 +25,6 @@ const Style = StyleSheet.create({
         backgroundColor:'white',
         //backgroundColor:'gray'
         
-
         // IOS shadow
         shadowColor : '#c5c5c5',
         shadowOffset : { height : 5, },
