@@ -19,8 +19,8 @@ const DoSimpleBanner = ({doInfo, tick}) => {
     }
 
     const title = doInfo.name;
-    const place = doInfo.place;
-    const description = doInfo.description.length >= 30 ? doInfo.description.substr(0, 30) + "..." : doInfo.description;
+    const place = doInfo.place.length >= 15 ? doInfo.place.substr(0, 15) + "..." : doInfo.description;
+    const description = doInfo.description.length >= 15 ? doInfo.description.substr(0, 15) + "..." : doInfo.description;
 
     return(
         <View style={styles.outerContainer}>
