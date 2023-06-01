@@ -1,4 +1,4 @@
-import { FlatList, Image, Pressable, StyleSheet, Text, View, } from "react-native";
+import { FlatList, Image, Pressable, StyleSheet, Text, View,RefreshControl } from "react-native";
 import { FontAwesome, MaterialCommunityIcons,Entypo  } from '@expo/vector-icons'; 
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
@@ -20,6 +20,7 @@ import AnimatedMapRegion from "react-native-maps/lib/AnimatedRegion";
 //리스트 항목 부분
 //홈화면
 function HomeScreen({navigation}){
+    const [isUpdated, setIsUpdated] = useState(false);
     const [doList,setDoList] = useState([]);
     const address = useSelector((state) => state.userInfo.address);
 
@@ -90,6 +91,12 @@ function HomeScreen({navigation}){
             </View>
             <FlatList
                 style={Style.list_holder}
+                refreshControl = {
+                    <RefreshControl
+                        refreshing= {isUpdated}
+                        onRefresh={updateDoData}
+                    />
+                }
                 data={doList}
                 keyExtractor={(item) => item}
                 numColumns={1}
