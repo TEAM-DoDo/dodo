@@ -236,6 +236,13 @@ function DoInfoScreen({route, navigation}) {
         </View>
     );
 };
+function Test({child}){
+    return(
+        <>
+        {child}
+        </>
+    );
+}
 const Style = StyleSheet.create({
     container: {
         flex: 1,

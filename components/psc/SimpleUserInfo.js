@@ -4,7 +4,7 @@ import CircleUserImage from '../hgp/CircleUserImage';
 const SimpleUserInfo = ({userInfo}) => {
     return(
         <View style={styles.contentContainer}>
-            <CircleUserImage mode='minimize' margin={5} index={userInfo.id}/>
+            <CircleUserImage mode='tiny' margin={5} index={userInfo.id}/>
             <Text style={styles.content}>{userInfo.nickname}</Text>
         </View>
     );

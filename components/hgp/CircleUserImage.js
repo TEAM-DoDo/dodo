@@ -47,32 +47,32 @@ const Style = StyleSheet.create({
         borderRadius:200,
         //backgroundColor:'white',
         width:Dimensions.get('window').width*0.1,
-        height:Dimensions.get('window').width*0.1,
+        aspectRatio:1,
         marginTop:Dimensions.get('window').width*0.025,
     },
     tiny:{
         borderRadius:200,
         //backgroundColor:'white',
-        width:Dimensions.get('window').width*0.05,
-        height:Dimensions.get('window').width*0.05,
+        width:Dimensions.get('window').width*0.065,
+        aspectRatio:1,
     },
     minimize:{
         borderRadius:200,
         //backgroundColor:'white',
         width:Dimensions.get('window').width*0.08,
-        height:Dimensions.get('window').width*0.08,
+        aspectRatio:1,
     },
     standard:{
         borderRadius:200,
         //backgroundColor:'white',
         width:Dimensions.get('window').width*0.1,
-        height:Dimensions.get('window').width*0.1,
+        aspectRatio:1,
     },
     expand:{
         borderRadius:200,
         //backgroundColor:'white',
         width:Dimensions.get('window').width*0.12,
-        height:Dimensions.get('window').width*0.12,
+        aspectRatio:1,
     }
 });
 export default CircleUserImage;
