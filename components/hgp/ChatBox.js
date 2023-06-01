@@ -35,7 +35,7 @@ function ChatBox({chatUserId,time, content}) {
         return ( 
             <View style={ChatStyle.chat}>
                 <View style={ChatStyle.image_holder}>
-                    <CircleUserImage mode='chat' index={chatUserId} imagePath={userImage}/>
+                    <CircleUserImage mode='chat' id={chatUserId} imagePath={userImage}/>
                 </View>
                 <View style={ChatStyle.chat_holder}>
                     <Text style={[ChatStyle.chat_opponent_name]}>{chatUserNickname}</Text>
