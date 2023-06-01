@@ -75,10 +75,10 @@ const DoButtonStyle = StyleSheet.create({
         flex:1,
         flexDirection:'row',
         //overflow:'hidden',
-        shadowOffset: { width: 0.5, height: 0.5 },
+        shadowOffset: { height: 5 },
         shadowColor: 'black',
-        shadowOpacity: 0.3,
-        elevation: 10,
+        shadowOpacity: 0.1,
+        elevation: 1.6,
         // background color must be set
     },
     do_image:{

@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 
   },
   pageTitle: {
-    width : '100%',
+    width : '120%',
     fontSize: 25,
     fontWeight: 'bold',
     fontFamily: 'NanumGothic-ExtraBold',

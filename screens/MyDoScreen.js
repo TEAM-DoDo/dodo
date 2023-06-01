@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     fontFamily:'NanumGothic-ExtraBold',
     color : '#E30A8B',
     // color : 'pink',
-    paddingTop : 11,
+    paddingTop : 6,
 
     
   },
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     fontSize : 22,
     fontWeight : 'bold',
     fontFamily:'NanumGothic-Bold',
-    padding : 7,
+    padding :7,
   },
   doListContainer : {
     flex : 1,
