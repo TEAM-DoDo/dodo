@@ -51,9 +51,9 @@ function StartUpScreen({navigation})
           refreshToken : refreshToken,
           phoneNumber : JSON.parse(userInfo).phoneNumber,
         }
+        console.log(authData);
         API.post('/api/auth/refresh', authData).then((res) => {
           console.log(res.data);
-          if (res.status == 200) {
             //토큰이 유효하면 받은 토큰으로 기존 토큰을 교체한다.
             dispatch(addAccessToken({ access_token : res.data.accessToken}));
             dispatch(addRefreshToken({ refresh_token : res.data.refreshToken}));
@@ -64,7 +64,6 @@ function StartUpScreen({navigation})
               dispatch(updateMyDoList({data : list}));
             }).catch(err => console.log("do list가져오는데 실패했습니다.")).finally(()=>console.log("do list get 처리 끝"));
             navigation.navigate("BottomTabNavigatorScreen");//저장된 유저 정보가 있고 토큰도 있으면 바로 메인 화면으로 이동
-          }
         }).catch((err) => {
           //토큰이 유효하지 않으면 기존 토큰을 삭제한다.
           console.log("토큰 재발급 실패 재로그인 필요 : " + err);

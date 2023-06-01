@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //URL setting ------------------------------------------------------
 const { manifest } = Constants;
-export const localIpAddress = manifest.debuggerHost.split(":").shift(); //현재 ip주소
+export const localIpAddress = "dodo-capstone.duckdns.org";//manifest.debuggerHost.split(":").shift(); //현재 ip주소
 
 export const portNumber = 8080;
 
