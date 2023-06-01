@@ -37,7 +37,7 @@ function CalenderScreen({navigation}) {
       </View>
       <FlatList
         alignSelf='stretch'
-        backgroundColor='white'
+        backgroundColor='#f2f2f2'
         data={userSchedule}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
