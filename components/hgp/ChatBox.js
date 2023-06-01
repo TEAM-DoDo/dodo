@@ -10,6 +10,7 @@ let nameDict = {};
 function ChatBox({chatUserId,time, content}) {
     const userId = useSelector(state => state.userInfo.id);
     const [chatUserNickname,setChatUserNickname] = useState(nameDict[chatUserId]);
+    const [userImage,setUserImage] = useState(null);
     //console.log(nameDict);
     useEffect(()=>{
         if(chatUserNickname == undefined){
@@ -17,6 +18,7 @@ function ChatBox({chatUserId,time, content}) {
                 //console.log(response.data.user.nickname);
                 //console.log("name reloaded");
                 nameDict[chatUserId] = response.data.user.nickname;
+                setUserImage(response.data.user.profileImage);
                 setChatUserNickname(nameDict[chatUserId]);
             }).catch((err)=>{
                 console.log(err);
@@ -33,7 +35,7 @@ function ChatBox({chatUserId,time, content}) {
         return ( 
             <View style={ChatStyle.chat}>
                 <View style={ChatStyle.image_holder}>
-                    <CircleUserImage mode='chat' index={chatUserId}/>
+                    <CircleUserImage mode='chat' index={chatUserId} imagePath={userImage}/>
                 </View>
                 <View style={ChatStyle.chat_holder}>
                     <Text style={[ChatStyle.chat_opponent_name]}>{chatUserNickname}</Text>
