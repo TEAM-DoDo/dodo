@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         right : 0,
         width : 80,
         height : 40,
-        backgroundColor : 'tomato',
+        backgroundColor : '#DC143C',
         borderRadius : 10,
         overflow :'hidden',
     },
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     text : {
         fontSize : 20,
-        fontWeight : 'bold',
+        fontFamily : 'NanumGothic-Bold',
         color : 'white',
     },
 });

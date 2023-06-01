@@ -25,6 +25,12 @@ function DoSchedule({ title, startDate, endDate, place, cost, isEmpty, onEmptySc
     const dday = moment(end).diff(today, 'days');
     const ddayText = dday === 0 ? "+Day" : (dday > 0 ? "-" + dday : dday);
     //console.log(dday);
+    const showTitle = title.length >= 20 ? title.substr(0, 20) + "..." : title;
+    const showPlace = place.length >= 20 ? place.substr(0, 20) + "..." : place;
+    const showStartTime =  moment(start).format('YYYY년 MM월 DD일(dd) LT');
+    const showEndTime = moment(end).format('YYYY년 MM월 DD일(dd) LT');
+    const st = showStartTime.length >= 30 ? showStartTime.substr(0, 30) + "..." : showStartTime;
+    const et = showEndTime.length >= 30 ? showEndTime.substr(0, 30) + "..." : showEndTime;
     return (
         <Pressable style={Style.container} onPress={onSchedulePress}>
             <View style={Style.date_holder}>
@@ -32,13 +38,13 @@ function DoSchedule({ title, startDate, endDate, place, cost, isEmpty, onEmptySc
                 <Text style={Style.do_date}>{"D" + ddayText}</Text>
             </View>
             <View style={Style.do_schedule_info_holder}>
-                <Text style={Style.do_title_text}>{title}</Text>
+                <Text style={Style.do_title_text}>{showTitle}</Text>
                 <View flexDirection='row' alignItems='center'>
-                    <Text style={Style.do_place_text}>{place}</Text>
+                    <Text style={Style.do_place_text}>{showPlace}</Text>
                 </View>
                 <Text style={Style.do_cost}>비용 : {cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"}</Text>
-                <Text style={Style.do_start}>{"시작 시간 : " + moment(start).format('YYYY년 MM월 DD일(dd) LT')}</Text>
-                <Text style={Style.do_end}>{"종료 시간 : " + moment(end).format('YYYY년 MM월 DD일(dd) LT')}</Text>
+                <Text style={Style.do_start}>{"시작 : " + st}</Text>
+                <Text style={Style.do_end}>{"종료 : " + et}</Text>
             </View>
         </Pressable>
     );
@@ -85,7 +91,7 @@ const Style = StyleSheet.create({
         padding: 2,
     },
     do_place_text: {
-        fontFamily: 'NanumGothic-Bold',
+        fontFamily: 'NanumGothic-ExtraBold',
         fontSize: 14,
         padding: 5,
 
