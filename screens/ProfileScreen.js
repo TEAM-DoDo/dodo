@@ -125,7 +125,7 @@ function ProfileScreen ({navigation, route}) {
         <View style={styles.titleContainer}>
           <Text style={styles.infoLabel}>가입한 Do</Text> 
         </View>
-        {myDoList.map((item) => <DoSimpleBanner doInfo={item} tick={tick} />)}
+        {myDoList.map((item, i) => <DoSimpleBanner key={i} doInfo={item} tick={tick} />)}
       </View>
       <View style={styles.interestContainer}>
         <View style={styles.interestTobContainer}>
