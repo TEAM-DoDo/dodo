@@ -7,6 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 import { useDispatch, useSelector } from 'react-redux'; //useDispatch는 메서드(slice의 reducers) 접근, useSelector는 value(slice의 initialState) 접근
 import { addUserInfo, removeUserInfo } from '../store/user-store';
+import LogoutButton from '../components/psc/LogoutButton';
 
 import API, { localIpAddress, portNumber } from '../api/API';
 import Toast from "react-native-root-toast";
@@ -18,6 +19,7 @@ import DoSimpleBanner from '../components/psc/DoSimpleBanner';
 import SimpleCategory from '../components/psc/SimpleCategory';
 
 import unknownImagePath from "../assets/images/Unknown_person.jpg";
+
 function ProfileScreen ({navigation, route}) {
   const [tick, setTick] = useState(Date.now());
   //redux
@@ -96,6 +98,7 @@ function ProfileScreen ({navigation, route}) {
 
   return (
     <ScrollView style={styles.rootContainer}>
+      <LogoutButton />
       <View style={styles.avatarOuterContainer}>
         <View style={styles.avatarInnerContainer}>
           <Pressable onPress={handleProfileImageUpload} style={({pressed}) => [styles.avatarPressArea, pressed ? styles.pressedOpacity : null]} 

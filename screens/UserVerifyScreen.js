@@ -11,7 +11,7 @@ import LogoIconImage from "../components/psc/LogoIconImage";
 import InputField from "../components/psc/InputField";
 import API from "../api/API";
 import { HttpStatusCode } from "axios";
-import RNExitApp from "react-native-exit-app";
+
 // Plugin
 import * as Permissions from 'expo-permissions';
 import AsyncStorage from "@react-native-async-storage/async-storage";

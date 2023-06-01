@@ -35,7 +35,6 @@ function SelectTrendCategoryScreen({ route, navigation }) {
         userInfo.trendCategory = JSON.stringify(selectedTrendIcons);
         //생성된 유저 정보를 서버로 전송
         API.post(`/api/users/${userInfo.id}/modify`, userInfo).then((response) => {
-            console.log(response.data);
                 //받아온 정보를 토대로 유저 정보 저장
                 const data = {
                     address: response.data.address,
@@ -49,7 +48,6 @@ function SelectTrendCategoryScreen({ route, navigation }) {
                 };
                 data.category = JSON.parse(data.category);
                 if (response.status == 200) {
-                    console.log("유저 정보 수정 성공");
                     dispatch(addUserInfo({ data : data }));
                     navigation.navigate('BottomTabNavigatorScreen');
                 }

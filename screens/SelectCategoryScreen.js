@@ -18,7 +18,6 @@ import PrimaryButton from "../components/psc/PrimaryButton";
 //Definition Component ---------------------------------------------------
 function SelectCategoryScreen({ route, navigation }) {
     const userInfo = route.params.userInfo;
-    console.log("SelectCategoryScreen에서 출력 : ", userInfo);
     const [selectedIcons, setSelectedIcons] = useState([]);
     function toggleIconSelection(iconName) {
         setSelectedIcons((prevState) => {
@@ -34,7 +33,6 @@ function SelectCategoryScreen({ route, navigation }) {
         if (selectedIcons.length >= 2) {
             userInfo.category = JSON.stringify(selectedIcons);
             
-            console.log("SelectCategoryScreen에서 다음 내용을 업데이트 함:", userInfo);
             navigation.navigate('SelectTrendCategoryScreen', {userInfo : userInfo});
         } else {
             alert("키워드를 최소 2개 이상 선택해주세요.");
