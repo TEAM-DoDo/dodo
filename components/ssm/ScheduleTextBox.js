@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height * 0.1,
     marginVertical: 5,
     flexDirection: 'row',
-    alignSelf: 'baseline'
+    alignSelf: 'baseline',
   },
   date_holder: {
     height: "100%",
