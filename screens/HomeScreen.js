@@ -20,7 +20,12 @@ import AnimatedMapRegion from "react-native-maps/lib/AnimatedRegion";
 //리스트 항목 부분
 //홈화면
 function HomeScreen({navigation}){
-    var [doList,setDoList] = useState([]);
+    const [doList,setDoList] = useState([]);
+    const address = useSelector((state) => state.userInfo.address);
+
+    const splitAddress = address.split(" ");
+    const showingAddress = splitAddress[0] + " " + splitAddress[1];
+
     const updateDoData = () => {
         API.get("/api/do/list").then((response) => {
             setDoList(response.data.do_id);
@@ -76,18 +81,12 @@ function HomeScreen({navigation}){
             <View style={Style.top_bar}>
                 {/* <Pressable style={Style.pos_show_button} onPress={handleCurrentLocation}>
                     <FontAwesome name="map-marker" size={28} color="black" /> */}
-                    <Text style={Style.post_show_text}>현재 위치</Text>
+                    <Text style={Style.post_show_text}>{showingAddress}</Text>
                 {/* </Pressable> */}
-                
-                <View style={Style.pos_show_button}>
-                    <Pressable style={Style.icon_button} onPress={handleSearchButton}>
+                <Pressable style={Style.icon_button} onPress={handleSearchButton}>
                         <FontAwesome name="search" size={29} color='black'/>
                     </Pressable>
-                    {/* <Pressable style={Style.icon_button} onPress={handleAlarmButton}>
-                        <MaterialCommunityIcons name="alarm-light-outline" size={36} color='black'/>
-                    </Pressable> */}
-                </View>
-
+                
             </View>
             <FlatList
                 style={Style.list_holder}
@@ -110,14 +109,13 @@ const Style = StyleSheet.create({
     },
     top_bar:{
         flexDirection:'row',
-        justifyContent:'space-between',
+        justifyContent:'center',
         alignItems:'center',
         alignSelf:'stretch',
         // marginHorizontal:10,
         height:60,
         width : '100%',
         backgroundColor:'white',
-
         // IOS shadow
         shadowColor : '#c5c5c5',
         shadowOffset : { height : 5, },
@@ -147,9 +145,10 @@ const Style = StyleSheet.create({
         fontWeight:'bold',
         fontSize:25,
         paddingBottom : 11,
-        
     },
     icon_button:{
+        position:'absolute',
+        right:10,
         marginBottom : 22,
         margin : 8,
     }
