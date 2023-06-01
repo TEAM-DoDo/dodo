@@ -4,7 +4,7 @@ import ScheduleTextBox from '../components/ssm/ScheduleTextBox';
 import { useSelector } from "react-redux";
 import API from '../api/API';
 
-function CalenderScreen() {
+function CalenderScreen({navigation}) {
   const userId = useSelector(state => state.userInfo.id);
 
   // schduleSelector
@@ -22,7 +22,9 @@ function CalenderScreen() {
     });
   }
   useEffect(() => {
-    getSchedule();
+    navigation.addListener('focus', () => {
+      getSchedule();
+    });
     return (() => {
 
     });
