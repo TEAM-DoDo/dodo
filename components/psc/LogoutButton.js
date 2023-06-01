@@ -1,15 +1,19 @@
-import { View, StyleSheet, Pressable, Text } from "react-native";
+import { View, StyleSheet, Pressable, Text,BackHandler } from "react-native";
 import Colors from "../../constants/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import RNExitApp from 'react-native-exit-app';
+import { useDispatch } from "react-redux";
+import { removeUserInfo } from "../../store/user-store";
+import { removeAccessToken, removeRefreshToken } from "../../store/jwt-store";
 
-const LogoutButton = () => {
+
+const LogoutButton = ({navigation}) => {
+    const dispatch = useDispatch();
     const handleLogout = () => {
-        AsyncStorage.removeItem("myDoListInfo");
-        AsyncStorage.removeItem("userInfo");
-        AsyncStorage.removeItem("access_token");
-        AsyncStorage.removeItem("refresh_token");
-        RNExitApp.exitApp();
+        //dispatch(removeUserInfo())
+        //dispatch(removeMyDoList());
+        dispatch(removeAccessToken());
+        dispatch(removeRefreshToken());
+        navigation.reset({routes: [{name: "StartUpScreen"}]});
     }
 
     return(

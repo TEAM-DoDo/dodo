@@ -98,7 +98,7 @@ function ProfileScreen ({navigation, route}) {
 
   return (
     <ScrollView style={styles.rootContainer}>
-      <LogoutButton />
+      <LogoutButton navigation={navigation} />
       <View style={styles.avatarOuterContainer}>
         <View style={styles.avatarInnerContainer}>
           <Pressable onPress={handleProfileImageUpload} style={({pressed}) => [styles.avatarPressArea, pressed ? styles.pressedOpacity : null]} 
