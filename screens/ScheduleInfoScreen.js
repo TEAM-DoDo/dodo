@@ -24,7 +24,10 @@ function SchduleInfoScreen({ navigation,route }) {
     const endTime = new Date(route.params.data.endTime);
     endTime.setTime(route.params.data.endTime);
     useEffect(() => {
-        updateData();
+        navigation.addListener('focus', () => {
+            updateData();
+        });
+        
     },[]);
     //유저 참여 정보를 가져오는 함수
     const updateData = () => {

@@ -151,6 +151,12 @@ const styles = StyleSheet.create({
   avatarOuterContainer: {
     alignItems: 'center',
     marginTop: 20,
+    // IOS shadow
+    shadowColor : '#black',
+    shadowOffset : { width : 13, height : 10, },
+    shadowOpacity : 0.1,
+    // Android shadow
+    elevation : 10,
   },
   avatarInnerContainer : {
     width : 200,
@@ -186,9 +192,11 @@ const styles = StyleSheet.create({
   },
   titleContainer : {
     marginBottom : 10,
+    
   },
   infoLabel: {
-    fontSize: 20,
+    fontFamily:'NanumGothic-ExtraBold',
+    fontSize: 23,
     fontWeight: 'bold',
     marginRight : 5,
   },

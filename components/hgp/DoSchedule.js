@@ -30,14 +30,14 @@ function DoSchedule({title,startDate,endDate,place,cost,isEmpty,onEmptySchedulep
                 <Text style={Style.do_date}>{"D" + (dday == 0?"-Day": dday)}</Text>
             </View>
             <View style={Style.do_schedule_info_holder}>
-                <Text>{title}</Text>
+                <Text style = {Style.do_title_text}>{title}</Text>
                 <View flexDirection='row' alignItems='center'>
                     <FontAwesome name="map-marker" size={16} color="black" />
-                    <Text>{place}</Text>
+                    <Text style = {Style.do_place_text}>{place}</Text>
                 </View>
-                <Text>비용 : {cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"}</Text>
-                <Text>{ "시작 시간 : "+ moment(start).format('YYYY년 MM월 DD일(dd) LT')}</Text>
-                <Text>{ "종료 시간 : "+ moment(end).format('YYYY년 MM월 DD일(dd) LT')}</Text>
+                <Text style = {Style.do_cost}>비용 : {cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"}</Text>
+                <Text style = {Style.do_start}>{ "시작 시간 : "+ moment(start).format('YYYY년 MM월 DD일(dd) LT')}</Text>
+                <Text style = {Style.do_end}>{ "종료 시간 : "+ moment(end).format('YYYY년 MM월 DD일(dd) LT')}</Text>
             </View>
         </Pressable>
     );
@@ -51,32 +51,61 @@ const Style = StyleSheet.create({
     },
     add_do_schedule_button:{
         flex:1,
-        backgroundColor:'#dfdfdf',
+        backgroundColor:'#dbdbdb',
         borderRadius:15,
         alignItems:'center',
         justifyContent:'center'
     },
     date_holder:{
-        height:"100%",
+        height:"120%",
         aspectRatio:1,
         flexDirection:'column',
         alignItems:'center',
         justifyContent:'center',
         alignSelf:'baseline',
-        padding:10,
+        padding:6,
         borderRadius:15,
-        backgroundColor:'#dfdfdf'
-    }
-    ,
+        backgroundColor:'white',
+        
+    },
     do_date:{
         fontFamily:'NanumGothic-ExtraBold',
-        fontSize:18,
+        fontSize:19,
     },
     do_schedule_info_holder:{
         //flex:1,
-        marginStart:5,
+        marginStart:9,
         justifyContent:'space-around',
         //backgroundColor:'#dfdfdf',
+    },
+    do_title_text:{
+        fontFamily:'NanumGothic-ExtraBold',
+        fontSize: 20,
+        padding : 2,
+    },
+    do_place_text:{
+        fontFamily:'NanumGothic-Bold',
+        fontSize: 14,
+        padding : 5,
+
+    },
+    do_cost:{
+        fontFamily:'NanumGothic-Regular',
+        fontSize: 13,
+        padding : 4,
+
+    },
+    do_start:{
+        fontFamily:'NanumGothic-Regular',
+        fontSize: 13,
+        padding : 4,
+
+    },
+    do_end:{
+        fontFamily:'NanumGothic-Regular',
+        fontSize: 13,
+        padding : 4,
+
     }
 });
 export default DoSchedule;

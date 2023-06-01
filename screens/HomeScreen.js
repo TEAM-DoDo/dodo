@@ -11,6 +11,7 @@ import API, { localIpAddress, portNumber } from "../api/API";
 import FloatingButton from "../components/hgp/FloatingButton";
 import DoButton from "../components/hgp/DoButton";
 import { useSelector } from "react-redux";
+import AnimatedMapRegion from "react-native-maps/lib/AnimatedRegion";
 /***
  * 화면 : 홈 화면
  * 제작자 :홍기표
@@ -19,7 +20,12 @@ import { useSelector } from "react-redux";
 //리스트 항목 부분
 //홈화면
 function HomeScreen({navigation}){
-    var [doList,setDoList] = useState([]);
+    const [doList,setDoList] = useState([]);
+    const address = useSelector((state) => state.userInfo.address);
+
+    const splitAddress = address.split(" ");
+    const showingAddress = splitAddress[0] + " " + splitAddress[1];
+
     const updateDoData = () => {
         API.get("/api/do/list").then((response) => {
             setDoList(response.data.do_id);
@@ -70,22 +76,17 @@ function HomeScreen({navigation}){
     }
 
     return(
+        
         <View style={Style.container}>
             <View style={Style.top_bar}>
-                <Pressable style={Style.pos_show_button} onPress={handleCurrentLocation}>
-                    <FontAwesome name="map-marker" size={36} color="black" />
-                    <Text style={Style.post_show_text}>현재 위치</Text>
-                </Pressable>
-                
-                <View style={Style.pos_show_button}>
-                    <Pressable style={Style.icon_button} onPress={handleSearchButton}>
-                        <FontAwesome name="search" size={34} color='black'/>
+                {/* <Pressable style={Style.pos_show_button} onPress={handleCurrentLocation}>
+                    <FontAwesome name="map-marker" size={28} color="black" /> */}
+                    <Text style={Style.post_show_text}>{showingAddress}</Text>
+                {/* </Pressable> */}
+                <Pressable style={Style.icon_button} onPress={handleSearchButton}>
+                        <FontAwesome name="search" size={29} color='black'/>
                     </Pressable>
-                    {/* <Pressable style={Style.icon_button} onPress={handleAlarmButton}>
-                        <MaterialCommunityIcons name="alarm-light-outline" size={36} color='black'/>
-                    </Pressable> */}
-                </View>
-
+                
             </View>
             <FlatList
                 style={Style.list_holder}
@@ -103,33 +104,53 @@ function HomeScreen({navigation}){
 const Style = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:'white',
+        backgroundColor:'#F2F2F2',
+        
     },
     top_bar:{
         flexDirection:'row',
-        justifyContent:'space-between',
+        justifyContent:'center',
         alignItems:'center',
-        marginHorizontal:10,
+        alignSelf:'stretch',
+        // marginHorizontal:10,
         height:60,
-        //backgroundColor:'gray'
+        width : '100%',
+        backgroundColor:'white',
+        // IOS shadow
+        shadowColor : '#c5c5c5',
+        shadowOffset : { height : 5, },
+        shadowOpacity : 1,
+        // Android shadow
+        elevation : 20,
     },
     list_holder:{
-        padding:10,
+        padding:15,
     },
-    pos_show_button:{
-        flexDirection:'row',
-        alignContent:'center',
-        justifyContent:'center',
-        backgroundColor:'white'
-    },
+
+    // pos_show_button:{
+    //     flexDirection:'row',
+    //     alignContent:'center',
+    //     justifyContent:'center',
+    //     backgroundColor:'white',
+    //     marginStart : 12,
+        
+    // },
     post_show_text:{
         fontFamily:'NanumGothic-ExtraBold',
-        fontSize:28,
-        marginStart:5,
+        fontSize:25,
+        marginStart:15,
         color:'#E30A8B',
+        textAlign:'center',
+        verticalAlign:'middle',
+        fontWeight:'bold',
+        fontSize:25,
+        paddingBottom : 11,
     },
     icon_button:{
-        margin:5
+        position:'absolute',
+        right:10,
+        marginBottom : 22,
+        margin : 8,
     }
 });
 export default HomeScreen;

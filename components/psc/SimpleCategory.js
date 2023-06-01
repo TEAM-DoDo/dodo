@@ -13,17 +13,25 @@ export default SimpleCategory;
 
 const styles = StyleSheet.create({
     contentContainer : {
-        flexBasis: '30%',
-        backgroundColor : '#E30A8B',
-        height : 40,
-        borderRadius : 10,
+        flexBasis: '24%',
+        backgroundColor : '#FAEBD7',
+        height : 30,
+        borderRadius : 14,
         justifyContent : 'center',
         alignItems : 'center',
+
+        // IOS shadow
+        shadowColor : '#c5c5c5',
+        shadowOffset : { height : 3, },
+        shadowOpacity : 1,
+        // Android shadow
+        elevation : 10,
     },
     content : {
+        fontFamily:'NanumGothic-ExtraBold',
         fontWeight : 'bold',
         fontSize : 15,
-        color : 'white',
+        color : 'black',
         letterSpacing : 1.5
     },
 });

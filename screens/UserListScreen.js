@@ -9,6 +9,7 @@ function UserListScreen({navigation,route}){
         navigation.goBack();
     }
     useState(() => {
+        console.log(route.params.data);
         setUserList(route.params.data);
         return(()=>{
             setUserList([]);
@@ -22,8 +23,9 @@ function UserListScreen({navigation,route}){
                 data={userList}
                 keyExtractor={(item) => item.id}
                 renderItem={({item}) => {
+                    console.log(item.profileImagePath);
                     return(
-                        <UserItem id={item.id} name={item.nickname}/>
+                        <UserItem id={item.id} name={item.nickname} profileImagePath={item.profileImagePath}/>
                     );
                 }}
             />
@@ -40,13 +42,14 @@ const Style = StyleSheet.create({
         flex: 1,
     }
 });
-function UserItem({id,name}){
+function UserItem({id,name,profileImagePath}){
+    console.log(profileImagePath);
     const onUserItemPress = () => {
         console.log(id + " 의 유저를 클릭했습니다.");
     }
     return(
         <Pressable style={UserItemStlye.container} onPress={onUserItemPress}>
-            <CircleUserImage id={id} mode='expand'/>
+            <CircleUserImage id={id} mode='expand' imagePath={profileImagePath}/>
             <Text style={UserItemStlye.username_text}>{name}</Text>
         </Pressable>
     );

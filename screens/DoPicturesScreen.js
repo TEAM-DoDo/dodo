@@ -17,7 +17,7 @@ function DoPicturesScreen({navigation,route}){
         var isDoParticipants = true;
         if(!isDoParticipants){
             return;
-        }
+        } 
         var isGetImageAllowed = await ImagePicker.getMediaLibraryPermissionsAsync();
         if(!isGetImageAllowed){
             //이미지 권한이 거부되면 toast를 띄워줘야함
@@ -125,7 +125,7 @@ function DoPicturesScreen({navigation,route}){
 const Style = StyleSheet.create({
     conatiner:{
         flex:1,
-        backgroundColor:'white',
+        backgroundColor:'#f2f2f2',
         justifyContent:'center',
     },
     do_image:{

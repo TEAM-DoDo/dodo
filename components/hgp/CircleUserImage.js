@@ -2,7 +2,7 @@ import { StyleSheet, View, Dimensions, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useSelector } from "react-redux";
 import { localIpAddress, portNumber } from "../../api/API";
-function CircleUserImage({id,mode,isImageExist = false,onPress,margin=0}){
+function CircleUserImage({id,mode,imagePath,onPress,margin=0}){
     const accessToken = useSelector(state => state.jwt.access_token);
     const handleUserImagePress = () => {
         console.log(id + '번 유저 이미지가 클릭되었습니다.')
@@ -30,9 +30,9 @@ function CircleUserImage({id,mode,isImageExist = false,onPress,margin=0}){
     return (
         <Pressable margin={margin} onPress={handleUserImagePress}>
             <Image style={st} source={
-                !isImageExist?require('../../assets/images/user_img_dummy.png'):
+                imagePath == null ?require('../../assets/images/user_img_dummy.png'):
                 {
-                    uri:`http://${localIpAddress}:${portNumber}/api/user/${id}/profile-image`,
+                    uri:`http://${localIpAddress}:${portNumber}/api/users/${id}/profile-image?${new Date().getTime()}`,
                     headers:{
                         Authorization:`Bearer ${accessToken}`
                     }

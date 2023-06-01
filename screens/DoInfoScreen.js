@@ -188,11 +188,11 @@ function DoInfoScreen({route, navigation}) {
             </Pressable>
             <View style={Style.info_holder}>
                 <Text style={Style.info_title}>정보</Text>
-                <Text>{description}</Text>
+                <Text style={Style.description}>{description}</Text>
             </View>
             <View style={Style.info_holder}>
                 <Text style={Style.info_title}>지역</Text>
-                <Text>{place}</Text>
+                <Text style={Style.place}>{place}</Text>
             </View>
             <View style={Style.info_holder}>
                 <View flexDirection='row' alignItems='center'>
@@ -225,14 +225,6 @@ function DoInfoScreen({route, navigation}) {
                     renderItem={({item}) => <CircleUserImage mode='minimize' margin={5} index={item.id}/>}
                 />
             </View>
-            <View style={Style.info_holder}>
-                <View flexDirection='row' alignItems='center'>
-                    <Text style={Style.info_title}>공지사항</Text>
-                </View>
-                <Pressable onPress={handleShowNotice}>
-                    <DoNotice doid={route.params.id} postid="last"/>
-                </Pressable>
-            </View>
         </ScrollView>
             {isParticipant?
                     null:
@@ -246,7 +238,7 @@ function DoInfoScreen({route, navigation}) {
 const Style = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: '#f2f2f2',
         //alignItems:'center'
     },
     scroll_container:{
@@ -256,9 +248,10 @@ const Style = StyleSheet.create({
     do_title_img:{
         margin:10,
         alignSelf:'stretch',
-        height:Dimensions.get('window').height*0.2,
+        height:Dimensions.get('window').height*0.24,
         overflow:'hidden',
-        backgroundColor:'#c7c7c7',
+        backgroundColor:'white',
+        // backgroundColor:'#c7c7c7',
         borderRadius:15
     },
     info_holder:{
@@ -268,7 +261,8 @@ const Style = StyleSheet.create({
     },
     info_title:{
         fontFamily:'NanumGothic-ExtraBold',
-        fontSize:20
+        fontSize:21,
+        padding : 6,
     },
     notice_writer:{
         fontFamily:'NanumGothic-Bold',
@@ -277,6 +271,7 @@ const Style = StyleSheet.create({
         height:'80%',
         textAlign:'center',
         verticalAlign:'middle',
+    
         //backgroundColor:'gray'
     },
     notice_context:{
@@ -317,6 +312,18 @@ const Style = StyleSheet.create({
         fontFamily:'NanumGothic-ExtraBold',
         fontSize:15,
         color:'white'
+    },
+    description:{
+        fontFamily:'NanumGothic-Regular',
+        fontSize:14,
+        marginLeft:6,
+        
+    },
+    place:{
+        fontFamily:'NanumGothic-Regular',
+        fontSize:14,
+        marginLeft:6,
     }
+
 });
 export default DoInfoScreen;
