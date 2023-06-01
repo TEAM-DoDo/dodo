@@ -11,6 +11,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { ChatParticipantsDummy } from "../components/hgp/DummyData";
 import CircleUserImage from "../components/hgp/CircleUserImage";
 import DoSchedule from "../components/hgp/DoSchedule";
+import SimpleUserInfo from "../components/psc/SimpleUserInfo";
 
 //API
 import API, { localIpAddress, portNumber } from "../api/API";
@@ -215,6 +216,9 @@ function DoInfoScreen({route, navigation}) {
                     <Pressable onPress={handleShowAllParcitipants}>
                         <AntDesign name="right" size={10} color="gray" padding={5}/>
                     </Pressable>
+                </View>
+                <View style={{flexDirection : 'row', flexWrap : 'wrap', gap : 3}}>
+                    {participants.map((user, i) => <SimpleUserInfo key={i} userInfo={user} />)}
                 </View>
                 <FlatList
                     marginVertical={10}
