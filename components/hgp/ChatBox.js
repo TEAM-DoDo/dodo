@@ -18,7 +18,7 @@ function ChatBox({chatUserId,time, content}) {
                 //console.log(response.data.user.nickname);
                 //console.log("name reloaded");
                 nameDict[chatUserId] = response.data.user.nickname;
-                setUserImage(response.data.user.profileImage);
+                setUserImage(response.data.user.profileImagePath);
                 setChatUserNickname(nameDict[chatUserId]);
             }).catch((err)=>{
                 console.log(err);
@@ -89,7 +89,7 @@ const ChatStyle = StyleSheet.create({
     chat_opponent_box:{
         // backgroundColor:'#FBFAF2',
         // backgroundColor:'#D9D9D9',
-        backgroundColor:'#FAEBD7',
+        backgroundColor:'#F7FBDA',
         alignSelf:'flex-start',
         // IOS shadow
         shadowColor : '#c5c5c5',
