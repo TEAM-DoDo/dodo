@@ -35,6 +35,7 @@ function CalenderScreen() {
       </View>
       <FlatList
         alignSelf='stretch'
+        backgroundColor='white'
         data={userSchedule}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
@@ -49,35 +50,7 @@ function CalenderScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f2f2f2',
-
-  },
-  //Do 일정
-  pageTitleContainer: {
-    width: '100%',
-    backgroundColor: '#f2f2f2',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 5,
-    paddingBottom: 20,
-
-  },
-  pageTitle: {
-    width : '100%',
-    fontSize: 25,
-    fontWeight: 'bold',
-    fontFamily: 'NanumGothic-ExtraBold',
-    color: '#E30A8B',
-    height:60,
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'stretch',
-    alignSelf:'stretch',
-    backgroundColor:'white',
-    
+    flex : 1,
     // IOS shadow
     shadowColor : '#c5c5c5',
     shadowOffset : { height : 5, },
@@ -85,6 +58,31 @@ const styles = StyleSheet.create({
     // Android shadow
     elevation : 20,
 
+  },
+  //Do 일정
+  pageTitleContainer: {
+    width : '100%',
+    backgroundColor : 'white',
+    justifyContent : 'center',
+    alignItems : 'center',
+    paddingHorizontal : 5,
+    paddingBottom : 20,
+    // IOS shadow
+    shadowColor : '#c5c5c5',
+    shadowOffset : { height : 1, },
+    shadowOpacity : 0.1,
+    // Android shadow
+    elevation : 20,
+
+
+  },
+  pageTitle: {
+    fontSize : 25,
+    fontWeight : 'bold',
+    fontFamily:'NanumGothic-ExtraBold',
+    color : '#E30A8B',
+    // color : 'pink',
+    paddingTop : 11,
   },
 });
 
