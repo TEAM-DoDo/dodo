@@ -1,8 +1,10 @@
 import { ScrollView, View, Text, TextInput, Image, StyleSheet, Pressable } from 'react-native';
+import CircleUserImage from '../hgp/CircleUserImage';
 
 const SimpleUserInfo = ({userInfo}) => {
     return(
         <View style={styles.contentContainer}>
+            <CircleUserImage mode='minimize' margin={5} index={userInfo.id}/>
             <Text style={styles.content}>{userInfo.nickname}</Text>
         </View>
     );
@@ -16,6 +18,7 @@ const styles = StyleSheet.create({
         backgroundColor : '#FAEBD7',
         height : 30,
         borderRadius : 14,
+        flexDirection : 'row',
         justifyContent : 'center',
         alignItems : 'center',
 

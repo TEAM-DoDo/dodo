@@ -217,16 +217,13 @@ function DoInfoScreen({route, navigation}) {
                         <AntDesign name="right" size={10} color="gray" padding={5}/>
                     </Pressable>
                 </View>
-                <View style={{flexDirection : 'row', flexWrap : 'wrap', gap : 3}}>
-                    {participants.map((user, i) => <SimpleUserInfo key={i} userInfo={user} />)}
-                </View>
                 <FlatList
                     marginVertical={10}
                     horizontal={true}
                     data={participants}
                     keyExtractor={(item) => item.id}
                     alignItems='center'
-                    renderItem={({item}) => <CircleUserImage mode='minimize' margin={5} index={item.id}/>}
+                    renderItem={({item}) => <SimpleUserInfo userInfo={item} />}
                 />
             </View>
         </ScrollView>
