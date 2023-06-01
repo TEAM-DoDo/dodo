@@ -53,8 +53,8 @@ const Style = StyleSheet.create({
     tiny:{
         borderRadius:200,
         //backgroundColor:'white',
-        width:Dimensions.get('window').width*0.05,
-        height:Dimensions.get('window').width*0.05,
+        width:Dimensions.get('window').width*0.07,
+        height:Dimensions.get('window').width*0.065,
     },
     minimize:{
         borderRadius:200,

@@ -226,7 +226,7 @@ function DoInfoScreen({route, navigation}) {
                     data={participants}
                     keyExtractor={(item) => item.id}
                     alignItems='center'
-                    renderItem={({item}) => <CircleUserImage mode='minimize' margin={5} index={item.id}/>}
+                    renderItem={({item}) => <CircleUserImage mode='tiny' margin={5} index={item.id}/>}
                 />
             </View>
         </ScrollView>
@@ -239,6 +239,13 @@ function DoInfoScreen({route, navigation}) {
         </View>
     );
 };
+function Test({child}){
+    return(
+        <>
+        {child}
+        </>
+    );
+}
 const Style = StyleSheet.create({
     container: {
         flex: 1,
