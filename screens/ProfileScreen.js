@@ -22,11 +22,12 @@ import unknownImagePath from "../assets/images/Unknown_person.jpg";
 
 function ProfileScreen ({navigation, route}) {
   const [tick, setTick] = useState(Date.now());
+  console.log("profilescreen에서 호출 tick : ", tick);
   //redux
   const userInfo = useSelector(state => state.userInfo);
-  console.log("profilescreen에서 호출 userinfo : ", userInfo);
+  //console.log("profilescreen에서 호출 userinfo : ", userInfo);
   const myDoList = useSelector(state => state.myDoList.myDoList);
-  console.log("profilescreen에서 호출 do list : ", myDoList);
+  //console.log("profilescreen에서 호출 do list : ", myDoList);
   const dispatch = useDispatch();
 
   const accessToken = useSelector(state => state.jwt.access_token);

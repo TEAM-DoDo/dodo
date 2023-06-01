@@ -15,7 +15,8 @@ const ScheduleTextBox = ({ address, time, title }) => {
   return (
     <View style={styles.container}>
       <View style={styles.date_holder}>
-        <Text style={styles.do_date}>{moment(date).format("MM/DD\n LT ")}</Text>
+        <Text style={styles.do_date}>{moment(date).format("MM/DD")}</Text>
+        <Text style={styles.do_date}>{moment(date).format("LT")}</Text>
       </View>
       <View style={styles.do_schedule_info_holder}>
         <Text style={styles.do_title_text}>{title}</Text>
@@ -49,21 +50,25 @@ const styles = StyleSheet.create({
   },
   do_date: {
     fontFamily: 'NanumGothic-ExtraBold',
+    textAlign: 'center',
     fontSize: Platform.OS === 'android' ? 18 : 15,
   },
   do_schedule_info_holder: {
     //flex:1,
-    marginStart: 9,
-    justifyContent: 'space-around',
+    marginStart: 5,
+    justifyContent: "center",
     //backgroundColor:'#dfdfdf',
   },
   do_title_text: {
     fontFamily: 'NanumGothic-ExtraBold',
     fontSize: 20,
     padding: 2,
+    marginStart:3,
+    marginBottom:5
   },
   do_place_text: {
     fontFamily: 'NanumGothic-Bold',
+    color:'grey',
     fontSize: 15,
     padding: 5,
 

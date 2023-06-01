@@ -36,6 +36,7 @@ function CalenderScreen({navigation}) {
         <Text style={styles.pageTitle}>Do 일정</Text>
       </View>
       <FlatList
+        style={styles.list_holder}
         alignSelf='stretch'
         backgroundColor='#f2f2f2'
         data={userSchedule}
@@ -63,18 +64,20 @@ const styles = StyleSheet.create({
   },
   //Do 일정
   pageTitleContainer: {
+
     width : '100%',
     backgroundColor : 'white',
     justifyContent : 'center',
     alignItems : 'center',
     paddingHorizontal : 5,
-    paddingBottom : 20,
+    paddingBottom : 15,
+    marginBottom : 10,
     // IOS shadow
     shadowColor : '#c5c5c5',
     shadowOffset : { height : 1, },
-    shadowOpacity : 0.1,
+    shadowOpacity : 0.5,
     // Android shadow
-    elevation : 20,
+    elevation : 10,
 
 
   },
@@ -84,7 +87,10 @@ const styles = StyleSheet.create({
     fontFamily:'NanumGothic-ExtraBold',
     color : '#E30A8B',
     // color : 'pink',
-    paddingTop : 11,
+    paddingTop : 8,
+  },
+  list_holder: {
+    padding: 10,
   },
 });
 
